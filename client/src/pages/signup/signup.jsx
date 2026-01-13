@@ -21,7 +21,7 @@ export default function Signup() {
     try {
       setLoading(true);
       const res = await api.post("/auth/signup", form);
-      alert(res.data.message || "Signup success");
+      alert(res.data.message || "Signup successs");
       navigate("/");
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed");

@@ -40,14 +40,15 @@ export const login = async ({
     const existingUser = await user.findOne({
         email
     }).select("+password");
-    console.log("EMAIL FROM REQ:", email);
-    console.log("PASSWORD FROM REQ:", password);
-    console.log("USER FOUND:", existingUser);
 
-    console.log("HASHED PASSWORD IN DB:", existingUser?.password);
     if (!existingUser) {
         throw new Error("User does not exist");
     }
+
+    if(existingUser.provider === "google"){
+        throw new Error("This account registered with google. please login with google accoun   t")
+    }
+    
     const isPasswordValid = await bcrypt.compare(password, existingUser.password);
     if (!isPasswordValid) {
         throw new Error("Invalid password");

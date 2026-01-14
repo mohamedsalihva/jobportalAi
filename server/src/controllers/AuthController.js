@@ -1,4 +1,7 @@
-import { signup, login } from '../services/Authservice.js';
+import {
+    signup,
+    login
+} from '../services/Authservice.js';
 
 export const signupController = async (req, res) => {
     try {
@@ -33,30 +36,31 @@ export const signupController = async (req, res) => {
     }
 }
 
-export const loginController =async (req,res)=>{
+export const loginController = async (req, res) => {
     try {
-        const {user ,token}= await login(req.body);
-        
-        res.cookie("token",token,{
-            httpOnly:true,
-            secure:false,
-            sameSite:"strict",
-            maxAge:24*60*60*1000
+        const {
+            user,
+            token
+        } = await login(req.body);
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000
         });
 
         res.status(200).json({
-            success:true,
-            message:"User logged in successfully",
-            data:{
-                user,
-                token
-            }
+            success: true,
+            message: "User logged in successfully",
+            user,
+            token
         });
+
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:error.message
+            success: false,
+            message: error.message
         });
     }
 };
-

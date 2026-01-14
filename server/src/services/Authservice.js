@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import user from  '../models/User.js';
+import user from '../models/User.js';
 
 
 export const signup = async ({
@@ -39,7 +39,12 @@ export const login = async ({
 }) => {
     const existingUser = await user.findOne({
         email
-    });
+    }).select("+password");
+    console.log("EMAIL FROM REQ:", email);
+    console.log("PASSWORD FROM REQ:", password);
+    console.log("USER FOUND:", existingUser);
+
+    console.log("HASHED PASSWORD IN DB:", existingUser?.password);
     if (!existingUser) {
         throw new Error("User does not exist");
     }
@@ -49,12 +54,12 @@ export const login = async ({
     }
 
     const token = jwt.sign({
-        userId: existingUser._id,
-        role: existingUser.role
-    },
-    process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN
-    });
+            userId: existingUser._id,
+            role: existingUser.role
+        },
+        process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        });
     console.log("JWT_SECRET USED:", process.env.JWT_SECRET);
 
     console.log(token);

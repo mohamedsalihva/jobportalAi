@@ -33,6 +33,10 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
+  };
+
   return (
     <div className="min-h-screen bg-[#f6f7f9] flex items-center justify-center px-4">
       <div className="w-full max-w-[420px] bg-white rounded-2xl shadow-lg p-7">
@@ -89,7 +93,10 @@ const Login = () => {
           <div className="flex-1 h-[1px] bg-gray-300"></div>
         </div>
 
-        <button className="w-full border border-gray-300 bg-white py-3 rounded-xl font-semibold flex items-center justify-center gap-3 hover:bg-gray-50 transition">
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full border border-gray-300 bg-white py-3 rounded-xl font-semibold flex items-center justify-center gap-3 hover:bg-gray-50 transition"
+        >
           <img
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
             alt="google"

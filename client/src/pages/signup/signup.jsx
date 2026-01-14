@@ -9,7 +9,7 @@ export default function Signup() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) =>
@@ -22,7 +22,7 @@ export default function Signup() {
       setLoading(true);
       const res = await api.post("/auth/signup", form);
       alert(res.data.message || "Signup success");
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed");
     } finally {
@@ -31,7 +31,7 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
   };
 
   return (
@@ -62,7 +62,6 @@ export default function Signup() {
           <div className="h-px bg-gray-200 flex-1"></div>
         </div>
 
-       
         <form onSubmit={handleSignup} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold text-gray-800">

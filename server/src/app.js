@@ -29,7 +29,7 @@ app.use(cors({
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/job', JobRoutes);
+app.use('/api/jobs', JobRoutes);
 app.use('/api/recruiter', RecruiterRoutes);
 
 export default app;

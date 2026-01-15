@@ -32,4 +32,5 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/jobs', JobRoutes);
 app.use('/api/recruiter', RecruiterRoutes);
 
+
 export default app;

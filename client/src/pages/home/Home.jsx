@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 
 const Home = () => {
   const navigate = useNavigate();
 
+  useEffect(() =>{
+
+    const checkLoggedIn =async ()=>{
+      try {
+        const res = await api.get("/users/profile", { withCredentials: true});
+        if(res.data?.userFromToken){
+          navigate("/jobs", {replace:true});
+        }
+      } catch (error) {
+        console.log("user not login")
+      }
+    };
+    checkLoggedIn();
+  },[navigate]);
+
+  
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Navbar />

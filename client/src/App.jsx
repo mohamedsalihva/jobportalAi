@@ -1,19 +1,29 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./pages/signup/signup";
-import Login from "./pages/login/login";
-import Jobs from "./pages/jobs/jobs";
+import { Routes, Route } from "react-router-dom";
+
 import Home from "./pages/home/Home";
+import Login from "./pages/login/login";
+import Signup from "./pages/signup/signup";
+import Jobs from "./pages/jobs/Jobs";
 
+import PublicRoute from "./routes/publicRoute";
+import PrivateRoute from "./routes/privateRoute";
 
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/home" element={<Home/>}/>
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/jobs" element={<Jobs/>}/>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+     
+      <Route element={<PublicRoute />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Route>
+
+      
+      <Route element={<PrivateRoute />}>
+        <Route path="/jobs" element={<Jobs />} />
+      </Route>
+    </Routes>
   );
 }
+
+export default App;

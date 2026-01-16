@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -7,15 +7,30 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const res = await api.get("/users/profile", { withCredentials: true });
+
+        if (res.data?.userFromToken) {
+          navigate("/jobs", { replace: true });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    checkLoggedIn();
+  }, [navigate]);
+
   const handleLogin = async () => {
     try {
       const res = await api.post(
-        "auth/login",
+        "/auth/login",
         { email, password },
         { withCredentials: true }
       );
-
-      console.log("LOGIN RESPONSE:", res.data);
 
       const role = res.data?.user?.role;
 
@@ -24,9 +39,10 @@ const Login = () => {
         return;
       }
 
-      if (role === "admin") navigate("/admin/dashboard");
-      else if (role === "recruiter") navigate("/recruiter/dashboard");
-      else navigate("/jobs");
+      if (role === "admin") navigate("/admin/dashboard", { replace: true });
+      else if (role === "recruiter")
+        navigate("/recruiter/dashboard", { replace: true });
+      else navigate("/jobs", { replace: true });
     } catch (error) {
       console.log(error.response?.data || error.message);
       alert(error.response?.data?.message || "Login failed");

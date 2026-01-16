@@ -26,9 +26,8 @@ const Navbar = () => {
   const fetchProfile = async () => {
     try {
       setLoadingUser(true);
-      const res = await api.get("/users/profile");
-      
-      setUser(res.data.userFromToken); 
+      const res = await api.get("/users/profile", { withCredentials: true });
+      setUser(res.data?.userFromToken || null);
     } catch (error) {
       setUser(null);
     } finally {
@@ -36,33 +35,38 @@ const Navbar = () => {
     }
   };
 
-
+  
   useEffect(() => {
     fetchProfile();
-   
   }, [location.pathname]);
 
   
   useEffect(() => {
+    if (user && (location.pathname === "/" || location.pathname === "/login")) {
+      navigate("/jobs", { replace: true });
+    }
+  }, [user, location.pathname, navigate]);
+
+  
+  useEffect(() => {
     const handleClickOutside = () => setIsProfileOpen(false);
+
     if (isProfileOpen) window.addEventListener("click", handleClickOutside);
     return () => window.removeEventListener("click", handleClickOutside);
   }, [isProfileOpen]);
 
   const handleLogout = async () => {
     try {
-      
-      await api.post("/users/logout");
-      navigate("/home");
+      await api.post("/users/logout", {}, { withCredentials: true });
+      setUser(null);
+      navigate("/", { replace: true });
     } catch (error) {
       console.log("Logout error:", error.message);
     }
   };
-
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-       
         <div
           onClick={() => navigate("/")}
           className="flex items-center gap-2.5 cursor-pointer group"
@@ -89,7 +93,6 @@ const Navbar = () => {
             Salary Guide
           </button>
 
-         
           <button
             onClick={() => navigate("/recruiter/login")}
             className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 hover:border-blue-600 hover:text-blue-600 transition text-sm font-bold"
@@ -98,22 +101,18 @@ const Navbar = () => {
           </button>
         </nav>
 
-        
         <div className="hidden md:flex items-center gap-4">
           {loadingUser ? (
             <div className="text-sm font-semibold text-gray-400">
               Checking...
             </div>
           ) : user ? (
-            
             <div className="flex items-center gap-3">
-             
               <button className="p-2 text-gray-400 hover:text-gray-900 transition-colors relative">
                 <Bell size={20} />
                 <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
               </button>
 
-             
               <div className="relative">
                 <button
                   onClick={(e) => {
@@ -169,7 +168,6 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate("/login")}
@@ -187,7 +185,6 @@ const Navbar = () => {
           )}
         </div>
 
-        
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden p-2 text-gray-600"
@@ -196,7 +193,6 @@ const Navbar = () => {
         </button>
       </div>
 
-    
       {isOpen && (
         <div className="md:hidden bg-white border-t border-gray-50 p-4 space-y-4 shadow-xl">
           <nav className="flex flex-col gap-4 font-semibold text-gray-600">
@@ -212,7 +208,6 @@ const Navbar = () => {
             <button className="text-left">Companies</button>
             <button className="text-left">Salary Guide</button>
 
-            
             <button
               onClick={() => {
                 setIsOpen(false);

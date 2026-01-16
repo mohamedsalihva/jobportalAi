@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
         enum: ['jobseeker', 'admin', 'recruiter'],
         default: 'jobseeker'
     },
+    savedJobs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job"
+    }],
 }, {
     timestamps: true
 })

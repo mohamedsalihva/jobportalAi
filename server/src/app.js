@@ -8,9 +8,12 @@ import "./config/passport.js"
 import userRoutes from './routes/UserRoutes.js';
 import authRoutes  from './routes/AuthRoutes.js';
 import adminRoutes from './routes/AdminRoutes.js';
+
 import JobRoutes from './routes/JobRoutes.js'
 import RecruiterRoutes from './routes/RecruiterRoutes.js';
 
+import applicationRoutes from './routes/applicationRoutes.js';
+import savedJobRoutes from './routes/savedJobRoutes.js';
 
 
 const app = express();
@@ -29,8 +32,13 @@ app.use(cors({
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+
 app.use('/api/jobs', JobRoutes);
 app.use('/api/recruiter', RecruiterRoutes);
+
+app.use('/api/applications',applicationRoutes);
+app.use('/api/saved',savedJobRoutes);
+
 
 
 export default app;

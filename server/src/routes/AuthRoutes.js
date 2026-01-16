@@ -41,7 +41,8 @@ router.get("/google/callback", passport.authenticate("google", {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 5 * 24 * 60 * 60 * 1000,
+      path:"/"
     });
     const redirectPath =
       user.role === "admin" ? "/admin/dashboard" :

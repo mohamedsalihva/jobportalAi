@@ -13,6 +13,6 @@ router.get("/profile",AuthMiddleware, (req,res)=>{
     });
 });
 
-router.post("/logout", logoutController);
+router.post("/logout", AuthMiddleware, logoutController);
 
  export default router;

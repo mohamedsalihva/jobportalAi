@@ -8,6 +8,7 @@ import Jobs from "./pages/jobs/Jobs";
 import PublicRoute from "./routes/publicRoute";
 import PrivateRoute from "./routes/privateRoute";
 
+
 function App() {
   return (
     <Routes>
@@ -21,6 +22,7 @@ function App() {
       
       <Route element={<PrivateRoute />}>
         <Route path="/jobs" element={<Jobs />} />
+        <Route path="/profile" element={<Profile/>}/>
       </Route>
     </Routes>
   );

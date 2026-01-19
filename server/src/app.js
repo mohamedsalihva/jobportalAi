@@ -15,6 +15,7 @@ import RecruiterRoutes from './routes/RecruiterRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 import savedJobRoutes from './routes/savedJobRoutes.js';
 
+import profileRoutes from './routes/ProfileRoutes.js';
 
 const app = express();
 
@@ -39,6 +40,6 @@ app.use('/api/recruiter', RecruiterRoutes);
 app.use('/api/applications',applicationRoutes);
 app.use('/api/saved',savedJobRoutes);
 
-
+app.use('/api/profile',profileRoutes);
 
 export default app;

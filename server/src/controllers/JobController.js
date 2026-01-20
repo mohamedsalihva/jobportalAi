@@ -1,3 +1,4 @@
+import Job from "../models/Job.js";
 import Recruiter from "../models/Recruiter.js";   
 
 import {
@@ -12,34 +13,28 @@ import {
 
 export const createJobController = async (req, res) => {
   try {
-    
-    const recruiter = await Recruiter.findOne({ user: req.user._id });
+    const recruiterProfile = await Recruiter.findOne({ user: req.user._id });
 
-    if (!recruiter) {
-      return res.status(403).json({
+    if (!recruiterProfile) {
+      return res.status(404).json({
         success: false,
-        message: "Recruiter profile not found"
+        message: "Recruiter profile not found",
       });
     }
 
-    
-    const job = await createJobService({
+    const job = await Job.create({
       ...req.body,
-      recruiter: recruiter._id   
+      recruiter: recruiterProfile._id,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      data: job,
-      message: "Job created successfully"
+      message: "Job created",
+      job,
     });
-
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
+    console.log("createJobController error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -81,4 +76,34 @@ export const deleteJobController = async (req, res) => {
     success: true,
     message: "job deleted successfully"
   });
+};
+
+
+
+export const getMyJobsController = async (req, res) => {
+  try {
+    const recruiterProfile = await Recruiter.findOne({ user: req.user._id });
+
+    if (!recruiterProfile) {
+      return res.status(404).json({
+        success: false,
+        message: "Recruiter profile not found",
+      });
+    }
+
+    const jobs = await Job.find({ recruiter: recruiterProfile._id }).sort({
+      createdAt: -1,
+    });
+
+    return res.status(200).json({
+      success: true,
+      jobs,
+    });
+  } catch (error) {
+    console.log("getMyJobsController error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
 };

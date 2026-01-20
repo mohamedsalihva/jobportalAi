@@ -7,13 +7,17 @@ import {
     getAllJobController,
     getSingleJobController,
     updateJobController,
-    deleteJobController
+    deleteJobController,
+    getMyJobsController
 } from  "../controllers/JobController.js";
 
 const router = express.Router();
 
 
 router.get("/", getAllJobController);
+
+router.get("/my-jobs", AuthMiddleware, isRecruiter, getMyJobsController);
+
 router.get("/:id", getSingleJobController);
 
 

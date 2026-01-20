@@ -13,3 +13,17 @@ export const getMyApplicationService = async (userId) => {
     .populate("job")
     .sort({ createdAt: -1 });
 };
+
+export const getApplicantsByJobService = async (jobId) => {
+  return await Application.find({ job: jobId })
+    .populate("applicant", "name email")
+    .sort({ createdAt: -1 });
+};
+
+export const updateApplicationStatusService = async (applicationId, status) => {
+  return await Application.findByIdAndUpdate(
+    applicationId,
+    { status },
+    { new: true }
+  ).populate("applicant", "name email");
+};

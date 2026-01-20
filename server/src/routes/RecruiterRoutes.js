@@ -1,5 +1,6 @@
 import express from "express";
 import AuthMiddleware from "../middlewares/AuthMiddleware.js";
+import isRecruiter from "../middlewares/isRecruiter.js"
 
 import {
     createRecruiterController,
@@ -9,8 +10,8 @@ import {
 
 const router =express.Router();
 
-router.post("/profile", AuthMiddleware, createRecruiterController);
-router.get("/profile", AuthMiddleware, getMyRecruiterController);
-router.put("/profile", updateRecruiterController);
+router.post("/create-profile", AuthMiddleware, createRecruiterController);
+router.get("/profile", AuthMiddleware, isRecruiter, getMyRecruiterController);
+router.put("/profile", AuthMiddleware, isRecruiter, updateRecruiterController);
 
 export default router;

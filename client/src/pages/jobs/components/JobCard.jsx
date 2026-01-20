@@ -1,7 +1,17 @@
-    import React from "react";
+import React from "react";
 import { Bookmark } from "lucide-react";
 
-const JobCard = ({ job, isSelected, onClick, onSave, isSaved }) => {
+const JobCard = ({ job, isSelected, onClick, onSave, isSaved, appliedStatus }) => {
+  const getStatusStyle = (status) => {
+    if (status === "shortlisted") {
+      return "bg-emerald-50 text-emerald-700 border border-emerald-200";
+    }
+    if (status === "rejected") {
+      return "bg-red-50 text-red-700 border border-red-200";
+    }
+    return "bg-slate-100 text-slate-700 border border-slate-200"; // pending
+  };
+
   return (
     <div
       onClick={onClick}
@@ -12,20 +22,36 @@ const JobCard = ({ job, isSelected, onClick, onSave, isSaved }) => {
       }`}
     >
       <div className="flex items-start gap-3">
+        {/* ✅ Left icon */}
         <div className="w-11 h-11 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-500 text-sm shrink-0">
           {job?.title?.[0] || "J"}
         </div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="font-extrabold text-slate-900 text-[15px] truncate">
-            {job.title}
-          </h4>
+          {/* ✅ Title + Status LEFT side */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <h4 className="font-extrabold text-slate-900 text-[15px] truncate">
+              {job.title}
+            </h4>
+
+            
+            {appliedStatus && (
+              <span
+                className={`text-[10px] font-extrabold px-2.5 py-1 rounded-lg ${getStatusStyle(
+                  appliedStatus
+                )}`}
+              >
+                {appliedStatus.toUpperCase()}
+              </span>
+            )}
+          </div>
 
           <p className="text-xs text-slate-500 font-medium truncate mt-1">
             {job.location} • {job.jobType}
           </p>
         </div>
 
+        
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -41,6 +67,7 @@ const JobCard = ({ job, isSelected, onClick, onSave, isSaved }) => {
         </button>
       </div>
 
+      
       <div className="mt-3 flex flex-wrap gap-2">
         <span className="text-[11px] font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg">
           {job.salary || "Not disclosed"}

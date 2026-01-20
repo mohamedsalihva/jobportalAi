@@ -15,11 +15,12 @@ const Jobs = () => {
   const [activeTab, setActiveTab] = useState("explore");
 
   const [savedJobsIds, setSavedJobsIds] = useState([]);
-  const [appliedJobsIds, setAppliedJobsIds] = useState([]);
+
+  
+  const [appliedApplications, setAppliedApplications] = useState([]);
 
   const [userProfile, setUserProfile] = useState(null);
 
-  
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [applySuccessOpen, setApplySuccessOpen] = useState(false);
   const [jobToApply, setJobToApply] = useState(null);
@@ -30,8 +31,6 @@ const Jobs = () => {
     fetchMyApplications();
     fetchUserProfile();
   }, []);
-
- 
 
   const fetchJobs = async () => {
     try {
@@ -56,11 +55,19 @@ const Jobs = () => {
     }
   };
 
+  
   const fetchMyApplications = async () => {
     try {
       const res = await api.get("/applications/myApplication");
       const apps = res.data.applications || [];
-      setAppliedJobsIds(apps.map((a) => a.job?._id || a.job));
+
+      setAppliedApplications(
+        apps.map((a) => ({
+          applicationId: a._id,
+          jobId: a.job?._id || a.job,
+          status: a.status || "pending",
+        }))
+      );
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
@@ -75,7 +82,15 @@ const Jobs = () => {
     }
   };
 
- 
+  
+  const appliedJobsIds = useMemo(() => {
+    return appliedApplications.map((a) => a.jobId);
+  }, [appliedApplications]);
+
+  const getAppliedStatusByJobId = (jobId) => {
+    const found = appliedApplications.find((a) => a.jobId === jobId);
+    return found?.status || null;
+  };
 
   const toggleSaveJob = async (jobId) => {
     try {
@@ -89,11 +104,9 @@ const Jobs = () => {
         setSavedJobsIds((prev) => [...prev, jobId]);
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Save failed");
+      console.log(error.response?.data?.message || "Save failed");
     }
   };
-
-  
 
   const openApplyModal = (job) => {
     setJobToApply(job);
@@ -101,24 +114,20 @@ const Jobs = () => {
   };
 
   const submitApplication = async () => {
-  if (!jobToApply?._id) return;
+    if (!jobToApply?._id) return;
 
-  try {
-    await api.post(`/applications/${jobToApply._id}/apply`);
+    try {
+      await api.post(`/applications/${jobToApply._id}/apply`);
 
-    setAppliedJobsIds((prev) => [...prev, jobToApply._id]);
+      setApplyModalOpen(false);
+      setApplySuccessOpen(true);
 
-    setApplyModalOpen(false);
-    setApplySuccessOpen(true);
-
-    fetchMyApplications();
-  } catch (error) {
-    alert(error.response?.data?.message || "Apply failed");
-  }
-};
-
-
-  
+      
+      fetchMyApplications();
+    } catch (error) {
+      console.log(error.response?.data?.message || "Apply failed");
+    }
+  };
 
   const savedJobs = useMemo(() => {
     return jobs.filter((j) => savedJobsIds.includes(j._id));
@@ -144,7 +153,7 @@ const Jobs = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           savedCount={savedJobsIds.length}
-          appliedCount={appliedJobsIds.length}
+          appliedCount={appliedApplications.length}
         />
 
         <main className="flex-1 overflow-x-hidden">
@@ -168,10 +177,8 @@ const Jobs = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                 
 
-
-                 {/* left details*/}
+                  {/* left list */}
 
                   <div className="lg:col-span-5">
                     <div className="h-[calc(100vh-230px)] overflow-y-auto pr-2 space-y-3">
@@ -188,14 +195,18 @@ const Jobs = () => {
                             onClick={() => setSelectedJob(job)}
                             onSave={() => toggleSaveJob(job._id)}
                             isSaved={savedJobsIds.includes(job._id)}
+                            appliedStatus={
+                              activeTab === "applied"
+                                ? getAppliedStatusByJobId(job._id)
+                                : null
+                            }
                           />
                         ))
                       )}
                     </div>
                   </div>
 
-
-                  {/*right details*/}
+                  {/* right details*/}
 
                   <div className="hidden lg:block lg:col-span-7">
                     <div className="sticky top-24 h-[calc(100vh-120px)] overflow-y-auto rounded-2xl">
@@ -221,8 +232,7 @@ const Jobs = () => {
         </main>
       </div>
 
-      {/* Apply Modal */}
-
+      
       <ApplyModal
         open={applyModalOpen}
         onClose={() => setApplyModalOpen(false)}
@@ -231,8 +241,6 @@ const Jobs = () => {
         onSubmit={submitApplication}
       />
 
-
-      {/* Success Modal */}
       
       <SuccessModal
         open={applySuccessOpen}
@@ -240,6 +248,7 @@ const Jobs = () => {
         onViewApplications={() => {
           setApplySuccessOpen(false);
           setActiveTab("applied");
+          fetchMyApplications();
         }}
       />
     </div>

@@ -22,7 +22,6 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  
   const fetchProfile = async () => {
     try {
       setLoadingUser(true);
@@ -35,19 +34,16 @@ const Navbar = () => {
     }
   };
 
-  
   useEffect(() => {
     fetchProfile();
   }, [location.pathname]);
 
-  
   useEffect(() => {
     if (user && (location.pathname === "/" || location.pathname === "/login")) {
       navigate("/jobs", { replace: true });
     }
   }, [user, location.pathname, navigate]);
 
-  
   useEffect(() => {
     const handleClickOutside = () => setIsProfileOpen(false);
 
@@ -75,7 +71,7 @@ const Navbar = () => {
             <Briefcase size={20} />
           </div>
           <span className="text-xl font-bold text-gray-900 tracking-tight">
-            Hire<span className="text-blue-600">Sync</span>
+            Hire<span className="text-blue-600">Synnefo</span>
           </span>
         </div>
 
@@ -94,7 +90,14 @@ const Navbar = () => {
           </button>
 
           <button
-            onClick={() => navigate("/recruiter/login")}
+            onClick={() => {
+              if (!user) return navigate("/login");
+
+              if (user.role !== "recruiter")
+                return navigate("/recruiter/profile");
+
+              navigate("/recruiter/dashboard");
+            }}
             className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 hover:border-blue-600 hover:text-blue-600 transition text-sm font-bold"
           >
             Post a Job
@@ -147,7 +150,10 @@ const Navbar = () => {
                       </p>
                     </div>
 
-                    <button onClick={()=> navigate("/profile")} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+                    <button
+                      onClick={() => navigate("/profile")}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                    >
                       <User size={16} /> My Profile
                     </button>
 
@@ -210,10 +216,14 @@ const Navbar = () => {
 
             <button
               onClick={() => {
-                setIsOpen(false);
-                navigate("/recruiter/login");
+                if (!user) return navigate("/login");
+
+                if (user.role !== "recruiter")
+                  return navigate("/recruiter/create-profile");
+
+                navigate("/recruiter/dashboard");
               }}
-              className="text-left text-blue-600 font-bold"
+              className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-700 hover:border-blue-600 hover:text-blue-600 transition text-sm font-bold"
             >
               Post a Job
             </button>

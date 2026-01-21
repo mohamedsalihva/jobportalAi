@@ -10,7 +10,7 @@ import {
 
 const router =express.Router();
 
-router.post("/create-profile", AuthMiddleware, createRecruiterController);
+router.post("/create-profile", AuthMiddleware, isRecruiter, createRecruiterController);
 router.get("/profile", AuthMiddleware, isRecruiter, getMyRecruiterController);
 router.put("/profile", AuthMiddleware, isRecruiter, updateRecruiterController);
 

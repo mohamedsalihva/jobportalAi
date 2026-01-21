@@ -9,16 +9,26 @@ import {
   updateApplicationStatusService,
 } from "../services/applicationService.js";
 
-
 export const applyJobController = async (req, res) => {
   try {
-    const {
-      jobId
-    } = req.params;
+    const { jobId } = req.params;
     const userId = req.user._id;
-    console.log("jobId:", jobId);
-    console.log("userId:", userId);
 
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    
+    const recruiterProfile = await Recruiter.findOne({ user: userId });
+
+   
+    if (recruiterProfile && job.recruiter.toString() === recruiterProfile._id.toString()) {
+      return res.status(400).json({
+        success: false,
+        message: "You cannot apply for your own posted job",
+      });
+    }
 
     const existing = await getApplicationByJobAndUserService(jobId, userId);
     if (existing) {
@@ -34,19 +44,15 @@ export const applyJobController = async (req, res) => {
       status: "pending",
     });
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: "Applied successfully",
       application,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 
 

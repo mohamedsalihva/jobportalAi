@@ -2,7 +2,6 @@ import Job from "../models/Job.js";
 import Recruiter from "../models/Recruiter.js";   
 
 import {
-  createJobService,
   getAllJobService,
   getSingleJobService,
   updateJobService,

@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* ✅ Global Theme Colors */
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
+
+  .dark body {
+    @apply bg-[#0B0B0F] text-white;
+  }
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));

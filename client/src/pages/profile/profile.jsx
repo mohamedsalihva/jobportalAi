@@ -44,16 +44,16 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFE]">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         {loading ? (
-          <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-500 font-semibold">
+          <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-10 text-center text-slate-500 dark:text-slate-300 font-extrabold">
             Loading profile...
           </div>
         ) : !profile ? (
-          <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-red-500 font-semibold">
+          <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-10 text-center text-red-600 dark:text-red-400 font-extrabold">
             Profile not found
           </div>
         ) : (
@@ -76,34 +76,44 @@ const Profile = () => {
               <ProfileResumeCard resumeUrl={profile.resumeUrl} />
             </div>
 
-            {/* RIGHT SIDE (Sidebar) */}
+            {/* RIGHT SIDE */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white border border-slate-200 rounded-2xl p-6">
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+              {/* Profile Completion */}
+              <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+                <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
                   Profile Completion
                 </p>
 
-                <p className="mt-3 text-sm font-semibold text-slate-700">
+                <p className="mt-3 text-sm font-semibold text-slate-700 dark:text-slate-200">
                   Add skills, summary & resume to improve your chances.
                 </p>
 
                 <button
                   onClick={() => setEditOpen(true)}
-                  className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition"
+                  className="mt-4 w-full bg-amber-500 text-black font-extrabold py-3 rounded-2xl hover:bg-amber-400 transition shadow-md shadow-amber-500/20"
                 >
                   Update Profile
                 </button>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-2xl p-6">
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+              {/* Tips */}
+              <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+                <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
                   Tips
                 </p>
-                <ul className="mt-3 text-sm text-slate-600 space-y-2 list-disc list-inside">
+
+                <ul className="mt-3 text-sm text-slate-600 dark:text-slate-300 space-y-2 list-disc list-inside">
                   <li>Add 5+ job-related skills</li>
                   <li>Write a strong summary</li>
                   <li>Add resume link</li>
                 </ul>
+
+                <div className="mt-4 rounded-2xl border border-amber-500/20 bg-amber-500/10 px-4 py-3">
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
+                    🔥 Pro Tip: Profiles with resume + 5 skills get shortlisted
+                    faster.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

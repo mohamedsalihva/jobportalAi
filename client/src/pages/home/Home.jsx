@@ -45,7 +45,7 @@ const Home = () => {
 
             <h1 className="mt-6 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
               Your next opportunity starts with{" "}
-              <span className="text-blue-600">HireSync</span>
+              <span className="text-blue-600">HireSynnefo</span>
             </h1>
 
             <p className="mt-4 text-gray-600 text-base md:text-lg">

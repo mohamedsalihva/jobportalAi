@@ -5,6 +5,16 @@ import Navbar from "../../components/navbar/Navbar";
 import Toast from "../../components/ui/Toast";
 import { API } from "../../constants/apiEndpoints";
 
+import {
+  Briefcase,
+  MapPin,
+  IndianRupee,
+  Clock,
+  Layers,
+  FileText,
+  Award,
+} from "lucide-react";
+
 const initialJobForm = {
   title: "",
   location: "",
@@ -80,14 +90,11 @@ const RecruiterPostJob = () => {
     return {
       title: form.title.trim(),
       location: form.location.trim(),
-
-      
       jobType: form.jobType,
 
       salary: form.salary?.trim() || "Not disclosed",
       experienceRequired: form.experienceRequired.trim(),
       description: form.description.trim(),
-
       workMode: form.workMode,
 
       skills: toArray(form.skills),
@@ -111,7 +118,7 @@ const RecruiterPostJob = () => {
 
       await api.post(API.JOBS.CREATE, payload);
 
-      showToast("success", "Job posted successfully ");
+      showToast("success", "Job posted successfully ✅");
 
       setTimeout(() => {
         navigate("/recruiter/my-jobs");
@@ -125,7 +132,7 @@ const RecruiterPostJob = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFE]">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
 
       <Toast
@@ -136,234 +143,151 @@ const RecruiterPostJob = () => {
       />
 
       <div className="max-w-4xl mx-auto px-4 py-10">
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h1 className="text-2xl font-extrabold text-slate-900">
-            Post a Job
-          </h1>
-          <p className="text-sm text-slate-600 mt-2">
-            Fill the job details below and publish.
+        {/* ✅ Header */}
+        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+          <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
+            Recruiter
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-           
-            <div>
-              <label className="text-sm font-bold text-slate-700">
-                Job Title *
-              </label>
-              <input
-                value={form.title}
-                onChange={handleChange("title")}
-                className={`mt-2 w-full border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ${
-                  errors.title
-                    ? "border-red-300 focus:ring-red-100 focus:border-red-500"
-                    : "border-slate-200 focus:ring-blue-100 focus:border-blue-500"
-                }`}
-                placeholder="Frontend Developer"
-              />
-              {errors.title && (
-                <p className="text-xs text-red-600 font-bold mt-1">
-                  {errors.title}
-                </p>
-              )}
-            </div>
+          <h1 className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Post a Job
+          </h1>
 
-            
-            <div>
-              <label className="text-sm font-bold text-slate-700">
-                Location *
-              </label>
-              <input
-                value={form.location}
-                onChange={handleChange("location")}
-                className={`mt-2 w-full border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ${
-                  errors.location
-                    ? "border-red-300 focus:ring-red-100 focus:border-red-500"
-                    : "border-slate-200 focus:ring-blue-100 focus:border-blue-500"
-                }`}
-                placeholder="Kochi, Kerala"
-              />
-              {errors.location && (
-                <p className="text-xs text-red-600 font-bold mt-1">
-                  {errors.location}
-                </p>
-              )}
-            </div>
+          <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
+            Fill the job details below and publish your hiring post.
+          </p>
+        </div>
 
-           
+        {/* ✅ Form Card */}
+        <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* ✅ Title */}
+            <InputField
+              label="Job Title *"
+              value={form.title}
+              onChange={handleChange("title")}
+              placeholder="Frontend Developer"
+              error={errors.title}
+              icon={<Briefcase size={16} />}
+            />
+
+            {/* ✅ Location */}
+            <InputField
+              label="Location *"
+              value={form.location}
+              onChange={handleChange("location")}
+              placeholder="Kochi, Kerala"
+              error={errors.location}
+              icon={<MapPin size={16} />}
+            />
+
+            {/* ✅ Job Type + Work Mode */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-bold text-slate-700">
-                  Job Type *
-                </label>
-                <select
-                  value={form.jobType}
-                  onChange={handleChange("jobType")}
-                  className={`mt-2 w-full border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ${
-                    errors.jobType
-                      ? "border-red-300 focus:ring-red-100 focus:border-red-500"
-                      : "border-slate-200 focus:ring-blue-100 focus:border-blue-500"
-                  }`}
-                >
-                  <option value="">Select Job Type</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Internship">Internship</option>
-                </select>
-                {errors.jobType && (
-                  <p className="text-xs text-red-600 font-bold mt-1">
-                    {errors.jobType}
-                  </p>
-                )}
-              </div>
+              <SelectField
+                label="Job Type *"
+                value={form.jobType}
+                onChange={handleChange("jobType")}
+                error={errors.jobType}
+                icon={<Layers size={16} />}
+                options={[
+                  { value: "", label: "Select Job Type" },
+                  { value: "Full-time", label: "Full-time" },
+                  { value: "Part-time", label: "Part-time" },
+                  { value: "Contract", label: "Contract" },
+                  { value: "Internship", label: "Internship" },
+                ]}
+              />
 
-              <div>
-                <label className="text-sm font-bold text-slate-700">
-                  Work Mode
-                </label>
-                <select
-                  value={form.workMode}
-                  onChange={handleChange("workMode")}
-                  className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500"
-                >
-                  <option value="Onsite">Onsite</option>
-                  <option value="Remote">Remote</option>
-                  <option value="Hybrid">Hybrid</option>
-                </select>
-              </div>
+              <SelectField
+                label="Work Mode"
+                value={form.workMode}
+                onChange={handleChange("workMode")}
+                icon={<Award size={16} />}
+                options={[
+                  { value: "Onsite", label: "Onsite" },
+                  { value: "Remote", label: "Remote" },
+                  { value: "Hybrid", label: "Hybrid" },
+                ]}
+              />
             </div>
 
-            
+            {/* ✅ Salary + Experience */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-bold text-slate-700">
-                  Salary
-                </label>
-                <input
-                  value={form.salary}
-                  onChange={handleChange("salary")}
-                  className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500"
-                  placeholder="₹3 LPA - ₹6 LPA"
-                />
-              </div>
+              <InputField
+                label="Salary"
+                value={form.salary}
+                onChange={handleChange("salary")}
+                placeholder="₹3 LPA - ₹6 LPA"
+                icon={<IndianRupee size={16} />}
+              />
 
-              <div>
-                <label className="text-sm font-bold text-slate-700">
-                  Experience Required *
-                </label>
-                <input
-                  value={form.experienceRequired}
-                  onChange={handleChange("experienceRequired")}
-                  className={`mt-2 w-full border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 ${
-                    errors.experienceRequired
-                      ? "border-red-300 focus:ring-red-100 focus:border-red-500"
-                      : "border-slate-200 focus:ring-blue-100 focus:border-blue-500"
-                  }`}
-                  placeholder="0-1 Years / Fresher"
-                />
-                {errors.experienceRequired && (
-                  <p className="text-xs text-red-600 font-bold mt-1">
-                    {errors.experienceRequired}
-                  </p>
-                )}
-              </div>
+              <InputField
+                label="Experience Required *"
+                value={form.experienceRequired}
+                onChange={handleChange("experienceRequired")}
+                placeholder="0-1 Years / Fresher"
+                error={errors.experienceRequired}
+                icon={<Clock size={16} />}
+              />
             </div>
 
-            
+            {/* ✅ Skills + Languages */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-bold text-slate-700">
-                  Skills (comma separated)
-                </label>
-                <input
-                  value={form.skills}
-                  onChange={handleChange("skills")}
-                  className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none"
-                  placeholder="React, Node.js, MongoDB"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-bold text-slate-700">
-                  Languages (comma separated)
-                </label>
-                <input
-                  value={form.languages}
-                  onChange={handleChange("languages")}
-                  className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none"
-                  placeholder="English, Hindi, Malayalam"
-                />
-              </div>
-            </div>
-
-           
-            <div>
-              <label className="text-sm font-bold text-slate-700">
-                Job Description *
-              </label>
-              <textarea
-                rows={5}
-                value={form.description}
-                onChange={handleChange("description")}
-                className={`mt-2 w-full border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 resize-none ${
-                  errors.description
-                    ? "border-red-300 focus:ring-red-100 focus:border-red-500"
-                    : "border-slate-200 focus:ring-blue-100 focus:border-blue-500"
-                }`}
-                placeholder="Write full job details..."
+              <InputField
+                label="Skills (comma separated)"
+                value={form.skills}
+                onChange={handleChange("skills")}
+                placeholder="React, Node.js, MongoDB"
               />
-              {errors.description && (
-                <p className="text-xs text-red-600 font-bold mt-1">
-                  {errors.description}
-                </p>
-              )}
-            </div>
 
-           
-            <div>
-              <label className="text-sm font-bold text-slate-700">
-                Responsibilities (comma separated)
-              </label>
-              <input
-                value={form.responsibilities}
-                onChange={handleChange("responsibilities")}
-                className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none"
-                placeholder="Build UI, Fix bugs, Write clean code"
+              <InputField
+                label="Languages (comma separated)"
+                value={form.languages}
+                onChange={handleChange("languages")}
+                placeholder="English, Hindi, Malayalam"
               />
             </div>
 
-            
-            <div>
-              <label className="text-sm font-bold text-slate-700">
-                Requirements (comma separated)
-              </label>
-              <input
-                value={form.requirements}
-                onChange={handleChange("requirements")}
-                className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none"
-                placeholder="React knowledge, Good communication"
-              />
-            </div>
+            {/* ✅ Description */}
+            <TextAreaField
+              label="Job Description *"
+              value={form.description}
+              onChange={handleChange("description")}
+              placeholder="Write full job details..."
+              error={errors.description}
+              icon={<FileText size={16} />}
+            />
 
-           
-            <div>
-              <label className="text-sm font-bold text-slate-700">
-                Benefits (comma separated)
-              </label>
-              <input
-                value={form.benefits}
-                onChange={handleChange("benefits")}
-                className="mt-2 w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none"
-                placeholder="WFH, Insurance, Paid leave"
-              />
-            </div>
+            {/* ✅ Responsibilities */}
+            <InputField
+              label="Responsibilities (comma separated)"
+              value={form.responsibilities}
+              onChange={handleChange("responsibilities")}
+              placeholder="Build UI, Fix bugs, Write clean code"
+            />
 
-          
+            {/* ✅ Requirements */}
+            <InputField
+              label="Requirements (comma separated)"
+              value={form.requirements}
+              onChange={handleChange("requirements")}
+              placeholder="React knowledge, Good communication"
+            />
+
+            {/* ✅ Benefits */}
+            <InputField
+              label="Benefits (comma separated)"
+              value={form.benefits}
+              onChange={handleChange("benefits")}
+              placeholder="WFH, Insurance, Paid leave"
+            />
+
+            {/* ✅ Buttons */}
             <div className="flex gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => navigate("/recruiter/dashboard")}
-                className="w-full border border-slate-200 font-bold py-3 rounded-xl hover:bg-slate-50 transition"
+                className="w-full py-3 rounded-2xl border border-slate-200 dark:border-white/10 font-extrabold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 transition"
               >
                 Back
               </button>
@@ -371,7 +295,7 @@ const RecruiterPostJob = () => {
               <button
                 type="submit"
                 disabled={loading || !isValid}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition disabled:opacity-60"
+                className="w-full py-3 rounded-2xl bg-amber-500 text-black font-extrabold hover:bg-amber-400 transition disabled:opacity-60 shadow-md shadow-amber-500/20"
               >
                 {loading ? "Posting..." : "Post Job"}
               </button>
@@ -379,7 +303,7 @@ const RecruiterPostJob = () => {
           </form>
         </div>
 
-        <p className="text-xs text-slate-500 mt-4">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-4">
           Fields marked with * are required.
         </p>
       </div>
@@ -388,3 +312,94 @@ const RecruiterPostJob = () => {
 };
 
 export default RecruiterPostJob;
+
+/* ---------------- REUSABLE INPUT UI ---------------- */
+
+const InputField = ({ label, value, onChange, placeholder, error, icon }) => {
+  return (
+    <div>
+      <label className="text-sm font-extrabold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+        {icon ? <span className="text-slate-400">{icon}</span> : null}
+        {label}
+      </label>
+
+      <input
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`mt-2 w-full px-4 py-3 rounded-2xl border text-sm font-semibold outline-none transition
+        bg-white dark:bg-[#0B0B0F]/40
+        text-slate-900 dark:text-white
+        placeholder:text-slate-400
+        ${
+          error
+            ? "border-red-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+            : "border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-amber-500/25 focus:border-amber-500"
+        }`}
+      />
+
+      {error && <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>}
+    </div>
+  );
+};
+
+const TextAreaField = ({ label, value, onChange, placeholder, error, icon }) => {
+  return (
+    <div>
+      <label className="text-sm font-extrabold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+        {icon ? <span className="text-slate-400">{icon}</span> : null}
+        {label}
+      </label>
+
+      <textarea
+        rows={5}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`mt-2 w-full px-4 py-3 rounded-2xl border text-sm font-semibold outline-none transition resize-none
+        bg-white dark:bg-[#0B0B0F]/40
+        text-slate-900 dark:text-white
+        placeholder:text-slate-400
+        ${
+          error
+            ? "border-red-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+            : "border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-amber-500/25 focus:border-amber-500"
+        }`}
+      />
+
+      {error && <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>}
+    </div>
+  );
+};
+
+const SelectField = ({ label, value, onChange, options, error, icon }) => {
+  return (
+    <div>
+      <label className="text-sm font-extrabold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+        {icon ? <span className="text-slate-400">{icon}</span> : null}
+        {label}
+      </label>
+
+      <select
+        value={value}
+        onChange={onChange}
+        className={`mt-2 w-full px-4 py-3 rounded-2xl border text-sm font-extrabold outline-none transition
+        bg-white dark:bg-[#0B0B0F]/40
+        text-slate-900 dark:text-white
+        ${
+          error
+            ? "border-red-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+            : "border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-amber-500/25 focus:border-amber-500"
+        }`}
+      >
+        {options.map((op) => (
+          <option key={op.value} value={op.value}>
+            {op.label}
+          </option>
+        ))}
+      </select>
+
+      {error && <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>}
+    </div>
+  );
+};

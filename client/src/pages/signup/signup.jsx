@@ -32,22 +32,25 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}${API.AUTH.GOOGLE}`;
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}${
+      API.AUTH.GOOGLE
+    }`;
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f2f1] flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-200 p-7">
-        <h1 className="text-2xl font-extrabold text-gray-900 text-center">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-white/10 p-7">
+        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white text-center">
           Create an account
         </h1>
-        <p className="text-sm text-gray-600 text-center mt-2">
+
+        <p className="text-sm text-slate-600 dark:text-slate-300 text-center mt-2">
           Start applying faster with ATS resume score evaluation.
         </p>
 
         <button
           onClick={handleGoogleSignup}
-          className="w-full mt-5 flex items-center justify-center gap-3 border border-gray-300 rounded-xl py-3 font-semibold hover:bg-gray-50 transition"
+          className="w-full mt-5 flex items-center justify-center gap-3 border border-slate-300 dark:border-white/10 rounded-xl py-3 font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
         >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -58,14 +61,14 @@ export default function Signup() {
         </button>
 
         <div className="flex items-center gap-3 my-5">
-          <div className="h-px bg-gray-200 flex-1"></div>
-          <span className="text-xs text-gray-500">OR</span>
-          <div className="h-px bg-gray-200 flex-1"></div>
+          <div className="h-px bg-slate-200 dark:bg-white/10 flex-1"></div>
+          <span className="text-xs text-slate-500 dark:text-slate-400">OR</span>
+          <div className="h-px bg-slate-200 dark:bg-white/10 flex-1"></div>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-800">
+            <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Full name
             </label>
             <input
@@ -75,12 +78,12 @@ export default function Signup() {
               onChange={handleChange}
               required
               placeholder="Enter your name"
-              className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-700"
+              className="mt-2 w-full rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-950 px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-800">
+            <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Email address
             </label>
             <input
@@ -90,12 +93,12 @@ export default function Signup() {
               onChange={handleChange}
               required
               placeholder="Enter your email"
-              className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-700"
+              className="mt-2 w-full rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-950 px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-800">
+            <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Password
             </label>
             <input
@@ -105,21 +108,24 @@ export default function Signup() {
               onChange={handleChange}
               required
               placeholder="Create a password"
-              className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-700"
+              className="mt-2 w-full rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-950 px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
 
           <button
             disabled={loading}
-            className="w-full rounded-xl bg-blue-700 hover:bg-blue-800 text-white py-3 font-bold transition"
+            className="w-full rounded-xl bg-blue-700 hover:bg-blue-800 text-white py-3 font-bold transition disabled:opacity-60"
           >
             {loading ? "Creating..." : "Create account"}
           </button>
         </form>
 
-        <p className="text-sm text-center text-gray-700 mt-5">
+        <p className="text-sm text-center text-slate-700 dark:text-slate-300 mt-5">
           Already have an account?{" "}
-          <Link to="/login" className="font-bold text-blue-700 hover:underline">
+          <Link
+            to="/login"
+            className="font-bold text-blue-700 dark:text-blue-400 hover:underline"
+          >
             Sign in
           </Link>
         </p>

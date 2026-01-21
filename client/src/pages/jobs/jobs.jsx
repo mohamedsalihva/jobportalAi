@@ -17,9 +17,7 @@ const Jobs = () => {
 
   const [savedJobsIds, setSavedJobsIds] = useState([]);
 
-  
   const [appliedApplications, setAppliedApplications] = useState([]);
-
   const [userProfile, setUserProfile] = useState(null);
 
   const [applyModalOpen, setApplyModalOpen] = useState(false);
@@ -56,7 +54,6 @@ const Jobs = () => {
     }
   };
 
-  
   const fetchMyApplications = async () => {
     try {
       const res = await api.get(API.APPLICATIONS.MY);
@@ -83,7 +80,6 @@ const Jobs = () => {
     }
   };
 
-  
   const appliedJobsIds = useMemo(() => {
     return appliedApplications.map((a) => a.jobId);
   }, [appliedApplications]);
@@ -123,7 +119,6 @@ const Jobs = () => {
       setApplyModalOpen(false);
       setApplySuccessOpen(true);
 
-      
       fetchMyApplications();
     } catch (error) {
       console.log(error.response?.data?.message || "Apply failed");
@@ -146,7 +141,7 @@ const Jobs = () => {
       : jobs;
 
   return (
-    <div className="min-h-screen bg-[#FBFBFE]">
+    <div className="min-h-screen font-sans bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
 
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-64px)]">
@@ -159,7 +154,8 @@ const Jobs = () => {
 
         <main className="flex-1 overflow-x-hidden">
           <div className="p-4 lg:p-8">
-            <h1 className="text-2xl font-extrabold text-slate-900">
+            
+            <h1 className="text-[28px] sm:text-[34px] font-bold tracking-[-0.02em] text-slate-900 dark:text-white leading-tight">
               {activeTab === "explore"
                 ? "Explore Jobs"
                 : activeTab === "saved"
@@ -167,24 +163,22 @@ const Jobs = () => {
                 : "My Applications"}
             </h1>
 
-            <p className="text-slate-500 text-sm mt-1">
+            <p className="mt-2 text-[13.5px] sm:text-sm font-medium text-slate-600 dark:text-slate-300">
               Browse jobs, save them, and apply professionally.
             </p>
 
             <div className="mt-6">
               {loading ? (
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center text-slate-500 font-semibold">
+                <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-6 text-center text-slate-500 dark:text-slate-300 font-semibold">
                   Loading jobs...
                 </div>
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-                  {/* left list */}
-
+                  
                   <div className="lg:col-span-5">
                     <div className="h-[calc(100vh-230px)] overflow-y-auto pr-2 space-y-3">
                       {jobsToShow.length === 0 ? (
-                        <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center text-slate-500 font-semibold">
+                        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-6 text-center text-slate-500 dark:text-slate-300 font-semibold">
                           No jobs found
                         </div>
                       ) : (
@@ -207,8 +201,7 @@ const Jobs = () => {
                     </div>
                   </div>
 
-                  {/* right details*/}
-
+                 
                   <div className="hidden lg:block lg:col-span-7">
                     <div className="sticky top-24 h-[calc(100vh-120px)] overflow-y-auto rounded-2xl">
                       {selectedJob ? (
@@ -220,7 +213,7 @@ const Jobs = () => {
                           onApply={() => openApplyModal(selectedJob)}
                         />
                       ) : (
-                        <div className="h-full flex items-center justify-center border-2 border-dashed border-slate-100 rounded-2xl text-slate-400 p-12 text-center">
+                        <div className="h-full flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl text-slate-400 dark:text-slate-400 p-12 text-center bg-white/40 dark:bg-white/5">
                           Select a job to view full details.
                         </div>
                       )}
@@ -233,7 +226,6 @@ const Jobs = () => {
         </main>
       </div>
 
-      
       <ApplyModal
         open={applyModalOpen}
         onClose={() => setApplyModalOpen(false)}
@@ -242,7 +234,6 @@ const Jobs = () => {
         onSubmit={submitApplication}
       />
 
-      
       <SuccessModal
         open={applySuccessOpen}
         onClose={() => setApplySuccessOpen(false)}

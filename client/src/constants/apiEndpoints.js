@@ -10,4 +10,13 @@ export const API = {
     MY: "/applications/my",
     APPLY: (jobId) => `/applications/${jobId}/apply`,
   },
+
+  
+  //  Recruiter Module
+
+  RECRUITER: {
+    CREATE: "/recruiter/create-profile",
+    MY_PROFILE: "/recruiter/profile",
+    UPDATE: "/recruiter/profile",
+  },
 };

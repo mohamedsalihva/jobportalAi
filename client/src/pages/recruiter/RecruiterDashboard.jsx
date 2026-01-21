@@ -38,7 +38,7 @@ const RecruiterDashboard = () => {
 
       setJobStats({ total, active, inactive });
     } catch (error) {
-      // if backend fails, keep stats 0 (scalable safe fallback)
+
       setJobStats({ total: 0, active: 0, inactive: 0 });
     }
   };
@@ -69,7 +69,7 @@ const RecruiterDashboard = () => {
     );
   }
 
-  // ✅ If recruiter profile is missing
+  
   if (!recruiter) {
     return (
       <div className="min-h-screen bg-[#FBFBFE]">
@@ -250,7 +250,7 @@ const RecruiterDashboard = () => {
           )}
 
           <button
-            onClick={() => navigate("/recruiter/create-profile")}
+            onClick={() => navigate("/recruiter/profile")}
             className="mt-4 px-5 py-2.5 rounded-xl border border-slate-200 font-bold hover:bg-slate-50 transition"
           >
             Edit Profile

@@ -10,6 +10,7 @@ import RecruiterPostJob from "./pages/recruiter/RecruiterPostJob";
 import RecruiterMyJobs from "./pages/recruiter/RecruiterMyJobs";
 import RecruiterApplicants from "./pages/recruiter/RecruiterApplicants";
 import RecruiterCreateProfile from "./pages/recruiter/RecruiterCreateProfile";
+import RecruiterProfile from "./pages/recruiter/RecruiterProfile";
 
 
 import PublicRoute from "./routes/publicRoute";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/recruiter/job/:jobId/applicants" element={<RecruiterApplicants />}/>
         <Route path="/recruiter/create-profile" element={<RecruiterCreateProfile/>}/>
         <Route path="/recruiter/post-job" element={<RecruiterPostJob />} />
+        <Route path="/recruiter/profile" element={<RecruiterProfile />}/> 
 
       </Route>
     </Routes>

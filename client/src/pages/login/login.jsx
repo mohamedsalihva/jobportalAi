@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API } from "../../constants/apiEndpoints";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ const Login = () => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const res = await api.get("/users/profile", { withCredentials: true });
+        const res = await api.get(API.USERS.PROFILE, { withCredentials: true });
 
         if (res.data?.userFromToken) {
           navigate("/jobs", { replace: true });
@@ -27,7 +28,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await api.post(
-        "/auth/login",
+        API.AUTH.LOGIN,
         { email, password },
         { withCredentials: true }
       );
@@ -50,7 +51,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}${API.AUTH.GOOGLE}`;
   };
 
   return (

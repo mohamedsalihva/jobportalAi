@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
 import Toast from "../../components/ui/Toast";
+import { API } from "../../constants/apiEndpoints";
 
 const RecruiterMyJobs = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const RecruiterMyJobs = () => {
   const fetchMyJobs = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/jobs/my-jobs");
+      const res = await api.get(API.JOBS.MY_JOBS);
       setJobs(res.data.jobs || []);
     } catch (error) {
       console.log(error);
@@ -78,8 +79,8 @@ const RecruiterMyJobs = () => {
 
   const handleDelete = async (jobId) => {
     try {
-      await api.delete(`/jobs/${jobId}`);
-      showToast("success", "Job deleted ✅");
+      await api.delete(API.JOBS.DELETE(jobId));
+      showToast("success", "Job deleted ");
       setJobs((prev) => prev.filter((j) => j._id !== jobId));
     } catch (error) {
       console.log(error);

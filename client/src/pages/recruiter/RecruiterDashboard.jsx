@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
+import { API } from "../../constants/apiEndpoints";
 
 const RecruiterDashboard = () => {
   const [recruiter, setRecruiter] = useState(null);
@@ -18,7 +19,7 @@ const RecruiterDashboard = () => {
   const fetchRecruiterProfile = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/recruiter/profile");
+      const res = await api.get(API.RECRUITER.MY_PROFILE);
       setRecruiter(res.data.data);
     } catch (err) {
       setRecruiter(null);
@@ -29,7 +30,7 @@ const RecruiterDashboard = () => {
 
   const fetchMyJobStats = async () => {
     try {
-      const res = await api.get("/jobs/my-jobs");
+      const res = await api.get(API.JOBS.MY_JOBS);
       const jobs = res.data.jobs || [];
 
       const total = jobs.length;

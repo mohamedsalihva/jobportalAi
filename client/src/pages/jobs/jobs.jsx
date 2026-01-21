@@ -6,6 +6,7 @@ import JobCard from "./components/JobCard";
 import JobDetails from "./components/JobDetails";
 import ApplyModal from "./components/ApplyModal";
 import SuccessModal from "./components/SuccessModal";
+import { API } from "../../constants/apiEndpoints";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -34,7 +35,7 @@ const Jobs = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await api.get("/jobs");
+      const res = await api.get(API.JOBS.ALL);
       const data = res.data.data || [];
       setJobs(data);
       if (data.length > 0) setSelectedJob(data[0]);
@@ -47,7 +48,7 @@ const Jobs = () => {
 
   const fetchSavedJobs = async () => {
     try {
-      const res = await api.get("/saved/my");
+      const res = await api.get(API.SAVED.MY);
       const saved = res.data.savedJobs || [];
       setSavedJobsIds(saved.map((job) => job._id));
     } catch (error) {
@@ -58,7 +59,7 @@ const Jobs = () => {
   
   const fetchMyApplications = async () => {
     try {
-      const res = await api.get("/applications/myApplication");
+      const res = await api.get(API.APPLICATIONS.MY);
       const apps = res.data.applications || [];
 
       setAppliedApplications(
@@ -75,7 +76,7 @@ const Jobs = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const res = await api.get("/users/profile");
+      const res = await api.get(API.USERS.PROFILE);
       setUserProfile(res.data?.userFromToken || null);
     } catch (error) {
       setUserProfile(null);
@@ -97,10 +98,10 @@ const Jobs = () => {
       const isSaved = savedJobsIds.includes(jobId);
 
       if (isSaved) {
-        await api.delete(`/saved/${jobId}/save`);
+        await api.delete(API.SAVED.TOGGLE(jobId));
         setSavedJobsIds((prev) => prev.filter((id) => id !== jobId));
       } else {
-        await api.post(`/saved/${jobId}/save`);
+        await api.post(API.SAVED.TOGGLE(jobId));
         setSavedJobsIds((prev) => [...prev, jobId]);
       }
     } catch (error) {
@@ -117,7 +118,7 @@ const Jobs = () => {
     if (!jobToApply?._id) return;
 
     try {
-      await api.post(`/applications/${jobToApply._id}/apply`);
+      await api.post(API.APPLICATIONS.APPLY(jobToApply._id));
 
       setApplyModalOpen(false);
       setApplySuccessOpen(true);

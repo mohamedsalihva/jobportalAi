@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
 import Toast from "../../components/ui/Toast";
+import { API } from "../../constants/apiEndpoints";
 
 const initialJobForm = {
   title: "",
@@ -108,9 +109,9 @@ const RecruiterPostJob = () => {
       setLoading(true);
       const payload = buildPayload();
 
-      await api.post("/jobs", payload);
+      await api.post(API.JOBS.CREATE, payload);
 
-      showToast("success", "Job posted successfully ✅");
+      showToast("success", "Job posted successfully ");
 
       setTimeout(() => {
         navigate("/recruiter/my-jobs");

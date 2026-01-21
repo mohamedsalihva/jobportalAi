@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
+import { API } from "../../constants/apiEndpoints";
+import api from "../../api/axios";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -9,7 +11,7 @@ const Home = () => {
 
     const checkLoggedIn =async ()=>{
       try {
-        const res = await api.get("/users/profile", { withCredentials: true});
+        const res = await api.get(API.USERS.PROFILE, { withCredentials: true});
         if(res.data?.userFromToken){
           navigate("/jobs", {replace:true});
         }

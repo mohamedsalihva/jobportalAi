@@ -9,6 +9,7 @@ import ProfileExperienceCard from "./components/profileExperienceCard";
 import ProfileEducationCard from "./components/profileEducationCard";
 import ProfileResumeCard from "./components/profileResumeCard";
 import EditProfileModal from "./components/EditProfileModal";
+import { API } from "../../constants/apiEndpoints";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -19,7 +20,7 @@ const Profile = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/profile/me");
+      const res = await api.get(API.PROFILE.ME);
       setProfile(res.data.profile);
     } catch (error) {
       alert(error.response?.data?.message || "Failed to load profile");
@@ -34,7 +35,7 @@ const Profile = () => {
 
   const handleSaveProfile = async (updatedData) => {
     try {
-      const res = await api.put("/profile/me", updatedData);
+      const res = await api.put(API.PROFILE.UPDATE, updatedData);
       setProfile(res.data.profile);
       setEditOpen(false);
     } catch (error) {

@@ -37,8 +37,9 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
     certifications: "",
   });
 
+  
   useEffect(() => {
-    if (profile) {
+    if (open && profile) {
       setForm({
         phone: profile.phone || "",
         location: profile.location || "",
@@ -84,8 +85,9 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
           : "",
       });
     }
-  }, [profile]);
+  }, [open, profile]);
 
+  
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     return () => (document.body.style.overflow = "auto");
@@ -93,7 +95,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
 
   if (!open) return null;
 
-  // ---------- Experience handlers ----------
+  
   const handleExperienceChange = (index, field, value) => {
     const updated = [...form.experience];
     updated[index][field] = value;
@@ -123,7 +125,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
     setForm({ ...form, experience: updated });
   };
 
-  // ---------- Education handlers ----------
+  
   const handleEducationChange = (index, field, value) => {
     const updated = [...form.education];
     updated[index][field] = value;
@@ -151,6 +153,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
     setForm({ ...form, education: updated });
   };
 
+  
   const handleSubmit = () => {
     const payload = {
       phone: form.phone,
@@ -164,9 +167,12 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
         .map((s) => s.trim())
         .filter(Boolean),
 
-      experience: form.experience.filter(
-        (e) => e.title || e.company || e.startDate
-      ),
+      experience: form.experience
+        .map((e) => ({
+          ...e,
+          endDate: e.isCurrent ? "" : e.endDate,
+        }))
+        .filter((e) => e.title || e.company || e.startDate),
 
       education: form.education.filter(
         (e) => e.degree || e.institution || e.startYear
@@ -189,6 +195,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
   return createPortal(
     <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center px-3">
       <div className="w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+        
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <h2 className="text-xl font-extrabold text-gray-900">Edit Profile</h2>
           <button
@@ -199,8 +206,9 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
           </button>
         </div>
 
+        
         <div className="px-6 py-6 space-y-6 max-h-[75vh] overflow-y-auto">
-          {/* Basic Fields */}
+         
           <div>
             <label className="text-sm font-bold text-gray-700">Phone</label>
             <input
@@ -211,6 +219,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
+          
           <div>
             <label className="text-sm font-bold text-gray-700">Headline</label>
             <input
@@ -221,6 +230,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
+          
           <div>
             <label className="text-sm font-bold text-gray-700">Location</label>
             <input
@@ -231,6 +241,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
+          
           <div>
             <label className="text-sm font-bold text-gray-700">Summary</label>
             <textarea
@@ -242,6 +253,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
+          
           <div>
             <label className="text-sm font-bold text-gray-700">
               Skills (comma separated)
@@ -254,6 +266,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
+          
           <div>
             <label className="text-sm font-bold text-gray-700">Resume URL</label>
             <input
@@ -264,7 +277,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
-          {/* EXPERIENCE */}
+         
           <div className="border rounded-2xl p-4 bg-slate-50">
             <div className="flex items-center justify-between">
               <h3 className="text-md font-extrabold text-slate-900">
@@ -337,11 +350,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
                       <input
                         value={exp.endDate}
                         onChange={(e) =>
-                          handleExperienceChange(
-                            idx,
-                            "endDate",
-                            e.target.value
-                          )
+                          handleExperienceChange(idx, "endDate", e.target.value)
                         }
                         className="border rounded-xl px-3 py-2 text-sm"
                         placeholder="End Date (2024-12)"
@@ -378,7 +387,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             </div>
           </div>
 
-          {/* EDUCATION */}
+          
           <div className="border rounded-2xl p-4 bg-slate-50">
             <div className="flex items-center justify-between">
               <h3 className="text-md font-extrabold text-slate-900">
@@ -423,11 +432,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
                     <input
                       value={edu.institution}
                       onChange={(e) =>
-                        handleEducationChange(
-                          idx,
-                          "institution",
-                          e.target.value
-                        )
+                        handleEducationChange(idx, "institution", e.target.value)
                       }
                       className="border rounded-xl px-3 py-2 text-sm"
                       placeholder="Institution"
@@ -465,7 +470,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             </div>
           </div>
 
-          {/* Achievements + Certifications */}
+          
           <div>
             <label className="text-sm font-bold text-gray-700">
               Achievements (comma separated)
@@ -480,6 +485,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
             />
           </div>
 
+         
           <div>
             <label className="text-sm font-bold text-gray-700">
               Certifications (comma separated)
@@ -495,6 +501,7 @@ const EditProfileModal = ({ open, onClose, profile, onSave }) => {
           </div>
         </div>
 
+        
         <div className="px-6 py-4 border-t flex justify-end gap-3">
           <button
             onClick={onClose}

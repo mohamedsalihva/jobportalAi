@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
 import Toast from "../../components/ui/Toast";
+import { API } from "../../constants/apiEndpoints";
 
 const RecruiterApplicants = () => {
   const { jobId } = useParams();
@@ -35,7 +36,7 @@ const RecruiterApplicants = () => {
       setLoading(true);
 
       
-      const res = await api.get(`/applications/job/${jobId}`);
+      const res = await api.get(API.APPLICATIONS.JOB_APPLICANTS(jobId));
 
       setApps(res.data.applications || []);
 
@@ -51,7 +52,7 @@ const RecruiterApplicants = () => {
 
   const fetchJobDetails = async () => {
     try {
-      const res = await api.get(`/jobs/${jobId}`);
+      const res = await api.get(API.JOBS.SINGLE);
       const jobData = res.data.job || res.data.data || res.data;
       setJob(jobData);
     } catch (error) {
@@ -89,7 +90,7 @@ const RecruiterApplicants = () => {
     try {
       setUpdatingId(applicationId);
 
-      await api.put(`/applications/${applicationId}/status`, {
+      await api.put(API.APPLICATIONS.UPDATE_STATUS(applicationId), {
         status: newStatus,
       });
 

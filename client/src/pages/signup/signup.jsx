@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
+import { API } from "../../constants/apiEndpoints";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function Signup() {
 
     try {
       setLoading(true);
-      const res = await api.post("/auth/signup", form);
+      const res = await api.post(API.AUTH.SIGNUP, form);
       alert(res.data.message || "Signup success");
       navigate("/login");
     } catch (err) {
@@ -31,7 +32,7 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}${API.AUTH.GOOGLE}`;
   };
 
   return (

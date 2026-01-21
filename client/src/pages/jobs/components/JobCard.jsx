@@ -9,7 +9,7 @@ const JobCard = ({ job, isSelected, onClick, onSave, isSaved, appliedStatus }) =
     if (status === "rejected") {
       return "bg-red-50 text-red-700 border border-red-200";
     }
-    return "bg-slate-100 text-slate-700 border border-slate-200"; // pending
+    return "bg-slate-100 text-slate-700 border border-slate-200"; 
   };
 
   return (
@@ -22,13 +22,13 @@ const JobCard = ({ job, isSelected, onClick, onSave, isSaved, appliedStatus }) =
       }`}
     >
       <div className="flex items-start gap-3">
-        {/* ✅ Left icon */}
+       
         <div className="w-11 h-11 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-500 text-sm shrink-0">
           {job?.title?.[0] || "J"}
         </div>
 
         <div className="flex-1 min-w-0">
-          {/* ✅ Title + Status LEFT side */}
+         
           <div className="flex items-center gap-3 flex-wrap">
             <h4 className="font-extrabold text-slate-900 text-[15px] truncate">
               {job.title}

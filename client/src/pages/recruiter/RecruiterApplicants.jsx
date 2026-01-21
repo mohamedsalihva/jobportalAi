@@ -134,7 +134,7 @@ const RecruiterApplicants = () => {
       />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
-        {/* ✅ Header */}
+        
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -167,7 +167,7 @@ const RecruiterApplicants = () => {
           </button>
         </div>
 
-        {/* ✅ Search */}
+        
         <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-4">
           <input
             value={search}
@@ -177,7 +177,7 @@ const RecruiterApplicants = () => {
           />
         </div>
 
-        {/* ✅ Body */}
+        
         {loading ? (
           <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-8 text-center font-extrabold text-slate-500 dark:text-slate-300">
             Loading applicants...
@@ -201,7 +201,7 @@ const RecruiterApplicants = () => {
                   key={a._id}
                   className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-6 flex flex-col md:flex-row md:items-start md:justify-between gap-5 transition hover:shadow-sm"
                 >
-                  {/* Left */}
+                  
                   <div className="min-w-0">
                     <h2 className="text-lg font-extrabold text-slate-900 dark:text-white truncate">
                       {a.applicant?.name || "Candidate"}
@@ -246,7 +246,7 @@ const RecruiterApplicants = () => {
                     </p>
                   </div>
 
-                  {/* Right */}
+                  
                   <div className="flex flex-col items-start md:items-end gap-3">
                     <div
                       className={`text-xs font-extrabold px-3 py-1 rounded-full ${getStatusStyle(

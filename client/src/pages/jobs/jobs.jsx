@@ -20,16 +20,22 @@ const Jobs = () => {
   const [appliedApplications, setAppliedApplications] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
 
+  const [recruiterProfile, setRecruiterProfile] = useState(null);
+
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [applySuccessOpen, setApplySuccessOpen] = useState(false);
   const [jobToApply, setJobToApply] = useState(null);
+
+ 
 
   useEffect(() => {
     fetchJobs();
     fetchSavedJobs();
     fetchMyApplications();
     fetchUserProfile();
+    fetchRecruiterProfile();
   }, []);
+
 
   const fetchJobs = async () => {
     try {
@@ -44,6 +50,7 @@ const Jobs = () => {
     }
   };
 
+
   const fetchSavedJobs = async () => {
     try {
       const res = await api.get(API.SAVED.MY);
@@ -53,6 +60,7 @@ const Jobs = () => {
       console.log(error.response?.data || error.message);
     }
   };
+
 
   const fetchMyApplications = async () => {
     try {
@@ -71,6 +79,7 @@ const Jobs = () => {
     }
   };
 
+
   const fetchUserProfile = async () => {
     try {
       const res = await api.get(API.USERS.PROFILE);
@@ -80,14 +89,29 @@ const Jobs = () => {
     }
   };
 
+
+  const fetchRecruiterProfile = async () =>{
+    try {
+      const res = await api.get(API.RECRUITER.MY_PROFILE);
+      setRecruiterProfile(res.data?.data || null);
+    } catch (error) {
+      setRecruiterProfile(null);
+    }
+  }
+
+
   const appliedJobsIds = useMemo(() => {
     return appliedApplications.map((a) => a.jobId);
   }, [appliedApplications]);
+
+
 
   const getAppliedStatusByJobId = (jobId) => {
     const found = appliedApplications.find((a) => a.jobId === jobId);
     return found?.status || null;
   };
+
+
 
   const toggleSaveJob = async (jobId) => {
     try {
@@ -105,10 +129,13 @@ const Jobs = () => {
     }
   };
 
+
   const openApplyModal = (job) => {
     setJobToApply(job);
     setApplyModalOpen(true);
   };
+
+
 
   const submitApplication = async () => {
     if (!jobToApply?._id) return;
@@ -125,6 +152,8 @@ const Jobs = () => {
     }
   };
 
+
+
   const savedJobs = useMemo(() => {
     return jobs.filter((j) => savedJobsIds.includes(j._id));
   }, [jobs, savedJobsIds]);
@@ -132,13 +161,13 @@ const Jobs = () => {
   const appliedJobs = useMemo(() => {
     return jobs.filter((j) => appliedJobsIds.includes(j._id));
   }, [jobs, appliedJobsIds]);
-
   const jobsToShow =
     activeTab === "saved"
       ? savedJobs
       : activeTab === "applied"
       ? appliedJobs
       : jobs;
+      
 
   return (
     <div className="min-h-screen font-sans bg-slate-50 dark:bg-[#0B0B0F]">
@@ -211,6 +240,7 @@ const Jobs = () => {
                           onSave={() => toggleSaveJob(selectedJob._id)}
                           isApplied={appliedJobsIds.includes(selectedJob._id)}
                           onApply={() => openApplyModal(selectedJob)}
+                          recruiterProfile={recruiterProfile}
                         />
                       ) : (
                         <div className="h-full flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-2xl text-slate-400 dark:text-slate-400 p-12 text-center bg-white/40 dark:bg-white/5">

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-/* ✅ Global Theme Colors */
+/* Global Theme Colors */
+
 @layer base {
   body {
     @apply bg-slate-50 text-slate-900;

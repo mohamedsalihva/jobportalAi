@@ -45,7 +45,7 @@ export const API = {
   //Application
 
  APPLICATIONS: {
-  MY: "/applications/my",
+  MY: "/applications/myApplication",
   APPLY: (jobId) => `/applications/${jobId}/apply`,
 
   JOB_APPLICANTS: (jobId) => `/applications/job/${jobId}`,

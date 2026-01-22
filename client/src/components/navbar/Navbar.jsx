@@ -89,7 +89,7 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Desktop Nav */}
+        
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-500 dark:text-slate-300">
           <button
             onClick={() => navigate("/jobs")}
@@ -118,7 +118,7 @@ const Navbar = () => {
           </button>
         </nav>
 
-        {/* Right Side */}
+        
         <div className="hidden md:flex items-center gap-4">
        
           <button
@@ -204,7 +204,7 @@ const Navbar = () => {
               </button>
               <button
                 onClick={() => navigate("/signup")}
-                className="px-5 py-2.5 rounded-xl text-sm font-bold bg-gray-900 dark:bg-white text-white dark:text-slate-900 hover:bg-gray-800 dark:hover:bg-slate-200 transition-all shadow-sm"
+                className="px-5 py-2.5 rounded-xl text-sm font-bold bg-gray-900 dark:bg-amber-400 text-white dark:text-slate-900 hover:bg-gray-800 dark:hover:bg-slate-200 transition-all shadow-sm"
               >
                 Get Started
               </button>
@@ -212,7 +212,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden p-2 text-gray-600 dark:text-slate-200"
@@ -221,7 +221,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-slate-950 border-t border-gray-50 dark:border-white/10 p-4 space-y-4 shadow-xl">
           <nav className="flex flex-col gap-4 font-semibold text-gray-600 dark:text-slate-300">

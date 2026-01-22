@@ -60,4 +60,9 @@ export const API = {
     MY_PROFILE: "/recruiter/profile",
     UPDATE: "/recruiter/profile",
   },
+
+  
+  AI: {
+    RESUME_SCORE: (jobId) => `/ai/resume-score/${jobId}`,
+  }
 };

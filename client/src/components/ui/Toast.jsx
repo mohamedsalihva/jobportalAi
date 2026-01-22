@@ -18,7 +18,7 @@ const Toast = ({ show, type = "success", message, onClose }) => {
       : "bg-red-50 text-red-700 border-red-200";
 
   return (
-    <div className="fixed top-5 right-5 z-[9999]">
+    <div className="fixed top-5 right-5 z-[100000]">
       <div className={`border ${styles} rounded-2xl px-5 py-3 shadow-lg`}>
         <p className="text-sm font-bold">{message}</p>
       </div>

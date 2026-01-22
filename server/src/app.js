@@ -16,6 +16,7 @@ import applicationRoutes from './routes/applicationRoutes.js';
 import savedJobRoutes from './routes/savedJobRoutes.js';
 
 import profileRoutes from './routes/ProfileRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 const app = express();
 
@@ -41,5 +42,7 @@ app.use('/api/applications',applicationRoutes);
 app.use('/api/saved',savedJobRoutes);
 
 app.use('/api/profile',profileRoutes);
+
+app.use('/api/ai', aiRoutes);
 
 export default app;

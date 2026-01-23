@@ -8,7 +8,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
@@ -55,64 +54,75 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f6f7f9] flex items-center justify-center px-4">
-      <div className="w-full max-w-[420px] bg-white rounded-2xl shadow-lg p-7">
-        <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F] flex items-center justify-center px-4">
+      <div className="w-full max-w-[420px] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl shadow-lg p-7">
+      
+        <h2 className="text-center text-2xl font-extrabold text-slate-900 dark:text-white mb-2">
           Sign in
         </h2>
 
-        <p className="text-center text-sm text-gray-600 leading-5 mb-6">
+        <p className="text-center text-sm text-slate-600 dark:text-slate-300 leading-5 mb-6">
           Welcome back! Please login to continue.
         </p>
 
+      
         <div className="mb-4">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
             Email address
           </label>
+
           <input
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2557a7] focus:ring-2 focus:ring-[#2557a7]/20"
+            className="w-full border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3 text-sm outline-none bg-white dark:bg-[#0B0B0F] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition"
           />
         </div>
 
+        
         <div className="mb-2">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
             Password
           </label>
+
           <input
             type="password"
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2557a7] focus:ring-2 focus:ring-[#2557a7]/20"
+            className="w-full border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3 text-sm outline-none bg-white dark:bg-[#0B0B0F] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition"
           />
         </div>
 
+        
         <div className="flex justify-end mb-5">
-          <button className="text-sm text-[#2557a7] font-semibold hover:underline">
+          <button className="text-sm text-amber-600 dark:text-amber-400 font-semibold hover:underline">
             Forgot password?
           </button>
         </div>
 
+        
         <button
           onClick={handleLogin}
-          className="w-full bg-[#2557a7] text-white py-3 rounded-xl font-bold hover:bg-[#1f4c94] transition"
+          className="w-full bg-amber-500 hover:bg-amber-400 text-black py-3 rounded-xl font-bold transition active:scale-[0.98]"
         >
           Continue
         </button>
 
+      
         <div className="flex items-center gap-3 my-5">
-          <div className="flex-1 h-[1px] bg-gray-300"></div>
-          <span className="text-sm text-gray-600">or</span>
-          <div className="flex-1 h-[1px] bg-gray-300"></div>
+          <div className="flex-1 h-[1px] bg-slate-200 dark:bg-white/10" />
+          <span className="text-sm text-slate-500 dark:text-slate-400">
+            or
+          </span>
+          <div className="flex-1 h-[1px] bg-slate-200 dark:bg-white/10" />
         </div>
 
+        
         <button
           onClick={handleGoogleLogin}
-          className="w-full border border-gray-300 bg-white py-3 rounded-xl font-semibold flex items-center justify-center gap-3 hover:bg-gray-50 transition"
+          className="w-full border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-200 py-3 rounded-xl font-semibold flex items-center justify-center gap-3 hover:bg-slate-50 dark:hover:bg-white/10 transition active:scale-[0.98]"
         >
           <img
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
@@ -122,9 +132,13 @@ const Login = () => {
           Continue with Google
         </button>
 
-        <p className="text-center text-sm text-gray-700 mt-6">
+    
+        <p className="text-center text-sm text-slate-700 dark:text-slate-300 mt-6">
           Don’t have an account?{" "}
-          <Link to="/signup" className="font-bold text-blue-700 hover:underline">
+          <Link
+            to="/signup"
+            className="font-bold text-amber-600 dark:text-amber-400 hover:underline"
+          >
             Sign up
           </Link>
         </p>

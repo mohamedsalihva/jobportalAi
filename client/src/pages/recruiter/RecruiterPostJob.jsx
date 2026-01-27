@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
@@ -73,7 +73,8 @@ const RecruiterPostJob = () => {
     if (!form.jobType.trim()) newErrors.jobType = "Job type is required";
     if (!form.experienceRequired.trim())
       newErrors.experienceRequired = "Experience is required";
-    if (!form.description.trim()) newErrors.description = "Description is required";
+    if (!form.description.trim())
+      newErrors.description = "Description is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -118,7 +119,7 @@ const RecruiterPostJob = () => {
 
       await api.post(API.JOBS.CREATE, payload);
 
-      showToast("success", "Job posted successfully ✅");
+      showToast("success", "Job posted successfully");
 
       setTimeout(() => {
         navigate("/recruiter/my-jobs");
@@ -126,10 +127,36 @@ const RecruiterPostJob = () => {
     } catch (error) {
       console.log(error);
       showToast("error", error.response?.data?.message || "Failed to post job");
+      setTimeout(() => {
+        navigate("/recruiter/dashboard");
+      }, 900);
     } finally {
       setLoading(false);
     }
   };
+
+  //   useEffect(() => {
+  //   const checkLimit = async () => {
+  //     try {
+  //       const res = await api.get(API.RECRUITER.MY_PROFILE);
+
+  //       const limit = res.data.data?.user?.jobPostLimit ?? 0;
+  //       const used = res.data.data?.user?.jobPostedCount ?? 0;
+
+  //       if (limit > 0 && used >= limit) {
+  //         showToast("error", "Job post limit reached. Upgrade to continue.");
+
+  //         setTimeout(() => {
+  //           navigate("/recruiter/upgrade");
+  //         }, 800);
+  //       }
+  //     } catch {
+  //       console.log("error");
+  //     }
+  //   };
+
+  //   checkLimit();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
@@ -143,7 +170,6 @@ const RecruiterPostJob = () => {
       />
 
       <div className="max-w-4xl mx-auto px-4 py-10">
-        {/* ✅ Header */}
         <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
           <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
             Recruiter
@@ -158,10 +184,8 @@ const RecruiterPostJob = () => {
           </p>
         </div>
 
-        {/* ✅ Form Card */}
         <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* ✅ Title */}
             <InputField
               label="Job Title *"
               value={form.title}
@@ -171,7 +195,6 @@ const RecruiterPostJob = () => {
               icon={<Briefcase size={16} />}
             />
 
-            {/* ✅ Location */}
             <InputField
               label="Location *"
               value={form.location}
@@ -181,7 +204,6 @@ const RecruiterPostJob = () => {
               icon={<MapPin size={16} />}
             />
 
-            {/* ✅ Job Type + Work Mode */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <SelectField
                 label="Job Type *"
@@ -211,7 +233,6 @@ const RecruiterPostJob = () => {
               />
             </div>
 
-            {/* ✅ Salary + Experience */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <InputField
                 label="Salary"
@@ -231,7 +252,6 @@ const RecruiterPostJob = () => {
               />
             </div>
 
-            {/* ✅ Skills + Languages */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <InputField
                 label="Skills (comma separated)"
@@ -248,7 +268,6 @@ const RecruiterPostJob = () => {
               />
             </div>
 
-            {/* ✅ Description */}
             <TextAreaField
               label="Job Description *"
               value={form.description}
@@ -258,7 +277,6 @@ const RecruiterPostJob = () => {
               icon={<FileText size={16} />}
             />
 
-            {/* ✅ Responsibilities */}
             <InputField
               label="Responsibilities (comma separated)"
               value={form.responsibilities}
@@ -266,7 +284,6 @@ const RecruiterPostJob = () => {
               placeholder="Build UI, Fix bugs, Write clean code"
             />
 
-            {/* ✅ Requirements */}
             <InputField
               label="Requirements (comma separated)"
               value={form.requirements}
@@ -274,7 +291,6 @@ const RecruiterPostJob = () => {
               placeholder="React knowledge, Good communication"
             />
 
-            {/* ✅ Benefits */}
             <InputField
               label="Benefits (comma separated)"
               value={form.benefits}
@@ -282,7 +298,6 @@ const RecruiterPostJob = () => {
               placeholder="WFH, Insurance, Paid leave"
             />
 
-            {/* ✅ Buttons */}
             <div className="flex gap-3 pt-2">
               <button
                 type="button"
@@ -313,8 +328,6 @@ const RecruiterPostJob = () => {
 
 export default RecruiterPostJob;
 
-/* ---------------- REUSABLE INPUT UI ---------------- */
-
 const InputField = ({ label, value, onChange, placeholder, error, icon }) => {
   return (
     <div>
@@ -338,12 +351,21 @@ const InputField = ({ label, value, onChange, placeholder, error, icon }) => {
         }`}
       />
 
-      {error && <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>}
+      {error && (
+        <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>
+      )}
     </div>
   );
 };
 
-const TextAreaField = ({ label, value, onChange, placeholder, error, icon }) => {
+const TextAreaField = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  error,
+  icon,
+}) => {
   return (
     <div>
       <label className="text-sm font-extrabold text-slate-700 dark:text-slate-200 flex items-center gap-2">
@@ -367,7 +389,9 @@ const TextAreaField = ({ label, value, onChange, placeholder, error, icon }) => 
         }`}
       />
 
-      {error && <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>}
+      {error && (
+        <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>
+      )}
     </div>
   );
 };
@@ -399,7 +423,9 @@ const SelectField = ({ label, value, onChange, options, error, icon }) => {
         ))}
       </select>
 
-      {error && <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>}
+      {error && (
+        <p className="text-xs text-red-600 font-extrabold mt-1">{error}</p>
+      )}
     </div>
   );
 };

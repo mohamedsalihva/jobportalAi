@@ -141,7 +141,6 @@ const RecruiterDashboard = () => {
           </div>
 
           <button
-            disabled={isLimitReached}
             onClick={() =>
               isLimitReached
                 ? navigate("/recruiter/upgrade")
@@ -149,16 +148,16 @@ const RecruiterDashboard = () => {
             }
             className={`px-6 py-3 rounded-2xl font-semibold ${
               isLimitReached
-                ? "bg-slate-300 cursor-not-allowed"
+                ? "bg-amber-500 "
                 : "bg-amber-500 hover:bg-amber-400"
             }`}
           >
             <PlusCircle className="inline mr-2" size={18} />
-            {isLimitReached ? "Upgrade Required" : "Post a Job"}
+            {isLimitReached ? "Upgrade" : "Post a Job"}
           </button>
         </div>
 
-        {/* job limit card */}
+        
 
         <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6">
           <p className="text-xs font-bold uppercase text-slate-400">

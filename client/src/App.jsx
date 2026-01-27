@@ -12,6 +12,9 @@ import RecruiterMyJobs from "./pages/recruiter/RecruiterMyJobs";
 import RecruiterApplicants from "./pages/recruiter/RecruiterApplicants";
 import RecruiterCreateProfile from "./pages/recruiter/RecruiterCreateProfile";
 import RecruiterProfile from "./pages/recruiter/RecruiterProfile";
+import RecruiterUpgrade from "./pages/recruiter/RecruiterUpgrade";
+
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 
 import PublicRoute from "./routes/publicRoute";
 import PrivateRoute from "./routes/privateRoute";
@@ -53,6 +56,12 @@ function App() {
 
           <Route path="/recruiter/post-job" element={<RecruiterPostJob />} />
           <Route path="/recruiter/profile" element={<RecruiterProfile />} />
+          <Route path="/recruiter/upgrade" element={<RecruiterUpgrade />}/>
+
+
+        <Route path="/admin/dashboard" element={<AdminDashboard/> }/>
+
+
         </Route>
       </Routes>
     </div>

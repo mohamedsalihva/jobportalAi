@@ -6,15 +6,22 @@ export const createRecruiterService = async (data) => {
 
 
 export const getRecruiterByUserService = async (userId) => {
-  return await Recruiter.findOne({ user: userId })
-    .populate("user", "name email role");
+  return await Recruiter.findOne({
+      user: userId
+    })
+    .populate({
+      path: "user",
+      model: "User",
+      select: "name email role jobPostLimit jobPostedCount premium",
+});
 };
 
 
 export const updateRecruiterService = async (recruiterId, data) => {
   return await Recruiter.findByIdAndUpdate(
     recruiterId,
-    data,
-    { new: true }
+    data, {
+      new: true
+    }
   );
 };

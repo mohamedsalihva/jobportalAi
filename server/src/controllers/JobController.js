@@ -1,5 +1,7 @@
+import User from "../models/User.js";
 import Job from "../models/Job.js";
 import Recruiter from "../models/Recruiter.js";   
+
 
 import {
   getAllJobService,
@@ -25,6 +27,10 @@ export const createJobController = async (req, res) => {
       ...req.body,
       recruiter: recruiterProfile._id,
     });
+
+    await User.findByIdAndUpdate(req.user._id,{
+      $inc: {jobPostedCount: 1},
+    })
 
     return res.status(201).json({
       success: true,

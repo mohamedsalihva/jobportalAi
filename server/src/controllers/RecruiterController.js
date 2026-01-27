@@ -1,4 +1,3 @@
-
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
@@ -13,7 +12,7 @@ import {
 
 export const createRecruiterController = async (req, res) => {
   try {
-  
+
     const existingRecruiter = await getRecruiterByUserService(req.user._id);
 
     if (existingRecruiter) {
@@ -32,23 +31,32 @@ export const createRecruiterController = async (req, res) => {
     });
 
     const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
-      { role: "recruiter" },
-      { new: true }
+      req.user._id, {
+        role: "recruiter",
+        jobPostLimit: 3,
+        jobPostedCount: 0,
+        premium: {
+          isPremium: false,
+          plan: "free",
+          expireAt: null,
+        },
+      }, {
+        new: true
+      }
     );
 
-    const token = jwt.sign(
-      {
+    const token = jwt.sign({
         userId: updatedUser._id,
         role: updatedUser.role
       },
-      process.env.JWT_SECRET,
-      { expiresIn: "5d" }
+      process.env.JWT_SECRET, {
+        expiresIn: "5d"
+      }
     );
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, 
+      secure: false,
       sameSite: "lax"
     });
 

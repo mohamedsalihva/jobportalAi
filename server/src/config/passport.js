@@ -20,7 +20,7 @@ passport.use(
             name: profile.displayName,
             email: email,
             provider: "google",
-            role: "jobseeker"
+            role: "jobSeeker"
           });
         }
 

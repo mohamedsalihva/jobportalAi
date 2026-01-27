@@ -20,7 +20,7 @@ export const signup = async ({
         email,
         password: hashedPassword,
         provider: "local",
-        role: "jobseeker"
+        role: "jobSeeker"
     });
 
     const savedUser = await newUser.save();
@@ -46,7 +46,7 @@ export const login = async ({
     }
 
     if(existingUser.provider === "google"){
-        throw new Error("This account registered with google. please login with google accoun   t")
+        throw new Error("This account registered with google. please login with google account")
     }
     
     const isPasswordValid = await bcrypt.compare(password, existingUser.password);

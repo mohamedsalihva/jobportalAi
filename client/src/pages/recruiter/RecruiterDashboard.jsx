@@ -26,6 +26,15 @@ const RecruiterDashboard = () => {
 
   const navigate = useNavigate();
 
+  //  job limit logic
+
+  const jobLimit = recruiter?.user?.jobPostedLimit ?? 0;
+  const jobsUsed = recruiter?.user?.jobPostedCount ?? 0;
+  const isLimitReached =
+  jobLimit > 0 && jobsUsed >= jobLimit;
+
+
+ 
   const fetchRecruiterProfile = async () => {
     try {
       setLoading(true);
@@ -43,12 +52,12 @@ const RecruiterDashboard = () => {
       const res = await api.get(API.JOBS.MY_JOBS);
       const jobs = res.data.jobs || [];
 
-      const total = jobs.length;
-      const active = jobs.filter((j) => j.isActive === true).length;
-      const inactive = jobs.filter((j) => j.isActive === false).length;
-
-      setJobStats({ total, active, inactive });
-    } catch (error) {
+      setJobStats({
+        total: jobs.length,
+        active: jobs.filter((j) => j.isActive).length,
+        inactive: jobs.filter((j) => !j.isActive).length,
+      });
+    } catch {
       setJobStats({ total: 0, active: 0, inactive: 0 });
     }
   };
@@ -66,12 +75,13 @@ const RecruiterDashboard = () => {
     );
   }, [recruiter]);
 
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-10">
-          <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-10 text-center font-extrabold text-slate-500 dark:text-slate-300">
+          <div className="bg-white dark:bg-[#111218] border rounded-3xl p-10 text-center font-bold">
             Loading recruiter dashboard...
           </div>
         </div>
@@ -79,28 +89,24 @@ const RecruiterDashboard = () => {
     );
   }
 
+  
   if (!recruiter) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-12">
-          <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-10 text-center">
-            <div className="mx-auto w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center">
-              <Building2 className="text-amber-600 dark:text-amber-400" />
-            </div>
-
-            <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mt-4">
+          <div className="bg-white dark:bg-[#111218] border rounded-3xl p-10 text-center">
+            <Building2 className="mx-auto text-amber-500" size={40} />
+            <h2 className="text-2xl font-semibold mt-4">
               Recruiter Profile Not Found
             </h2>
-
-            <p className="text-slate-600 dark:text-slate-300 mt-2 max-w-xl mx-auto text-sm leading-relaxed">
-              Create your recruiter profile to post jobs, manage applicants, and
-              track hiring progress.
+            <p className="mt-2 text-sm text-slate-600">
+              Create your recruiter profile to start posting jobs.
             </p>
 
             <button
               onClick={() => navigate("/recruiter/create-profile")}
-              className="mt-6 px-7 py-3.5 rounded-2xl bg-amber-500 text-black font-semibold hover:bg-amber-400 transition"
+              className="mt-6 px-7 py-3.5 rounded-2xl bg-amber-500 font-semibold"
             >
               Create Recruiter Profile
             </button>
@@ -110,164 +116,140 @@ const RecruiterDashboard = () => {
     );
   }
 
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-10 space-y-8">
-        
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111218] shadow-sm">
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-50 via-white to-yellow-50 dark:from-white/5 dark:via-transparent dark:to-white/5" />
-
-          <div className="relative p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-3xl bg-amber-500 flex items-center justify-center text-black font-extrabold text-xl shadow-md shadow-amber-500/30 dark:shadow-none">
-                {companyInitial}
-              </div>
-
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
-                    {recruiter.companyName}
-                  </h1>
-
-                  <span
-                    className={`text-xs font-extrabold px-3 py-1 rounded-full border ${
-                      recruiter.isVerified
-                        ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20"
-                        : "bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-500/10 dark:text-yellow-300 dark:border-yellow-500/20"
-                    }`}
-                  >
-                    {recruiter.isVerified ? "Verified ✅" : "Not Verified"}
-                  </span>
-                </div>
-
-                <div className="mt-1 flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                  <div className="flex items-center gap-1">
-                    <MapPin size={16} />
-                    <span>{recruiter.companyLocation || "Location not added"}</span>
-                  </div>
-
-                  <span className="text-slate-300 dark:text-white/20">•</span>
-
-                  <div className="flex items-center gap-1">
-                    <LayoutGrid size={16} />
-                    <span>{recruiter.industry || "Industry not set"}</span>
-                  </div>
-                </div>
-
-                <p className="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  Manage jobs, shortlist applicants, and track hiring in one place.
-                </p>
-              </div>
+     
+     
+        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 bg-amber-500 rounded-3xl flex items-center justify-center font-bold text-xl">
+              {companyInitial}
             </div>
 
-            
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => navigate("/recruiter/post-job")}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-amber-500 text-black font-semibold hover:bg-amber-400 transition"
-              >
-                <PlusCircle size={18} />
-                Post a Job
-              </button>
-
-              <button
-                onClick={() => navigate("/recruiter/my-jobs")}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-transparent text-slate-900 dark:text-white font-semibold hover:bg-slate-50 dark:hover:bg-white/5 transition"
-              >
-                <Briefcase size={18} />
-                View My Jobs
-              </button>
+            <div>
+              <h1 className="text-2xl font-semibold">
+                {recruiter.companyName}
+              </h1>
+              <p className="text-sm text-slate-500">
+                {recruiter.companyLocation}
+              </p>
             </div>
           </div>
+
+          <button
+            disabled={isLimitReached}
+            onClick={() =>
+              isLimitReached
+                ? navigate("/recruiter/upgrade")
+                : navigate("/recruiter/post-job")
+            }
+            className={`px-6 py-3 rounded-2xl font-semibold ${
+              isLimitReached
+                ? "bg-slate-300 cursor-not-allowed"
+                : "bg-amber-500 hover:bg-amber-400"
+            }`}
+          >
+            <PlusCircle className="inline mr-2" size={18} />
+            {isLimitReached ? "Upgrade Required" : "Post a Job"}
+          </button>
+        </div>
+
+        {/* job limit card */}
+
+        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6">
+          <p className="text-xs font-bold uppercase text-slate-400">
+            Job Posting Limit
+          </p>
+
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-3xl font-semibold">
+              {jobsUsed} / {jobLimit}
+            </p>
+
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-bold ${
+                isLimitReached
+                  ? "bg-red-100 text-red-700"
+                  : "bg-emerald-100 text-emerald-700"
+              }`}
+            >
+              {isLimitReached ? "Limit Reached" : "Available"}
+            </span>
+          </div>
+
+          {isLimitReached && (
+            <p className="mt-3 text-sm text-slate-600">
+              Upgrade your plan to post more jobs.
+            </p>
+          )}
         </div>
 
        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <StatCard
-            title="Total Jobs"
-            value={jobStats.total}
-            subtitle="All job postings"
-            icon={<Briefcase size={18} />}
-          />
-
-          <StatCard
-            title="Active Jobs"
-            value={jobStats.active}
-            subtitle="Visible to job seekers"
-            icon={<Users size={18} />}
-            valueClass="text-emerald-700 dark:text-emerald-300"
-          />
-
-          <StatCard
-            title="Inactive Jobs"
-            value={jobStats.inactive}
-            subtitle="Closed / hidden jobs"
-            icon={<Briefcase size={18} />}
-            valueClass="text-red-600 dark:text-red-300"
-          />
+          <StatCard title="Total Jobs" value={jobStats.total} icon={<Briefcase />} />
+          <StatCard title="Active Jobs" value={jobStats.active} icon={<Users />} />
+          <StatCard title="Inactive Jobs" value={jobStats.inactive} icon={<Briefcase />} />
         </div>
 
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <ActionCard
-            title="Post a Job"
-            desc="Create a new job posting in minutes."
+            title={isLimitReached ? "Upgrade Required" : "Post a Job"}
+            desc={
+              isLimitReached
+                ? "Upgrade your plan to post more jobs."
+                : "Create a new job posting."
+            }
             icon={<PlusCircle />}
-            onClick={() => navigate("/recruiter/post-job")}
+            onClick={() =>
+              isLimitReached
+                ? navigate("/recruiter/upgrade")
+                : navigate("/recruiter/post-job")
+            }
           />
 
           <ActionCard
             title="Manage Jobs"
-            desc="Edit, delete, activate or close jobs."
+            desc="Edit or close your job postings."
             icon={<Briefcase />}
             onClick={() => navigate("/recruiter/my-jobs")}
           />
 
           <ActionCard
             title="View Applicants"
-            desc="Review applicants job-wise & shortlist them."
+            desc="Review job applicants."
             icon={<Users />}
             onClick={() => navigate("/recruiter/my-jobs")}
           />
         </div>
 
-       
-
-        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <p className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">
-                Company Website
-              </p>
-
-              {recruiter.companyWebsite ? (
-                <a
-                  href={recruiter.companyWebsite}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 text-amber-600 dark:text-amber-400 font-semibold hover:underline"
-                >
-                  <Globe size={18} />
-                  {recruiter.companyWebsite}
-                </a>
-              ) : (
-                <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-                  No website added yet.
-                </p>
-              )}
-            </div>
-
-            <button
-              onClick={() => navigate("/recruiter/profile")}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-semibold hover:bg-slate-50 dark:hover:bg-white/5 transition"
+        
+        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 flex justify-between items-center">
+          {recruiter.companyWebsite ? (
+            <a
+              href={recruiter.companyWebsite}
+              target="_blank"
+              rel="noreferrer"
+              className="text-amber-600 font-semibold"
             >
-              <Building2 size={18} />
-              Edit Profile
-            </button>
-          </div>
+              <Globe className="inline mr-2" />
+              {recruiter.companyWebsite}
+            </a>
+          ) : (
+            <p className="text-sm text-slate-500">No website added</p>
+          )}
+
+          <button
+            onClick={() => navigate("/recruiter/profile")}
+            className="px-6 py-3 rounded-2xl border font-semibold"
+          >
+            <Building2 className="inline mr-2" />
+            Edit Profile
+          </button>
         </div>
       </div>
     </div>
@@ -276,59 +258,26 @@ const RecruiterDashboard = () => {
 
 export default RecruiterDashboard;
 
+//reusable components
 
-
-const StatCard = ({
-  title,
-  value,
-  subtitle,
-  icon,
-  valueClass = "text-slate-900 dark:text-white",
-}) => {
-  return (
-    <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm hover:shadow-md transition">
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">
-          {title}
-        </p>
-
-        <div className="w-10 h-10 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400">
-          {icon}
-        </div>
-      </div>
-
-      <p className={`mt-4 text-4xl font-semibold tracking-tight ${valueClass}`}>
-        {value}
-      </p>
-
-      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-        {subtitle}
-      </p>
+const StatCard = ({ title, value, icon }) => (
+  <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6">
+    <div className="flex justify-between items-center">
+      <p className="text-xs font-bold uppercase text-slate-400">{title}</p>
+      <div className="text-amber-500">{icon}</div>
     </div>
-  );
-};
+    <p className="mt-4 text-4xl font-semibold">{value}</p>
+  </div>
+);
 
-const ActionCard = ({ title, desc, icon, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className="text-left bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm hover:shadow-md transition hover:-translate-y-[1px]"
-    >
-      <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400">
-        {icon}
-      </div>
-
-      <h2 className="mt-4 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-        {title}
-      </h2>
-
-      <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
-        {desc}
-      </p>
-
-      <p className="mt-4 text-sm font-semibold text-amber-600 dark:text-amber-400">
-        Open →
-      </p>
-    </button>
-  );
-};
+const ActionCard = ({ title, desc, icon, onClick }) => (
+  <button
+    onClick={onClick}
+    className="bg-white dark:bg-[#111218] border rounded-3xl p-6 text-left hover:shadow-md transition"
+  >
+    <div className="text-amber-500">{icon}</div>
+    <h2 className="mt-4 text-lg font-semibold">{title}</h2>
+    <p className="text-sm text-slate-600 mt-2">{desc}</p>
+    <p className="mt-4 text-sm font-semibold text-amber-600">Open →</p>
+  </button>
+);

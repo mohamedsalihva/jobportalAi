@@ -1,3 +1,4 @@
+import User from "../models/User.js";
 import {
     getAllUsersService,
     deleteUserService,
@@ -25,14 +26,22 @@ export const deleteUsersController = async (req, res) => {
     });
 };
 
-export const updateUsersController = async (req,res)=>{
-    const user = await updateUserService(req.params.id, req.body);
-    res.status(200).json({
-        success:true,
-        data:user,
-        message:"User updated successfully"
+export const updateUsersController = async (req, res) => {
+  const user = await updateUserService(req.params.id, req.body);
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
     });
-}
+  }
+
+  res.status(200).json({
+    success: true,
+    data: user,
+    message: "User updated successfully",
+  });
+};
 
 export const getSingleUserController = async (req, res) => {
 try {
@@ -52,3 +61,21 @@ try {
 }
 }
     
+export const getAllRecruitersController = async(req,res) =>{
+    try {
+        const recruiters=await User.find({ role:"recruiter"}).select(
+             "name email jobPostedLimit jobPostedCount premium createdAt"
+        );
+       res.status(200).json({
+        success:true,
+        data: recruiters,
+        message:"Recruiters  fetched Successfully"
+       });
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:"failed to fetch recruiters"
+        })
+    }
+}
+

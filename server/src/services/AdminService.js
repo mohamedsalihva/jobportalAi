@@ -9,9 +9,11 @@ export const deleteUserService = async(id)=>{
 };
 
 export const updateUserService = async(id, userData)=>{
+    delete userData.jobPostedCount;
     return await User.findByIdAndUpdate(id, userData, {new: true}).select('-password');
 };
 
 export const getSingleUserService =async(id)=>{
     return await User.findById(id).select('-password');
 };
+

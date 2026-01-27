@@ -12,7 +12,7 @@ export const getRecruiterByUserService = async (userId) => {
     .populate({
       path: "user",
       model: "User",
-      select: "name email role jobPostLimit jobPostedCount premium",
+      select: "name email role jobPostedLimit jobPostedCount premium",
 });
 };
 

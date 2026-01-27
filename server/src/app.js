@@ -33,6 +33,7 @@ app.use(cors({
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+
 app.use('/api/admin', adminRoutes);
 
 app.use('/api/jobs', JobRoutes);

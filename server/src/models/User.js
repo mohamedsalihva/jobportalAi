@@ -35,6 +35,15 @@ const userSchema = new mongoose.Schema({
     default: "jobSeeker",
   },
 
+  jobPostedLimit: {
+    type: Number,
+    default: 3,
+  },
+  jobPostedCount: {
+    type: Number,
+    default: 0,
+  },
+
   premium: {
     isPremium: {
       type: Boolean,
@@ -49,6 +58,7 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: null
     },
+
   },
 
 

@@ -9,7 +9,9 @@ import {
     deleteUsersController,
     updateUsersController,
     getSingleUserController,
-    getAllRecruitersController
+    getAllRecruitersController,
+    getAdminAnalyticsController,
+    updateRecruiterLimitController
 } from "../controllers/AdminController.js"
 
 
@@ -22,5 +24,8 @@ router.get("/user/:id", AuthMiddleware, isAdmin, getSingleUserController);
 
 router.get("/recruiter", AuthMiddleware, isAdmin, getAllRecruitersController)
 
+
+router.get("/analytics", AuthMiddleware, isAdmin, getAdminAnalyticsController);
+router.put("/recruiter/:id/limit", AuthMiddleware, isAdmin, updateRecruiterLimitController);
 
 export default router;

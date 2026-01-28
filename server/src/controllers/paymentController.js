@@ -1,11 +1,16 @@
-import razorpay from "../utils/razorpay.js";
+import Razorpay from "razorpay";
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 export const createOrder = async (req, res) => {
   try {
     const options = {
-      amount: 499 * 100, // ₹499 in paise
+      amount: 499 * 100, // ₹499 → paise
       currency: "INR",
-      receipt: `receipt_${Date.now()}`,
+      receipt: `rcpt_${Date.now()}`,
     };
 
     const order = await razorpay.orders.create(options);
@@ -14,7 +19,7 @@ export const createOrder = async (req, res) => {
       success: true,
       order,
     });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Order creation failed" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Order failed" });
   }
 };

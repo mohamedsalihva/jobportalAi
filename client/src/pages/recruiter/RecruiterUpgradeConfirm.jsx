@@ -1,8 +1,35 @@
-import { PayPalButtons } from "@paypal/react-paypal-js";
 import Navbar from "../../components/navbar/Navbar";
 import { ShieldCheck } from "lucide-react";
+import api from "../../api/axios";
 
 const RecruiterUpgradeConfirm = () => {
+  const handlePayment = async () => {
+    const res = await api.post("/payments/razorpay/order");
+
+    const { order } = res.data;
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: order.amount,
+      currency: "INR",
+      name: "HireSynnefo",
+      description: "Pro Plan Subscription",
+      order_id: order.id,
+
+      handler: function (response) {
+        alert("Payment Successful 🎉");
+        // TODO: call backend to upgrade recruiter to PRO
+      },
+
+      theme: {
+        color: "#f59e0b",
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
@@ -16,8 +43,8 @@ const RecruiterUpgradeConfirm = () => {
             Confirm Your Upgrade
           </h1>
 
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-            Secure payment powered by PayPal (Sandbox)
+          <p className="mt-2 text-sm text-slate-600">
+            Secure payment powered by Razorpay
           </p>
 
           <div className="mt-6 border rounded-2xl p-4 bg-slate-50 dark:bg-slate-800 text-left">
@@ -30,32 +57,12 @@ const RecruiterUpgradeConfirm = () => {
             </p>
           </div>
 
-          
-          <div className="mt-8">
-            <PayPalButtons
-              style={{ layout: "vertical", shape: "pill" }}
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: "6.00", 
-                      },
-                    },
-                  ],
-                });
-              }}
-              onApprove={(data, actions) => {
-                return actions.order.capture().then(() => {
-                  alert("Payment successful 🎉 (Sandbox)");
-                  
-                });
-              }}
-              onError={() => {
-                alert("Payment failed. Try again.");
-              }}
-            />
-          </div>
+          <button
+            onClick={handlePayment}
+            className="mt-8 w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 font-extrabold"
+          >
+            Pay ₹499 & Upgrade
+          </button>
 
         </div>
       </div>

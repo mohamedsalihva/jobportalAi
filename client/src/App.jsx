@@ -13,6 +13,7 @@ import RecruiterApplicants from "./pages/recruiter/RecruiterApplicants";
 import RecruiterCreateProfile from "./pages/recruiter/RecruiterCreateProfile";
 import RecruiterProfile from "./pages/recruiter/RecruiterProfile";
 import RecruiterUpgrade from "./pages/recruiter/RecruiterUpgrade";
+import RecruiterUpgradeConfirm from "./pages/recruiter/RecruiterUpgradeConfirm.jsx";
 
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 
@@ -57,9 +58,12 @@ function App() {
           <Route path="/recruiter/post-job" element={<RecruiterPostJob />} />
           <Route path="/recruiter/profile" element={<RecruiterProfile />} />
           <Route path="/recruiter/upgrade" element={<RecruiterUpgrade />}/>
+          <Route path="/recruiter/upgrade/confirm" element={<RecruiterUpgradeConfirm />}/>
+
 
 
         <Route path="/admin/dashboard" element={<AdminDashboard/> }/>
+        
 
 
         </Route>

@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import { CheckCircle } from "lucide-react";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const RecruiterUpgrade = () => {
   const navigate = useNavigate();

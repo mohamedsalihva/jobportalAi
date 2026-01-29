@@ -61,10 +61,11 @@ export const applyJobController = async (req, res) => {
       });
     }
 
-    // 5️⃣ Create application
+    // 5️⃣ Create application ✅ FIXED
     const application = await createApplicationService({
       job: jobId,
       applicant: userId,
+      resumePath: user.resumePath, // ✅ CORRECT
       status: "pending",
     });
 
@@ -81,6 +82,7 @@ export const applyJobController = async (req, res) => {
     });
   }
 };
+
 
 /* =========================
    MY APPLICATIONS (USER)
@@ -199,56 +201,30 @@ export const updateApplicationStatusController = async (req, res) => {
    ========================= */
 export const viewApplicantResumeController = async (req, res) => {
   try {
-    const { jobId, userId } = req.params;
+    const { applicationId } = req.params;
 
-    // 1️⃣ Check application exists
-    const application = await Application.findOne({
-      job: jobId,
-      applicant: userId,
-    });
+    const application = await Application.findById(applicationId)
+      .populate("job");
 
     if (!application) {
-      return res.status(403).json({
-        success: false,
-        message: "No application found",
-      });
+      return res.status(404).json({ message: "Application not found" });
     }
 
-    // 2️⃣ Check recruiter owns the job
-    const recruiterProfile = await Recruiter.findOne({
-      user: req.user._id,
-    });
-
-    const job = await Job.findById(jobId);
+    const recruiter = await Recruiter.findOne({ user: req.user._id });
 
     if (
-      !recruiterProfile ||
-      job.recruiter.toString() !== recruiterProfile._id.toString()
+      !recruiter ||
+      application.job.recruiter.toString() !== recruiter._id.toString()
     ) {
-      return res.status(403).json({
-        success: false,
-        message: "Access denied",
-      });
-    }
-
-    // 3️⃣ Stream resume
-    const user = await User.findById(userId);
-    if (!user || !user.resumePath) {
-      return res.status(404).json({
-        success: false,
-        message: "Resume not found",
-      });
+      return res.status(403).json({ message: "Access denied" });
     }
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "inline");
 
-    fs.createReadStream(path.resolve(user.resumePath)).pipe(res);
-  } catch (error) {
-    console.log("viewApplicantResumeController error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    fs.createReadStream(path.resolve(application.resumePath)).pipe(res);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
+

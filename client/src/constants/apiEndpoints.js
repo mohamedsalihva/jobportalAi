@@ -20,6 +20,7 @@ export const API = {
   PROFILE: {
     ME: "/profile/me",
     UPDATE: "/profile/me",
+     UPLOAD_RESUME: "/profile/resume"
   },
 
   //Jobs

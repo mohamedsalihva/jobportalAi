@@ -7,7 +7,7 @@ import ProfileSummaryCard from "./components/profileSummaryCard";
 import ProfileSkillsCard from "./components/profileSkillCard";
 import ProfileExperienceCard from "./components/profileExperienceCard";
 import ProfileEducationCard from "./components/profileEducationCard";
-import ProfileResumeCard from "./components/profileResumeCard";
+import ProfileResumeUploadCard from "./components/profileResumeUploadCard";
 import EditProfileModal from "./components/EditProfileModal";
 import { API } from "../../constants/apiEndpoints";
 
@@ -73,7 +73,7 @@ const Profile = () => {
 
               <ProfileEducationCard education={profile.education} />
 
-              <ProfileResumeCard resumeUrl={profile.resumeUrl} />
+              <ProfileResumeUploadCard resumePath={profile.resumePath} onUploaded={fetchProfile}/>
             </div>
 
             {/* RIGHT SIDE */}

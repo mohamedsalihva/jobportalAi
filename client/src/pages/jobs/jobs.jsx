@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
 import SidebarTabs from "./components/SidebarTabs";
@@ -11,7 +11,6 @@ import MobileJobSheet from "./components/MobileJobSheet";
 import { API } from "../../constants/apiEndpoints";
 
 const Jobs = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [jobs, setJobs] = useState([]);
@@ -30,8 +29,9 @@ const Jobs = () => {
   const [applySuccessOpen, setApplySuccessOpen] = useState(false);
   const [jobToApply, setJobToApply] = useState(null);
 
- 
   const [mobileJobOpen, setMobileJobOpen] = useState(false);
+
+  
 
   useEffect(() => {
     fetchJobs();
@@ -74,10 +74,29 @@ const Jobs = () => {
     setRecruiterProfile(res.data?.data || null);
   };
 
+  
+
+  const appliedStatusMap = useMemo(() => {
+    const map = {};
+    appliedApplications.forEach(a => {
+      map[a.jobId] = a.status;
+    });
+    return map;
+  }, [appliedApplications]);
+
   const appliedJobsIds = useMemo(
     () => appliedApplications.map(a => a.jobId),
     [appliedApplications]
   );
+
+  const jobsToShow =
+    activeTab === "saved"
+      ? jobs.filter(j => savedJobsIds.includes(j._id))
+      : activeTab === "applied"
+      ? jobs.filter(j => appliedJobsIds.includes(j._id))
+      : jobs;
+
+  
 
   const toggleSaveJob = async (jobId) => {
     const isSaved = savedJobsIds.includes(jobId);
@@ -99,12 +118,7 @@ const Jobs = () => {
     fetchMyApplications();
   };
 
-  const jobsToShow =
-    activeTab === "saved"
-      ? jobs.filter(j => savedJobsIds.includes(j._id))
-      : activeTab === "applied"
-      ? jobs.filter(j => appliedJobsIds.includes(j._id))
-      : jobs;
+  
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
@@ -124,6 +138,7 @@ const Jobs = () => {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               
+
               <div className="lg:col-span-5 space-y-3">
                 {jobsToShow.map(job => (
                   <JobCard
@@ -140,11 +155,12 @@ const Jobs = () => {
                     }}
                     onSave={() => toggleSaveJob(job._id)}
                     isSaved={savedJobsIds.includes(job._id)}
+                    appliedStatus={appliedStatusMap[job._id]}
                   />
                 ))}
               </div>
 
-              
+            
               <div className="hidden lg:block lg:col-span-7 sticky top-24">
                 {selectedJob && (
                   <JobDetails
@@ -161,8 +177,6 @@ const Jobs = () => {
           )}
         </main>
       </div>
-
-      {/* mobile view */}
 
       <MobileJobSheet
         open={mobileJobOpen}

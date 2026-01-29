@@ -82,6 +82,7 @@ const RecruiterApplicants = () => {
     return apps.filter((a) => {
       const name = a?.applicant?.name?.toLowerCase() || "";
       const email = a?.applicant?.email?.toLowerCase() || "";
+      const resumePath = a?.applicant?.resumePath?.toLowerCase() || "";
       return name.includes(s) || email.includes(s);
     });
   }, [apps, search]);
@@ -110,7 +111,7 @@ const RecruiterApplicants = () => {
         )
       );
 
-      showToast("success", "Application status updated ✅");
+      showToast("success", "Application status updated ");
     } catch (error) {
       console.log(error);
       showToast(
@@ -214,21 +215,20 @@ const RecruiterApplicants = () => {
                       </span>
                     </p>
 
-                    {a.resumeUrl ? (
-                      <a
-                        href={a.resumeUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-amber-600 dark:text-amber-400 font-extrabold text-sm mt-2 inline-block hover:underline"
-                      >
-                        View Resume →
-                      </a>
-                    ) : (
-                      <p className="text-xs text-slate-400 mt-2">
-                        Resume not available
-                      </p>
-                    )}
-
+                   {a.resumePath ? (
+  <a
+    href={`http://localhost:3000/${a.resumePath}`}
+    target="_blank"
+    rel="noreferrer"
+    className="text-amber-600 font-extrabold text-sm hover:underline"
+  >
+    View Resume →
+  </a>
+) : (
+  <p className="text-xs text-slate-400 mt-2">
+    Resume not available
+  </p>
+)}
                     {a.atsScore !== undefined && a.atsScore !== null && (
                       <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
                         ATS Score:{" "}

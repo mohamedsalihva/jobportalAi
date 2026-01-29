@@ -10,20 +10,34 @@ import {
     updateJobController,
     deleteJobController,
     getMyJobsController
-} from  "../controllers/JobController.js";
+} from "../controllers/JobController.js";
+
+import {
+    validateJob
+} from "../middlewares/validators/validateJob.js";
+import {
+    validateRequest
+} from "../middlewares/validators/validateRequest.js";
+
 
 const router = express.Router();
 
 
-router.get("/", getAllJobController);
-
+/* ---------- PROTECTED ROUTES ---------- */
 router.get("/my-jobs", AuthMiddleware, isRecruiter, getMyJobsController);
+
+/* ---------- PUBLIC ROUTES ---------- */
+router.get("/", getAllJobController);
 
 router.get("/:id", getSingleJobController);
 
+/* ---------- CREATE JOB (SECURED) ---------- */
+router.post("/", AuthMiddleware, isRecruiter, checkJobPostLimit, validateJob, validateRequest, createJobController);
 
-router.post("/", AuthMiddleware, isRecruiter, checkJobPostLimit, createJobController);
-router.put("/:id", AuthMiddleware, isRecruiter, updateJobController);
+/* ---------- UPDATE JOB (SECURED) ---------- */
+router.put("/:id", AuthMiddleware, isRecruiter, validateJob, validateRequest, updateJobController);
+
+/* ---------- DELETE JOB ---------- */
 router.delete("/:id", AuthMiddleware, isRecruiter, deleteJobController);
 
 export default router;

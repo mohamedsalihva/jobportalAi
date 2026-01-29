@@ -1,21 +1,28 @@
+import fs from "fs";
 import pdf from "pdf-parse";
-import mammoth from "mammoth";
 
 export const extractResumeText = async (file) => {
-  if (!file) return "";
+  try {
+    let dataBuffer;
 
-  if (file.mimetype === "application/pdf") {
-    const data = await pdf(file.buffer);
+    // CASE 1: multer upload (buffer)
+    if (file.buffer) {
+      dataBuffer = file.buffer;
+    }
+
+    // CASE 2: stored resume (path)
+    else if (file.path) {
+      dataBuffer = fs.readFileSync(file.path);
+    }
+
+    else {
+      throw new Error("Invalid resume input");
+    }
+
+    const data = await pdf(dataBuffer);
     return data.text || "";
+  } catch (error) {
+    console.error("Resume extract error:", error.message);
+    throw error;
   }
-
-  if (
-    file.mimetype ===
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
-    const result = await mammoth.extractRawText({ buffer: file.buffer });
-    return result.value || "";
-  }
-
-  return "";
 };

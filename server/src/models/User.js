@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     enum: ["jobSeeker", "admin", "recruiter"],
     default: "jobSeeker",
   },
-
+  
   jobPostedLimit: {
     type: Number,
     default: 3,
@@ -91,9 +91,8 @@ const userSchema = new mongoose.Schema({
     default: []
   },
 
-  resumeUrl: {
+  resumePath: {
     type: String,
-    default: ""
   },
 
   experience: [{

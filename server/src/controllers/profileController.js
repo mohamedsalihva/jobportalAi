@@ -25,3 +25,23 @@ export const updateMyProfileController = async (req,res)=>{
          res.status(500).json({ success: false, message: error.message });
     }
 }
+
+export const uploadResumeController = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Resume required" });
+    }
+
+    const user = await User.findById(req.user._id);
+
+    user.resumePath = req.file.path.replace(/\\/g, "/"); // windows fix
+    await user.save();
+
+    res.json({
+      success: true,
+      resumePath: user.resumePath,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

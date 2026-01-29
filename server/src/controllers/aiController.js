@@ -1,31 +1,57 @@
+import fs from "fs";
+import path from "path";
 import Job from "../models/Job.js";
+import User from "../models/User.js";
 import { extractResumeText } from "../utils/resumeTextExtractor.js";
 import { getGeminiResumeScore } from "../services/geminiResumeScoreService.js";
 
 export const resumeScorePreviewController = async (req, res) => {
   try {
     const { jobId } = req.params;
+    const userId = req.user._id;
 
+    /* ---------- JOB ---------- */
     const job = await Job.findById(jobId);
-    if (!job) return res.status(404).json({ message: "Job not found" });
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
 
-    if (!req.file)
-      return res.status(400).json({ message: "Resume file is required" });
+    /* ---------- USER + RESUME ---------- */
+    const user = await User.findById(userId);
+    if (!user || !user.resumePath) {
+      return res.status(400).json({
+        message: "Upload resume in profile first",
+      });
+    }
 
-    let resumeText = await extractResumeText(req.file);
+    const resumeAbsolutePath = path.join(
+      process.cwd(),
+      user.resumePath
+    );
+
+    if (!fs.existsSync(resumeAbsolutePath)) {
+      return res.status(400).json({
+        message: "Resume file not found on server",
+      });
+    }
+
+    /* ---------- EXTRACT TEXT ---------- */
+    let resumeText = await extractResumeText({
+      path: resumeAbsolutePath,
+      mimetype: "application/pdf",
+    });
+
     resumeText = resumeText.slice(0, 6000);
 
-    
-    const aiResult = await getGeminiResumeScore({ resumeText, job });
-
-    res.status(200).json({
-      score: aiResult.score || 0,
-      matchedSkills: aiResult.matchedSkills || [],
-      missingSkills: aiResult.missingSkills || [],
-      feedback: aiResult.feedback || "",
+    /* ---------- GEMINI ---------- */
+    const aiResult = await getGeminiResumeScore({
+      resumeText,
+      job,
     });
+
+    return res.status(200).json(aiResult);
   } catch (err) {
-    console.log("Preview Error:", err.message);
-    res.status(500).json({ message: "Server error" });
+    console.error("Resume Score Error:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 };

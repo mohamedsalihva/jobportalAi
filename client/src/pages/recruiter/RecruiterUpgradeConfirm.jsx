@@ -1,11 +1,13 @@
 import Navbar from "../../components/navbar/Navbar";
 import { ShieldCheck } from "lucide-react";
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const RecruiterUpgradeConfirm = () => {
+  const navigate = useNavigate();
+
   const handlePayment = async () => {
     const res = await api.post("/payments/razorpay/order");
-
     const { order } = res.data;
 
     const options = {
@@ -16,9 +18,12 @@ const RecruiterUpgradeConfirm = () => {
       description: "Pro Plan Subscription",
       order_id: order.id,
 
-      handler: function (response) {
+      handler: async function (response) {
+        // 🔐 VERIFY PAYMENT
+        await api.post("/payments/razorpay/verify", response);
+
         alert("Payment Successful 🎉");
-        // TODO: call backend to upgrade recruiter to PRO
+        navigate("/recruiter/dashboard");
       },
 
       theme: {
@@ -36,7 +41,6 @@ const RecruiterUpgradeConfirm = () => {
 
       <div className="max-w-xl mx-auto px-4 py-20">
         <div className="bg-white dark:bg-[#111218] border rounded-3xl p-8 text-center">
-
           <ShieldCheck className="mx-auto text-amber-500" size={42} />
 
           <h1 className="mt-4 text-2xl font-extrabold">
@@ -63,7 +67,6 @@ const RecruiterUpgradeConfirm = () => {
           >
             Pay ₹499 & Upgrade
           </button>
-
         </div>
       </div>
     </div>

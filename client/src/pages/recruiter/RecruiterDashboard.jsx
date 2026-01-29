@@ -26,12 +26,12 @@ const RecruiterDashboard = () => {
 
   const navigate = useNavigate();
 
-  //  job limit logic
+  //job limit
 
   const jobLimit = recruiter?.user?.jobPostedLimit ?? 0;
   const jobsUsed = recruiter?.user?.jobPostedCount ?? 0;
   const isLimitReached =
-  jobLimit > 0 && jobsUsed >= jobLimit;
+  jobLimit !== -1 && jobLimit > 0 && jobsUsed >= jobLimit;
 
 
  
@@ -160,13 +160,13 @@ const RecruiterDashboard = () => {
         
 
         <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6">
-          <p className="text-xs font-bold uppercase text-slate-400">
+          <p className="text-xs font-semibold uppercase text-slate-400">
             Job Posting Limit
           </p>
 
           <div className="flex justify-between items-center mt-4">
-            <p className="text-3xl font-semibold">
-              {jobsUsed} / {jobLimit}
+            <p className="text-1xl font-semibold">
+               {jobLimit === -1 ? "Pro Access Enabled" : `${jobsUsed} / ${jobLimit}`}
             </p>
 
             <span

@@ -16,24 +16,6 @@ const JobDetails = ({
     recruiterProfile &&
     job?.recruiter?.toString() === recruiterProfile?._id?.toString();
 
-const rewriteResume = async () => {
-  try {
-    const response = await api.post(
-      `/ai/resume-rewrite/${job._id}`, 
-      {},
-      { responseType: "blob" }
-    );
-
-    const file = new Blob([response.data], { type: "application/pdf" });
-    const fileURL = URL.createObjectURL(file);
-    window.open(fileURL);
-
-  } catch (error) {
-    console.error("Rewrite failed", error);
-  }
-};
-
-
 
   return (
     <div className="bg-white dark:bg-[#0F1117] border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-sm">
@@ -108,12 +90,6 @@ const rewriteResume = async () => {
           </div>
 
           <div className="flex flex-col gap-2 shrink-0">
-            <button
-  onClick={rewriteResume}
-  className="bg-blue-600 text-white px-4 py-2 rounded"
->
-  Rewrite Resume with AI
-</button>
 
             <button
               onClick={onSave}

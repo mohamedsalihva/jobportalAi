@@ -9,6 +9,7 @@ import ApplyModal from "./components/ApplyModal";
 import SuccessModal from "./components/SuccessModal";
 import MobileJobSheet from "./components/MobileJobSheet";
 import { API } from "../../constants/apiEndpoints";
+import FloatingRewriteButton from "../../components/floatingComponent/FloatingRewriteButton";
 
 const Jobs = () => {
   const navigate = useNavigate();
@@ -198,6 +199,9 @@ const Jobs = () => {
         open={applySuccessOpen}
         onClose={() => setApplySuccessOpen(false)}
       />
+      {selectedJob && (
+  <FloatingRewriteButton jobId={selectedJob._id} />
+)}
     </div>
   );
 };

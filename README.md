@@ -88,6 +88,78 @@ middlewares/ → Authentication & rate limiting
 
 ---
 
+
+## 🔐 Security Features
+
+🔐 Security Features
+
+This Job Portal application follows industry-standard security practices to protect user data, authentication, and system integrity.
+
+🔑 Authentication & Authorization
+
+JWT-based authentication for secure login sessions
+
+Passwords hashed using bcrypt
+
+Role-based access control:
+
+User
+
+Recruiter
+
+Admin
+
+Protected API routes using middleware verification
+
+🛡 Data Protection
+
+Sensitive data (passwords, tokens) never stored in plain text
+
+Environment variables used for secret keys
+
+MongoDB secured via role permissions
+
+Resume files securely stored and accessed only by authorized users
+
+🚫 API Security
+
+Rate limiting applied to AI endpoints to prevent abuse
+
+Input validation to prevent invalid data submission
+
+Protected routes using authentication middleware
+
+Error messages do not expose internal system details
+
+🔒 Frontend Security
+
+Secure API communication via Axios
+
+JWT stored securely in cookies
+
+Protected routes prevent unauthorized access
+
+Role-based UI rendering
+
+🤖 AI Feature Security
+
+Resume scoring & rewriting limited via rate limiter
+
+AI endpoints protected by authentication
+
+Prevents excessive API usage and misuse
+
+⚙ Best Practices Followed
+
+MVC architecture for clean separation
+
+Middleware-based security enforcement
+
+Token expiration handling
+
+Secure PDF generation without exposing user data
+
+
 ## 🧪 How to Run the Project
 
 ### Backend

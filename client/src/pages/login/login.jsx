@@ -29,7 +29,7 @@ const Login = () => {
       const res = await api.post(
         API.AUTH.LOGIN,
         { email, password },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       const role = res.data?.user?.role;
@@ -50,13 +50,12 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}${API.AUTH.GOOGLE}`;
+    window.location.href = "http://localhost:3000/api/auth/google";
   };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F] flex items-center justify-center px-4">
       <div className="w-full max-w-[420px] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl shadow-lg p-7">
-      
         <h2 className="text-center text-2xl font-extrabold text-slate-900 dark:text-white mb-2">
           Sign in
         </h2>
@@ -65,7 +64,6 @@ const Login = () => {
           Welcome back! Please login to continue.
         </p>
 
-      
         <div className="mb-4">
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
             Email address
@@ -80,7 +78,6 @@ const Login = () => {
           />
         </div>
 
-        
         <div className="mb-2">
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
             Password
@@ -95,14 +92,12 @@ const Login = () => {
           />
         </div>
 
-        
         <div className="flex justify-end mb-5">
           <button className="text-sm text-amber-600 dark:text-amber-400 font-semibold hover:underline">
             Forgot password?
           </button>
         </div>
 
-        
         <button
           onClick={handleLogin}
           className="w-full bg-amber-500 hover:bg-amber-400 text-black py-3 rounded-xl font-bold transition active:scale-[0.98]"
@@ -110,16 +105,12 @@ const Login = () => {
           Continue
         </button>
 
-      
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-[1px] bg-slate-200 dark:bg-white/10" />
-          <span className="text-sm text-slate-500 dark:text-slate-400">
-            or
-          </span>
+          <span className="text-sm text-slate-500 dark:text-slate-400">or</span>
           <div className="flex-1 h-[1px] bg-slate-200 dark:bg-white/10" />
         </div>
 
-        
         <button
           onClick={handleGoogleLogin}
           className="w-full border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-200 py-3 rounded-xl font-semibold flex items-center justify-center gap-3 hover:bg-slate-50 dark:hover:bg-white/10 transition active:scale-[0.98]"
@@ -132,7 +123,6 @@ const Login = () => {
           Continue with Google
         </button>
 
-    
         <p className="text-center text-sm text-slate-700 dark:text-slate-300 mt-6">
           Don’t have an account?{" "}
           <Link

@@ -32,14 +32,13 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleSignup = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}${API.AUTH.GOOGLE}`;
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:3000/api/auth/google";
   };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white dark:bg-white/5 rounded-2xl shadow-lg border border-slate-200 dark:border-white/10 p-7">
-    
         <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white text-center">
           Create an account
         </h1>
@@ -48,7 +47,6 @@ export default function Signup() {
           Start applying faster with ATS resume score evaluation.
         </p>
 
-      
         <button
           onClick={handleGoogleSignup}
           className="w-full mt-5 flex items-center justify-center gap-3 border border-slate-300 dark:border-white/10 rounded-xl py-3 font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/10 transition active:scale-[0.98]"
@@ -61,7 +59,6 @@ export default function Signup() {
           Continue with Google
         </button>
 
-        
         <div className="flex items-center gap-3 my-5">
           <div className="h-px bg-slate-200 dark:bg-white/10 flex-1"></div>
           <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
@@ -70,9 +67,7 @@ export default function Signup() {
           <div className="h-px bg-slate-200 dark:bg-white/10 flex-1"></div>
         </div>
 
-        
         <form onSubmit={handleSignup} className="space-y-4">
-          
           <div>
             <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Full name
@@ -89,7 +84,6 @@ export default function Signup() {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Email address
@@ -106,7 +100,6 @@ export default function Signup() {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Password
@@ -123,7 +116,6 @@ export default function Signup() {
             />
           </div>
 
-          
           <button
             disabled={loading}
             className="w-full rounded-xl bg-amber-500 hover:bg-amber-400 text-black py-3 font-bold transition disabled:opacity-60 active:scale-[0.98]"
@@ -132,7 +124,6 @@ export default function Signup() {
           </button>
         </form>
 
-        
         <p className="text-sm text-center text-slate-700 dark:text-slate-300 mt-5">
           Already have an account?{" "}
           <Link

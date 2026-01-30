@@ -12,6 +12,8 @@ import { API } from "../../constants/apiEndpoints";
 import FloatingRewriteButton from "../../components/floatingComponent/FloatingRewriteButton";
 
 const Jobs = () => {
+  console.log("Jobs page loaded");
+
   const navigate = useNavigate();
 
   const [jobs, setJobs] = useState([]);
@@ -39,16 +41,24 @@ const Jobs = () => {
     fetchSavedJobs();
     fetchMyApplications();
     fetchUserProfile();
-    fetchRecruiterProfile();
   }, []);
 
-  const fetchJobs = async () => {
+ const fetchJobs = async () => {
+  try {
     const res = await api.get(API.JOBS.ALL);
-    const data = res.data.data || [];
+    console.log("Jobs API Response:", res.data);
+
+    const data = res.data?.data || res.data?.jobs || res.data || [];
     setJobs(data);
+
     if (data.length) setSelectedJob(data[0]);
+  } catch (err) {
+    console.error("Failed to fetch jobs:", err);
+  } finally {
     setLoading(false);
-  };
+  }
+};
+
 
   const fetchSavedJobs = async () => {
     const res = await api.get(API.SAVED.MY);
@@ -65,15 +75,27 @@ const Jobs = () => {
     );
   };
 
-  const fetchUserProfile = async () => {
-    const res = await api.get(API.USERS.PROFILE);
-    setUserProfile(res.data?.userFromToken || null);
-  };
+const fetchUserProfile = async () => {
+  const res = await api.get(API.USERS.PROFILE);
+  const user = res.data?.userFromToken || null;
+  setUserProfile(user);
+
+  if (user?.role === "recruiter") {
+    fetchRecruiterProfile();
+  }
+};
+
 
   const fetchRecruiterProfile = async () => {
+  try {
     const res = await api.get(API.RECRUITER.MY_PROFILE);
     setRecruiterProfile(res.data?.data || null);
-  };
+  } catch (err) {
+    console.log("Not a recruiter, skipping recruiter profile");
+    setRecruiterProfile(null);
+  }
+};
+
 
   
 

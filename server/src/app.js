@@ -20,7 +20,7 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
 
-/* 🔐 TRUST PROXY (needed for rate-limit + cookies) */
+/*  TRUST PROXY (needed for rate-limit + cookies) */
 app.set("trust proxy", 1);
 
 /* ---------- CORE MIDDLEWARE ---------- */

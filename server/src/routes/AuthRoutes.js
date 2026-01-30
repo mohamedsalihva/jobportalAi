@@ -11,7 +11,7 @@ import {
 
 import { signupValidation } from "../middlewares/validators/validateUser.js";
 import { validateRequest } from "../middlewares/validators/validateRequest.js";
-import { authLimiter } from "../middlewares/AuthLimiter.js";
+import { authLimiter } from "../middlewares/authLimiter.js";
 
 /* ---------- SIGNUP ---------- */
 router.post(

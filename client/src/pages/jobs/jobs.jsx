@@ -140,7 +140,7 @@ const Jobs = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               
 
-              <div className="lg:col-span-5 space-y-3">
+              <div className="lg:col-span-5 space-y-3 h-[calc(100vh-120px)] overflow-y-auto">
                 {jobsToShow.map(job => (
                   <JobCard
                     key={job._id}
@@ -162,7 +162,7 @@ const Jobs = () => {
               </div>
 
             
-              <div className="hidden lg:block lg:col-span-7 sticky top-24">
+              <div className="hidden lg:block lg:col-span-7 h-[calc(100vh-120px)] overflow-y-auto">
                 {selectedJob && (
                   <JobDetails
                     job={selectedJob}

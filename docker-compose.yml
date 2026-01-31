@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./server
+    container_name: express-api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongo
+    networks:
+      - jobPortal-network
+
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - jobPortal-network
+
+  client:
+    build: ./client
+    container_name: react-client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    networks:
+      - jobPortal-network
+
+volumes:
+  mongo_data:
+
+networks:
+  jobPortal-network:

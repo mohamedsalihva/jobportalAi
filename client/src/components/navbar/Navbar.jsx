@@ -35,7 +35,7 @@ const Navbar = () => {
       const res = await api.get("/users/profile", {
         withCredentials: true,
       });
-      setUser(res.data?.userFromToken || null);
+      setUser(res.data?.user || null);
     } catch {
       setUser(null);
     } finally {

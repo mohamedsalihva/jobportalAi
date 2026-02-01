@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
+import { API } from "../constants/apiEndpoints";
 
 const PrivateRoute = () => {
   const [loading, setLoading] = useState(true);
@@ -9,9 +10,9 @@ const PrivateRoute = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await api.get("/users/profile", { withCredentials: true });
-        setIsAuth(!!res.data?.userFromToken);
-      } catch (err) {
+        const res = await api.get(API.USERS.PROFILE);
+        setIsAuth(!!res.data?.user);
+      } catch {
         setIsAuth(false);
       } finally {
         setLoading(false);

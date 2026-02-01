@@ -26,12 +26,14 @@ app.set("trust proxy", 1);
 /* ---------- CORE MIDDLEWARE ---------- */
 app.use(helmet());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.CLIENT_URL,
   credentials: true,
 }));
 app.use(cookieParser());
 app.use(express.json({ limit: "10kb" }));
 app.use(passport.initialize());
+
+
 
 /* ---------- RATE LIMITERS ---------- */
 
@@ -50,10 +52,24 @@ const strictLimiter = rateLimit({
 });
 
 /* ---------- STATIC FILES (RESUMES) ---------- */
+const cookieOptions = {
+  httpOnly: true,
+  secure: false,          // localhost
+  sameSite: "lax",
+  path: "/",              // 🔥 REQUIRED
+};
+
 app.use(
   "/uploads",
   express.static(path.join(process.cwd(), "uploads"))
 );
+
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
 
 /* ---------- ROUTES ---------- */
 

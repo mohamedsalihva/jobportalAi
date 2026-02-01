@@ -1,69 +1,61 @@
-export const API = {
-  
-  //Auth
 
+  
+  export const API = {
+  // 🔐 AUTH
   AUTH: {
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
     GOOGLE: "/auth/google",
-    LOGOUT: "/auth/logout", 
+    LOGOUT: "/auth/logout",
   },
 
-  //user
-
+  // 🔐 AUTH CHECK (cookie → user)
   USERS: {
     PROFILE: "/users/profile",
   },
 
-  //jobSeeker
-
+  // 👤 JOBSEEKER PROFILE DATA
   PROFILE: {
     ME: "/profile/me",
     UPDATE: "/profile/me",
-     UPLOAD_RESUME: "/profile/resume"
+    UPLOAD_RESUME: "/profile/resume",
   },
 
-  //Jobs
-
+  // 💼 JOBS
   JOBS: {
     ALL: "/jobs",
-    SINGLE: (jobId) => `/jobs/${jobId}`,
+    SINGLE: (id) => `/jobs/${id}`,
     CREATE: "/jobs",
     MY_JOBS: "/jobs/my-jobs",
-    DELETE: (jobId) => `/jobs/${jobId}`,
-    UPDATE: (jobId) => `/jobs/${jobId}`,
+    DELETE: (id) => `/jobs/${id}`,
+    UPDATE: (id) => `/jobs/${id}`,
   },
 
-
-  //saved job
-
+  // ⭐ SAVED JOBS
   SAVED: {
     MY: "/saved/my",
-    TOGGLE: (jobId) => `/saved/${jobId}/save`,
+    TOGGLE: (id) => `/saved/${id}/save`,
   },
 
+  // 📄 APPLICATIONS
+  APPLICATIONS: {
+    MY: "/applications/myApplication",
+    APPLY: (id) => `/applications/${id}/apply`,
+    JOB_APPLICANTS: (id) => `/applications/job/${id}`,
+    UPDATE_STATUS: (id) => `/applications/${id}/status`,
+  },
 
-  //Application
-
- APPLICATIONS: {
-  MY: "/applications/myApplication",
-  APPLY: (jobId) => `/applications/${jobId}/apply`,
-
-  JOB_APPLICANTS: (jobId) => `/applications/job/${jobId}`,
-  UPDATE_STATUS: (applicationId) => `/applications/${applicationId}/status`,
-},
-
-
-  // recruiter 
-
+  // 🧑‍💼 RECRUITER
   RECRUITER: {
     CREATE: "/recruiter/create-profile",
     MY_PROFILE: "/recruiter/profile",
     UPDATE: "/recruiter/profile",
   },
 
-  
+  // 🤖 AI
   AI: {
-    RESUME_SCORE: (jobId) => `/ai/resume-score/${jobId}`,
-  }
+    RESUME_SCORE: (id) => `/ai/resume-score/${id}`,
+  },
 };
+
+

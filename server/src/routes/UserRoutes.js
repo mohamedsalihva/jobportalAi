@@ -5,13 +5,14 @@ import { logoutController } from '../controllers/AuthController.js';
 
 const router = express.Router();
 
-router.get("/profile",AuthMiddleware, (req,res)=>{
-    res.json({
-        success:true,
-        message:"you are logged in",
-        userFromToken:req.user
-    });
+router.get("/profile", AuthMiddleware, (req, res) => {
+  res.set("Cache-Control", "no-store");
+  res.json({
+    success: true,
+    user: req.user
+  });
 });
+
 
 router.post("/logout", AuthMiddleware, logoutController);
 

@@ -17,6 +17,8 @@ const AuthMiddleware = async (req, res, next) => {
 
 
     const user = await User.findById(decoded.userId);
+    console.log("Decoded token:", decoded);
+
 
     if (!user) {
       return res.status(401).json({

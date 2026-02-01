@@ -77,13 +77,11 @@ const Jobs = () => {
 
 const fetchUserProfile = async () => {
   const res = await api.get(API.USERS.PROFILE);
-  const user = res.data?.userFromToken || null;
+  const user = res.data?.profile || null;
+  console.log("Fetched user:", user);
   setUserProfile(user);
-
-  if (user?.role === "recruiter") {
-    fetchRecruiterProfile();
-  }
 };
+
 
 
   const fetchRecruiterProfile = async () => {

@@ -8,36 +8,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const res = await api.get(API.USERS.PROFILE, { withCredentials: true });
-
-        if (res.data?.userFromToken) {
-          navigate("/jobs", { replace: true });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    checkLoggedIn();
-  }, [navigate]);
-
   const handleLogin = async () => {
     try {
-      const res = await api.post(
-        API.AUTH.LOGIN,
-        { email, password },
-        { withCredentials: true },
-      );
-
+      const res = await api.post(API.AUTH.LOGIN, { email, password });
       const role = res.data?.user?.role;
-
-      if (!role) {
-        alert(res.data?.message || "Login failed");
-        return;
-      }
 
       if (role === "admin") navigate("/admin/dashboard", { replace: true });
       else if (role === "recruiter")

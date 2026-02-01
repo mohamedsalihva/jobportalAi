@@ -32,7 +32,7 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleSignup = () => {
     window.location.href = "http://localhost:3000/api/auth/google";
   };
 

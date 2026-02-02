@@ -33,7 +33,7 @@ export const createRecruiterController = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id, {
         role: "recruiter",
-        jobPostLimit: 3,
+        jobPostedLimit: 3,
         jobPostedCount: 0,
         premium: {
           isPremium: false,

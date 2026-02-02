@@ -34,7 +34,7 @@ export const uploadResumeController = async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
-    user.resumePath = req.file.path.replace(/\\/g, "/"); // windows fix
+    user.resumePath = req.file.path.replace(/\\/g, "/"); 
     await user.save();
 
     res.json({

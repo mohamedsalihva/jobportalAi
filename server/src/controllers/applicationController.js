@@ -14,15 +14,13 @@ import {
   updateApplicationStatusService,
 } from "../services/applicationService.js";
 
-/* =========================
-   APPLY FOR JOB
-   ========================= */
+
 export const applyJobController = async (req, res) => {
   try {
     const { jobId } = req.params;
     const userId = req.user._id;
 
-    // 1️⃣ Ensure user uploaded resume
+    // 1️ Ensure user uploaded resume
     const user = await User.findById(userId);
     if (!user || !user.resumePath) {
       return res.status(400).json({
@@ -31,7 +29,7 @@ export const applyJobController = async (req, res) => {
       });
     }
 
-    // 2️⃣ Check job exists
+    // 2️ Check job exists
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({
@@ -40,7 +38,7 @@ export const applyJobController = async (req, res) => {
       });
     }
 
-    // 3️⃣ Prevent recruiter applying to own job
+    // 3️ Prevent recruiter applying to own job
     const recruiterProfile = await Recruiter.findOne({ user: userId });
     if (
       recruiterProfile &&
@@ -52,7 +50,7 @@ export const applyJobController = async (req, res) => {
       });
     }
 
-    // 4️⃣ Prevent duplicate application
+    // 4️ Prevent duplicate application
     const existing = await getApplicationByJobAndUserService(jobId, userId);
     if (existing) {
       return res.status(400).json({
@@ -61,11 +59,11 @@ export const applyJobController = async (req, res) => {
       });
     }
 
-    // 5️⃣ Create application ✅ FIXED
+    // 5️ Create application  FIXED
     const application = await createApplicationService({
       job: jobId,
       applicant: userId,
-      resumePath: user.resumePath, // ✅ CORRECT
+      resumePath: user.resumePath, 
       status: "pending",
     });
 
@@ -84,9 +82,7 @@ export const applyJobController = async (req, res) => {
 };
 
 
-/* =========================
-   MY APPLICATIONS (USER)
-   ========================= */
+
 export const myApplicationsController = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -104,14 +100,12 @@ export const myApplicationsController = async (req, res) => {
   }
 };
 
-/* =========================
-   GET APPLICANTS (RECRUITER)
-   ========================= */
+
 export const getApplicantsByJobController = async (req, res) => {
   try {
     const { jobId } = req.params;
 
-    // 1️⃣ Recruiter profile
+    // 1️ Recruiter profile
     const recruiterProfile = await Recruiter.findOne({
       user: req.user._id,
     });
@@ -123,7 +117,7 @@ export const getApplicantsByJobController = async (req, res) => {
       });
     }
 
-    // 2️⃣ Job check
+    
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({
@@ -132,7 +126,7 @@ export const getApplicantsByJobController = async (req, res) => {
       });
     }
 
-    // 3️⃣ Ownership check
+    
     if (job.recruiter.toString() !== recruiterProfile._id.toString()) {
       return res.status(403).json({
         success: false,
@@ -140,7 +134,7 @@ export const getApplicantsByJobController = async (req, res) => {
       });
     }
 
-    // 4️⃣ Get applicants
+    //  Get applicants
     const applications = await getApplicantsByJobService(jobId);
 
     return res.status(200).json({
@@ -157,9 +151,7 @@ export const getApplicantsByJobController = async (req, res) => {
   }
 };
 
-/* =========================
-   UPDATE APPLICATION STATUS
-   ========================= */
+
 export const updateApplicationStatusController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -196,9 +188,7 @@ export const updateApplicationStatusController = async (req, res) => {
   }
 };
 
-/* =========================
-   VIEW APPLICANT RESUME (PDF)
-   ========================= */
+
 export const viewApplicantResumeController = async (req, res) => {
   try {
     const { applicationId } = req.params;

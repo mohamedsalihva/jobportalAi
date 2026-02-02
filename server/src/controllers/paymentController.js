@@ -11,7 +11,7 @@ const razorpay = new Razorpay({
 export const createOrder = async (req, res) => {
   try {
     const options = {
-      amount: 1 * 100, 
+      amount: 499 * 100, 
       currency: "INR",
       receipt: `rcpt_${Date.now()}`,
     };
@@ -31,6 +31,8 @@ export const createOrder = async (req, res) => {
 
 // verifyPayment-upgrade
 
+import User from "../models/User.js";
+
 export const verifyPayment = async (req, res) => {
   try {
     const {
@@ -47,23 +49,26 @@ export const verifyPayment = async (req, res) => {
       .digest("hex");
 
     if (expectedSignature !== razorpay_signature) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid payment" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment",
+      });
     }
 
-    //payment verify-upgrade recruiter
-    
-    req.user.isProRecruiter = true;
-    req.user.plan = "pro";
-    req.user.jobPostedLimit = -1;
-    req.user.planActivatedAt = new Date();
-
-    await req.user.save();
+    // ✅ UPDATE USER PROPERLY
+    await User.findByIdAndUpdate(req.user._id, {
+      "premium.isPremium": true,
+      "premium.plan": "pro",
+      "premium.expireAt": null,
+      jobPostedLimit: -1,        // 🔥 THIS IS CRITICAL
+    });
 
     res.json({ success: true });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Verification failed" });
+    console.error("verifyPayment error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Verification failed",
+    });
   }
 };

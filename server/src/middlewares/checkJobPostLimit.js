@@ -1,32 +1,31 @@
 import User from "../models/User.js";
 
-const checkJobPostLimit = async (req,res,next)=>{
-    try {
-        const userId = req.user._id;
+const checkJobPostLimit = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
 
-        const user = await User.findById(userId);
-
-        if(!user){
-            return res.status(404).json({message:"user not found"});
-        }
-
-        if(user.role !=="recruiter"){
-            return res.status(403).json({ message: "only recruiter can post job"});
-        }
-
-        if(user.jobPostedCount >= user.jobPostedLimit){
-            return res.status(403).json({
-                message: "job post limit reached upgrade to premium",
-                upgradeRequired: true,
-            });
-        }
-
-        next();
-
-    } catch (error) {
-        console.error("job limit check error:", error);
-        res.status(500).json({message:"job limit check failed"});
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    // skip limit check for pro users
+    if (user.premium?.isPremium === true) {
+      return next();
+    }
+
+    // FREE USERS ONLY
+    if (user.jobPostedCount >= user.jobPostedLimit) {
+      return res.status(403).json({
+        message: "Job post limit reached. Upgrade to Pro.",
+        upgradeRequired: true,
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.error("job limit check error:", error);
+    return res.status(500).json({ message: "Job limit check failed" });
+  }
 };
 
 export default checkJobPostLimit;

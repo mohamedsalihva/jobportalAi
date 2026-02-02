@@ -1,13 +1,13 @@
-import User from "../models/User.js";
 import Job from "../models/Job.js";
-import Recruiter from "../models/Recruiter.js";   
+import Recruiter from "../models/Recruiter.js";
+import User from "../models/User.js";
 
 
 import {
+  deleteJobService,
   getAllJobService,
   getSingleJobService,
-  updateJobService,
-  deleteJobService
+  updateJobService
 } from "../services/JobService.js";
 
 
@@ -15,7 +15,6 @@ import {
 export const createJobController = async (req, res) => {
   try {
     const recruiterProfile = await Recruiter.findOne({ user: req.user._id });
-
     if (!recruiterProfile) {
       return res.status(404).json({
         success: false,
@@ -23,25 +22,47 @@ export const createJobController = async (req, res) => {
       });
     }
 
+    const user = await User.findById(req.user._id);
+
+ console.log("🔥 FINAL JOB CHECK:", {
+  isPremium: user.premium.isPremium,
+  jobPostedLimit: user.jobPostedLimit,
+  jobPostedCount: user.jobPostedCount,
+});
+
+
+    if (!user.premium.isPremium) {
+      if (user.jobPostedCount >= user.jobPostedLimit) {
+        return res.status(403).json({
+          success: false,
+          message: "Job posting limit reached. Upgrade to Pro.",
+        });
+      }
+    }
+
     const job = await Job.create({
       ...req.body,
       recruiter: recruiterProfile._id,
     });
 
-    await User.findByIdAndUpdate(req.user._id,{
-      $inc: {jobPostedCount: 1},
-    })
+    await User.findByIdAndUpdate(req.user._id, {
+      $inc: { jobPostedCount: 1 },
+    });
 
     return res.status(201).json({
       success: true,
-      message: "Job created",
+      message: "Job created successfully",
       job,
     });
   } catch (error) {
-    console.log("createJobController error:", error);
-    return res.status(500).json({ success: false, message: "Server error" });
+    console.error("createJobController error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
+
 
 
 export const getAllJobController = async (req, res) => {

@@ -74,13 +74,17 @@ const Jobs = () => {
       }))
     );
   };
-
 const fetchUserProfile = async () => {
-  const res = await api.get(API.USERS.PROFILE);
-  const user = res.data?.profile || null;
-  console.log("Fetched user:", user);
-  setUserProfile(user);
+  try {
+    const res = await api.get(API.PROFILE.ME);
+    console.log("Fetched user:", res.data.profile);
+    setUserProfile(res.data.profile);
+  } catch (err) {
+    console.error("Profile fetch failed", err);
+    setUserProfile(null);
+  }
 };
+
 
 
 
@@ -126,11 +130,18 @@ const fetchUserProfile = async () => {
       isSaved ? prev.filter(id => id !== jobId) : [...prev, jobId]
     );
   };
+const openApplyModal = (job) => {
+  if (!userProfile) {
+    console.log("Profile still loading, wait…");
+    return;
+  }
+  setJobToApply(job);
+  setApplyModalOpen(true);
+};
+console.log("ApplyModal user:", user);
+console.log("Resume path:", user?.resumePath);
 
-  const openApplyModal = (job) => {
-    setJobToApply(job);
-    setApplyModalOpen(true);
-  };
+
 
   const submitApplication = async () => {
     await api.post(API.APPLICATIONS.APPLY(jobToApply._id));

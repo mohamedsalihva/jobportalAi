@@ -30,8 +30,9 @@ const RecruiterDashboard = () => {
 
   const jobLimit = recruiter?.user?.jobPostedLimit ?? 0;
   const jobsUsed = recruiter?.user?.jobPostedCount ?? 0;
-  const isLimitReached =
-  jobLimit !== -1 && jobLimit > 0 && jobsUsed >= jobLimit;
+  const isPro = recruiter?.user?.premium?.isPremium === true;
+  const isLimitReached = !isPro && jobsUsed >= jobLimit;
+
 
 
  
@@ -166,7 +167,7 @@ const RecruiterDashboard = () => {
 
           <div className="flex justify-between items-center mt-4">
             <p className="text-1xl font-semibold">
-               {jobLimit === -1 ? "Pro Access Enabled" : `${jobsUsed} / ${jobLimit}`}
+               {isPro ?  "Pro Access Enabled" : `${jobsUsed} / ${jobLimit}`}
             </p>
 
             <span

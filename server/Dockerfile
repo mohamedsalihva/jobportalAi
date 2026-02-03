@@ -2,7 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY server/package*.json ./
 
 RUN apk add --no-cache \
     chromium \
@@ -17,7 +17,7 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 RUN npm install
 
-COPY . .
+COPY server/ ./
 
 EXPOSE 3000
 

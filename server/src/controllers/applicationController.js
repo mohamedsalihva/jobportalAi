@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { SERVER_ROOT } from "../utils/paths.js";
 
 import Job from "../models/Job.js";
 import Recruiter from "../models/Recruiter.js";
@@ -212,9 +213,9 @@ export const viewApplicantResumeController = async (req, res) => {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "inline");
 
-    fs.createReadStream(path.resolve(application.resumePath)).pipe(res);
+    const resumeAbsolutePath = path.join(SERVER_ROOT, application.resumePath);
+    fs.createReadStream(resumeAbsolutePath).pipe(res);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
 };
-

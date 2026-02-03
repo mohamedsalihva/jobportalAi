@@ -1,5 +1,7 @@
+import path from "path";
 import User from "../models/User.js";
 import { getMyProfileService,updateMyProfileService } from "../services/profileService.js";
+import { SERVER_ROOT } from "../utils/paths.js";
 
 export const getMyProfileController = async (req,res) =>{
 try {
@@ -34,7 +36,10 @@ export const uploadResumeController = async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
-    user.resumePath = req.file.path.replace(/\\/g, "/"); 
+    const relativePath = path
+      .relative(SERVER_ROOT, req.file.path)
+      .replace(/\\/g, "/");
+    user.resumePath = relativePath;
     await user.save();
 
     res.json({

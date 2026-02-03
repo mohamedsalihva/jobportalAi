@@ -1,6 +1,13 @@
 import puppeteer from "puppeteer";
 
+const getExecutablePath = () =>
+  process.env.PUPPETEER_EXECUTABLE_PATH ||
+  process.env.GOOGLE_CHROME_BIN ||
+  process.env.CHROME_PATH ||
+  null;
+
 export const generateResumePDF = async (data) => {
+  let browser;
   try {
     const html = `
       <!DOCTYPE html>
@@ -64,10 +71,14 @@ export const generateResumePDF = async (data) => {
       </html>
     `;
 
-    const browser = await puppeteer.launch({
+    const executablePath = getExecutablePath();
+    const launchOptions = {
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+      ...(executablePath ? { executablePath } : {}),
+    };
+
+    browser = await puppeteer.launch(launchOptions);
 
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "domcontentloaded" });
@@ -83,5 +94,13 @@ export const generateResumePDF = async (data) => {
   } catch (err) {
     console.error("PDF Generation Error:", err);
     throw err;
+  } finally {
+    if (browser) {
+      try {
+        await browser.close();
+      } catch (error) {
+        console.log("error:", error);
+      }
+    }
   }
 };

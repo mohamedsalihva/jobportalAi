@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import path from "path";
+import { UPLOADS_DIR } from "./utils/paths.js";
 import "./config/passport.js";
 
 import userRoutes from "./routes/UserRoutes.js";
@@ -61,7 +62,7 @@ const cookieOptions = {
 
 app.use(
   "/uploads",
-  express.static(path.join(process.cwd(), "uploads"))
+  express.static(UPLOADS_DIR)
 );
 
 app.use((req, res, next) => {

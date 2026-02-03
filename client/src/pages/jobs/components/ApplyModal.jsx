@@ -142,7 +142,7 @@ const ApplyModal = ({ open, onClose, job, user }) => {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-5xl bg-white dark:bg-[#111218] rounded-3xl shadow-2xl overflow-hidden"
+          className="w-full max-w-5xl max-h-[90vh] bg-white dark:bg-[#111218] rounded-3xl shadow-2xl flex flex-col"
         >
           {/* HEADER */}
           <div className="flex justify-between items-start p-6 border-b dark:border-white/10">

@@ -24,7 +24,6 @@ router.post(
 /* ---------- LOGIN ---------- */
 router.post(
   "/login",
-  authLimiter,
   loginController
 );
 

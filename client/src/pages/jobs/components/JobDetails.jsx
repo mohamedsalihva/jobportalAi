@@ -108,7 +108,7 @@ const JobDetails = ({
               disabled={isApplied || isMyOwnJob}
               onClick={() => {
                 if (isMyOwnJob) return;
-                onApply();
+                onApply(job);
               }}
               className={`px-4 py-2.5 rounded-2xl font-semibold text-sm transition
   ${

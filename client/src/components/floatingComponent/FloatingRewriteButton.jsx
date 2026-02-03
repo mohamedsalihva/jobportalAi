@@ -21,8 +21,20 @@ const FloatingRewriteButton = ({ jobId }) => {
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
     } catch (err) {
+      let message = "Failed to rewrite resume";
+      try {
+        if (err?.response?.data instanceof Blob) {
+          const text = await err.response.data.text();
+          const parsed = JSON.parse(text);
+          message = parsed?.message || message;
+        } else if (err?.response?.data?.message) {
+          message = err.response.data.message;
+        }
+      } catch (_) {
+        // keep fallback message
+      }
       console.error("Rewrite failed", err);
-      alert("Failed to rewrite resume");
+      alert(message);
     } finally {
       setIsRewriting(false);
     }

@@ -14,18 +14,14 @@ import Toast from "../../../components/ui/Toast";
 import { API } from "../../../constants/apiEndpoints";
 import { useNavigate } from "react-router-dom";
 
-
-const ApplyModal = ({ open, onClose, job , user}) => {
+const ApplyModal = ({ open, onClose, job, user }) => {
   const navigate = useNavigate();
 
   const [checking, setChecking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [aiResult, setAiResult] = useState(null);
 
-  // ✅ NEW: resume state derived from backend
- const hasResume = Boolean(user?.resumePath);
-
-  const [loadingProfile, setLoadingProfile] = useState(false);
+  const hasResume = Boolean(user?.resumePath);
 
   const [toast, setToast] = useState({
     show: false,
@@ -36,13 +32,11 @@ const ApplyModal = ({ open, onClose, job , user}) => {
   const showToast = (type, message) =>
     setToast({ show: true, type, message });
 
-  /* ---------- LOCK SCROLL ---------- */
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     return () => (document.body.style.overflow = "auto");
   }, [open]);
 
-  /* ---------- RESET STATE ---------- */
   useEffect(() => {
     if (open) {
       setAiResult(null);
@@ -51,8 +45,7 @@ const ApplyModal = ({ open, onClose, job , user}) => {
     }
   }, [open]);
 
-  /* ---------- FETCH PROFILE (THE FIX) ---------- */
- 
+  if (!open) return null;
 
   /* ---------- AI SCORE ---------- */
   const handleCheckScore = async () => {
@@ -130,8 +123,9 @@ const ApplyModal = ({ open, onClose, job , user}) => {
             </button>
           </div>
 
+          {/* BODY */}
           <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* JOB INFO */}
+          
             <div className="space-y-4">
               <h3 className="font-bold text-lg">{job?.title}</h3>
 
@@ -150,22 +144,20 @@ const ApplyModal = ({ open, onClose, job , user}) => {
                 </span>
               </div>
 
-              <div>
+              <div className="mt-4">
                 <p className="text-sm font-semibold">Job Description</p>
-                <p className="text-sm text-slate-600 mt-1">
+                <p className="text-sm text-slate-600 mt-1 leading-relaxed">
                   {job?.description}
                 </p>
               </div>
             </div>
 
-            {/* RESUME STATUS */}
+            {/* RESUME + AI */}
             <div className="space-y-4">
               <div className="p-4 rounded-2xl border dark:border-white/10">
                 <p className="font-semibold mb-2">Resume Status</p>
 
-                {loadingProfile ? (
-                  <p className="text-slate-500">Checking resume…</p>
-                ) : hasResume ? (
+                {hasResume ? (
                   <div className="flex items-center gap-2 text-emerald-600">
                     <CheckCircle size={18} />
                     Resume uploaded
@@ -179,9 +171,59 @@ const ApplyModal = ({ open, onClose, job , user}) => {
               </div>
 
               {aiResult && (
-                <div className="p-4 rounded-2xl border dark:border-white/10">
-                  <p className="font-bold">
-                    ATS Match Score: {score}/100
+                <div className="p-4 rounded-2xl border dark:border-white/10 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <p className="font-bold">
+                      ATS Match Score: {score}/100
+                    </p>
+                    <span
+                      className={`text-sm font-semibold ${
+                        score >= 75
+                          ? "text-emerald-600"
+                          : score >= 50
+                          ? "text-yellow-600"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {score >= 75
+                        ? "Strong Match"
+                        : score >= 50
+                        ? "Moderate Match"
+                        : "Low Match"}
+                    </span>
+                  </div>
+
+                  <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full ${
+                        score >= 75
+                          ? "bg-emerald-500"
+                          : score >= 50
+                          ? "bg-yellow-400"
+                          : "bg-red-500"
+                      }`}
+                      style={{ width: `${score}%` }}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <p className="font-semibold">Matched Skills</p>
+                      <p className="text-slate-600">
+                        {aiResult.matchedSkills?.join(", ") || "—"}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold">Missing Skills</p>
+                      <p className="text-slate-600">
+                        {aiResult.missingSkills?.join(", ") || "None 🎉"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-slate-700">
+                    <b>Feedback:</b> {aiResult.feedback}
                   </p>
                 </div>
               )}

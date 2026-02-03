@@ -15,7 +15,7 @@ services:
     build:
       context: ./client
       args:
-        VITE_BACKEND_URL: http://localhost:3000/api
+        VITE_BACKEND_URL: https://jobportalai-2qvw.onrender.com/api
         VITE_RAZORPAY_KEY_ID: rzp_test_S9IOAzKkcTlBfY
     container_name: react-client
     ports:

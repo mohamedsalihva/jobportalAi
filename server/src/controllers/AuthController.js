@@ -1,9 +1,11 @@
 import { signup, login } from "../services/Authservice.js";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const cookieOptions = {
   httpOnly: true,
-  secure: false,        // localhost
-  sameSite: "lax",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
   path: "/",            // required
 };
 

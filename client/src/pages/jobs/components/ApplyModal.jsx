@@ -22,6 +22,7 @@ const ApplyModal = ({ open, onClose, job, user }) => {
   const [aiResult, setAiResult] = useState(null);
 
   const hasResume = Boolean(user?.resumePath);
+  const [resumeExists, setResumeExists] = useState(null);
 
   const [toast, setToast] = useState({
     show: false,
@@ -42,8 +43,41 @@ const ApplyModal = ({ open, onClose, job, user }) => {
       setAiResult(null);
       setChecking(false);
       setSubmitting(false);
+      setResumeExists(null);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    if (!hasResume) {
+      setResumeExists(false);
+      return;
+    }
+
+    const baseUrl = (import.meta.env.VITE_BACKEND_URL || "").replace(
+      /\/api\/?$/,
+      ""
+    );
+    const resumeUrl = `${baseUrl}/${user.resumePath}`;
+    const controller = new AbortController();
+
+    const checkResume = async () => {
+      try {
+        const res = await fetch(resumeUrl, {
+          method: "HEAD",
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        setResumeExists(res.ok);
+      } catch (err) {
+        if (err.name !== "AbortError") setResumeExists(false);
+      }
+    };
+
+    checkResume();
+
+    return () => controller.abort();
+  }, [open, hasResume, user?.resumePath]);
 
   if (!open) return null;
 
@@ -51,8 +85,8 @@ const ApplyModal = ({ open, onClose, job, user }) => {
   const handleCheckScore = async () => {
     if (!job?._id) return showToast("error", "Job not found");
 
-    if (!hasResume) {
-      showToast("error", "Upload resume in profile first");
+    if (!hasResume || resumeExists === false) {
+      showToast("error", "Resume file missing. Please reupload in profile.");
       setTimeout(() => navigate("/profile"), 800);
       return;
     }
@@ -73,8 +107,8 @@ const ApplyModal = ({ open, onClose, job, user }) => {
   const handleSubmitApplication = async () => {
     if (!job?._id) return showToast("error", "Job not found");
 
-    if (!hasResume) {
-      showToast("error", "Upload resume in profile first");
+    if (!hasResume || resumeExists === false) {
+      showToast("error", "Resume file missing. Please reupload in profile.");
       setTimeout(() => navigate("/profile"), 800);
       return;
     }
@@ -157,10 +191,10 @@ const ApplyModal = ({ open, onClose, job, user }) => {
               <div className="p-4 rounded-2xl border dark:border-white/10">
                 <p className="font-semibold mb-2">Resume Status</p>
 
-                {hasResume ? (
+                {hasResume && resumeExists !== false ? (
                   <div className="flex items-center gap-2 text-emerald-600">
                     <CheckCircle size={18} />
-                    Resume uploaded
+                    {resumeExists === null ? "Checking resume..." : "Resume uploaded"}
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 text-red-500">

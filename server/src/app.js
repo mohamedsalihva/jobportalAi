@@ -38,14 +38,14 @@ app.use(passport.initialize());
 
 /* ---------- RATE LIMITERS ---------- */
 
-// 🔐 Auth: prevent brute force
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: process.env.NODE_ENV === "development" ? 1000 : 10,
   message: "Too many login attempts. Try again later."
 });
 
-// 🤖 AI & 💳 Payments: protect cost + quota
+//  AI &  Payments: protect cost + quota
+
 const strictLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: process.env.NODE_ENV === "development" ? 1000 : 5,
@@ -55,9 +55,9 @@ const strictLimiter = rateLimit({
 /* ---------- STATIC FILES (RESUMES) ---------- */
 const cookieOptions = {
   httpOnly: true,
-  secure: false,          // localhost
+  secure: false,          
   sameSite: "lax",
-  path: "/",              // 🔥 REQUIRED
+  path: "/",              
 };
 
 app.use(
@@ -72,14 +72,13 @@ app.use((req, res, next) => {
   next();
 });
 
-/* ---------- ROUTES ---------- */
 
-// ✅ LIMITERS APPLIED ONLY WHERE NEEDED
+//  LIMITERS APPLIED ONLY WHERE NEEDED
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/ai", strictLimiter, aiRoutes);
 app.use("/api/payments", strictLimiter, paymentRoutes);
 
-// ❌ NO LIMITERS (normal user flow)
+//  NO LIMITERS (normal user flow)
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/jobs", jobRoutes);

@@ -30,10 +30,10 @@ const JobCard = ({
           : "border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20"
       }`}
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-3 sm:gap-4">
         
         <div
-          className={`w-11 h-11 rounded-2xl flex items-center justify-center text-sm font-bold shrink-0
+          className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center text-sm font-bold shrink-0
           ${
             isSelected
               ? "bg-amber-500/15 text-amber-700 dark:text-amber-300"
@@ -65,7 +65,7 @@ const JobCard = ({
               </div>
 
              
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-[13px] font-medium text-slate-500 dark:text-slate-300">
+              <div className="mt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-[13px] font-medium text-slate-500 dark:text-slate-300">
                 <span className="inline-flex items-center gap-1.5 truncate">
                   <MapPin size={14} className="text-slate-400 dark:text-slate-500" />
                   {job?.location || "Location"}

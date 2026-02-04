@@ -125,14 +125,14 @@ const RecruiterDashboard = () => {
       <div className="max-w-6xl mx-auto px-4 py-10 space-y-8">
      
      
-        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 flex justify-between items-center">
+        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-amber-500 rounded-3xl flex items-center justify-center font-bold text-xl">
               {companyInitial}
             </div>
 
             <div>
-              <h1 className="text-2xl font-semibold">
+              <h1 className="text-xl sm:text-2xl font-semibold">
                 {recruiter.companyName}
               </h1>
               <p className="text-sm text-slate-500">
@@ -147,7 +147,7 @@ const RecruiterDashboard = () => {
                 ? navigate("/recruiter/upgrade")
                 : navigate("/recruiter/post-job")
             }
-            className={`px-6 py-3 rounded-2xl font-semibold ${
+            className={`w-full sm:w-auto px-6 py-3 rounded-2xl font-semibold ${
               isLimitReached
                 ? "bg-amber-500 "
                 : "bg-amber-500 hover:bg-amber-400"
@@ -165,8 +165,8 @@ const RecruiterDashboard = () => {
             Job Posting Limit
           </p>
 
-          <div className="flex justify-between items-center mt-4">
-            <p className="text-1xl font-semibold">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4">
+            <p className="text-base font-semibold">
                {isPro ?  "Pro Access Enabled" : `${jobsUsed} / ${jobLimit}`}
             </p>
 
@@ -228,13 +228,13 @@ const RecruiterDashboard = () => {
         </div>
 
         
-        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 flex justify-between items-center">
+        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {recruiter.companyWebsite ? (
             <a
               href={recruiter.companyWebsite}
               target="_blank"
               rel="noreferrer"
-              className="text-amber-600 font-semibold"
+              className="text-amber-600 font-semibold break-all"
             >
               <Globe className="inline mr-2" />
               {recruiter.companyWebsite}
@@ -245,7 +245,7 @@ const RecruiterDashboard = () => {
 
           <button
             onClick={() => navigate("/recruiter/profile")}
-            className="px-6 py-3 rounded-2xl border font-semibold"
+            className="w-full sm:w-auto px-6 py-3 rounded-2xl border font-semibold"
           >
             <Building2 className="inline mr-2" />
             Edit Profile
@@ -266,7 +266,7 @@ const StatCard = ({ title, value, icon }) => (
       <p className="text-xs font-bold uppercase text-slate-400">{title}</p>
       <div className="text-amber-500">{icon}</div>
     </div>
-    <p className="mt-4 text-4xl font-semibold">{value}</p>
+    <p className="mt-4 text-3xl sm:text-4xl font-semibold">{value}</p>
   </div>
 );
 

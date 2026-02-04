@@ -43,7 +43,7 @@ const RecruiterApplicants = () => {
       console.log(error);
       showToast(
         "error",
-        error.response?.data?.message || "Failed to load applicants"
+        error.response?.data?.message || "Failed to load applicants",
       );
     } finally {
       setLoading(false);
@@ -66,7 +66,7 @@ const RecruiterApplicants = () => {
   const stats = useMemo(() => {
     const total = apps.length;
     const pending = apps.filter(
-      (a) => (a.status || "pending") === "pending"
+      (a) => (a.status || "pending") === "pending",
     ).length;
     const shortlisted = apps.filter((a) => a.status === "shortlisted").length;
     const rejected = apps.filter((a) => a.status === "rejected").length;
@@ -107,8 +107,8 @@ const RecruiterApplicants = () => {
 
       setApps((prev) =>
         prev.map((a) =>
-          a._id === applicationId ? { ...a, status: newStatus } : a
-        )
+          a._id === applicationId ? { ...a, status: newStatus } : a,
+        ),
       );
 
       showToast("success", "Application status updated ");
@@ -116,7 +116,7 @@ const RecruiterApplicants = () => {
       console.log(error);
       showToast(
         "error",
-        error.response?.data?.message || "Status update failed"
+        error.response?.data?.message || "Status update failed",
       );
     } finally {
       setUpdatingId(null);
@@ -135,7 +135,6 @@ const RecruiterApplicants = () => {
       />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
-        
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -162,13 +161,12 @@ const RecruiterApplicants = () => {
 
           <button
             onClick={() => navigate("/recruiter/my-jobs")}
-            className="px-6 py-3 rounded-2xl border border-slate-200 dark:border-white/10 font-extrabold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 transition"
+            className="w-full md:w-auto px-6 py-3 rounded-2xl border border-slate-200 dark:border-white/10 font-extrabold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 transition"
           >
             Back to My Jobs
           </button>
         </div>
 
-        
         <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-4">
           <input
             value={search}
@@ -178,7 +176,6 @@ const RecruiterApplicants = () => {
           />
         </div>
 
-        
         {loading ? (
           <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-8 text-center font-extrabold text-slate-500 dark:text-slate-300">
             Loading applicants...
@@ -202,7 +199,6 @@ const RecruiterApplicants = () => {
                   key={a._id}
                   className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-2xl p-6 flex flex-col md:flex-row md:items-start md:justify-between gap-5 transition hover:shadow-sm"
                 >
-                  
                   <div className="min-w-0">
                     <h2 className="text-lg font-extrabold text-slate-900 dark:text-white truncate">
                       {a.applicant?.name || "Candidate"}
@@ -215,20 +211,20 @@ const RecruiterApplicants = () => {
                       </span>
                     </p>
 
-                   {a.resumePath ? (
-  <a
-    href={`http://localhost:3000/${a.resumePath}`}
-    target="_blank"
-    rel="noreferrer"
-    className="text-amber-600 font-extrabold text-sm hover:underline"
-  >
-    View Resume →
-  </a>
-) : (
-  <p className="text-xs text-slate-400 mt-2">
-    Resume not available
-  </p>
-)}
+                    {a.resumePath ? (
+                      <a
+                        href={`http://localhost:3000/${a.resumePath}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-amber-600 font-extrabold text-sm hover:underline"
+                      >
+                        View Resume →
+                      </a>
+                    ) : (
+                      <p className="text-xs text-slate-400 mt-2">
+                        Resume not available
+                      </p>
+                    )}
                     {a.atsScore !== undefined && a.atsScore !== null && (
                       <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
                         ATS Score:{" "}
@@ -246,11 +242,10 @@ const RecruiterApplicants = () => {
                     </p>
                   </div>
 
-                  
                   <div className="flex flex-col items-start md:items-end gap-3">
                     <div
                       className={`text-xs font-extrabold px-3 py-1 rounded-full ${getStatusStyle(
-                        status
+                        status,
                       )}`}
                     >
                       {status.toUpperCase()}

@@ -57,9 +57,9 @@ const Profile = () => {
             Profile not found
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
             {/* LEFT SIDE */}
-            <div className="lg:col-span-8 space-y-6">
+            <div className="lg:col-span-8 space-y-5 sm:space-y-6">
               <ProfileHeaderCard
                 profile={profile}
                 onEdit={() => setEditOpen(true)}
@@ -77,9 +77,9 @@ const Profile = () => {
             </div>
 
             {/* RIGHT SIDE */}
-            <div className="lg:col-span-4 space-y-6">
+            <div className="lg:col-span-4 space-y-5 sm:space-y-6">
               {/* Profile Completion */}
-              <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+              <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
                 <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
                   Profile Completion
                 </p>
@@ -97,7 +97,7 @@ const Profile = () => {
               </div>
 
               {/* Tips */}
-              <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+              <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
                 <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
                   Tips
                 </p>

@@ -38,7 +38,7 @@ const RecruiterCreateProfile = () => {
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-10">
-        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-7 shadow-sm">
+        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 sm:p-7 shadow-sm">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
             Create Recruiter Profile
           </h1>

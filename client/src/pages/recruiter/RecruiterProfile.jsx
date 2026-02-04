@@ -99,7 +99,7 @@ const RecruiterProfile = () => {
 
       <div className="max-w-3xl mx-auto px-4 py-10">
         {/* ✅ Header */}
-        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
           <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
             Recruiter
           </p>
@@ -114,7 +114,7 @@ const RecruiterProfile = () => {
         </div>
 
         {/* ✅ Form */}
-        <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+        <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
           <form onSubmit={handleUpdate} className="space-y-6">
             {/* Company Name */}
             <InputField

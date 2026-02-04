@@ -170,7 +170,7 @@ const RecruiterPostJob = () => {
       />
 
       <div className="max-w-4xl mx-auto px-4 py-10">
-        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
           <p className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">
             Recruiter
           </p>
@@ -184,7 +184,7 @@ const RecruiterPostJob = () => {
           </p>
         </div>
 
-        <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm">
+        <div className="mt-6 bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-5 sm:p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-6">
             <InputField
               label="Job Title *"

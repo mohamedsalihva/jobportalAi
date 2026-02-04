@@ -11,11 +11,11 @@ const RecruiterUpgrade = () => {
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
 
-      <div className="max-w-5xl mx-auto px-4 py-14">
+      <div className="max-w-5xl mx-auto px-4 py-12 sm:py-14">
         
         
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
+        <div className="text-center mb-10 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
             Upgrade Your Hiring Power 🚀
           </h1>
           <p className="mt-3 text-slate-600 dark:text-slate-300">
@@ -29,7 +29,7 @@ const RecruiterUpgrade = () => {
 
           {/* Free Plan */}
 
-          <div className="bg-white dark:bg-[#111218] border rounded-3xl p-8">
+          <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 sm:p-8">
             <h2 className="text-xl font-bold">Free Plan</h2>
             <p className="text-sm text-slate-500 mt-1">Current Plan</p>
 
@@ -57,7 +57,7 @@ const RecruiterUpgrade = () => {
 
           {/*pro plan */}
 
-          <div className="bg-white dark:bg-[#111218] border-2 border-amber-500 rounded-3xl p-8 relative">
+          <div className="bg-white dark:bg-[#111218] border-2 border-amber-500 rounded-3xl p-6 sm:p-8 relative">
             <span className="absolute -top-3 right-6 bg-amber-500 text-black text-xs font-extrabold px-3 py-1 rounded-full">
               RECOMMENDED
             </span>

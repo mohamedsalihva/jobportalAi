@@ -39,11 +39,11 @@ const RecruiterUpgradeConfirm = () => {
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
 
-      <div className="max-w-xl mx-auto px-4 py-20">
-        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-8 text-center">
+      <div className="max-w-xl mx-auto px-4 py-16 sm:py-20">
+        <div className="bg-white dark:bg-[#111218] border rounded-3xl p-6 sm:p-8 text-center">
           <ShieldCheck className="mx-auto text-amber-500" size={42} />
 
-          <h1 className="mt-4 text-2xl font-extrabold">
+          <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold">
             Confirm Your Upgrade
           </h1>
 

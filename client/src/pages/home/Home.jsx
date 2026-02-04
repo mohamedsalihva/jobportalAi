@@ -34,14 +34,14 @@ const Home = () => {
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[240px] bg-gradient-to-r from-amber-100/60 via-white to-orange-100/60 dark:from-amber-500/10 dark:via-transparent dark:to-orange-500/10 blur-2xl" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 pt-14 pb-10">
+      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-14 pb-10">
           
           <div className="text-center max-w-3xl mx-auto">
             <p className="inline-flex items-center gap-2 rounded-full border border-amber-300/60 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700 dark:border-amber-500/25 dark:bg-amber-500/10 dark:text-amber-300">
               ⚡ AI-powered job matching & resume ATS insights
             </p>
 
-            <h1 className="mt-6 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+            <h1 className="mt-5 text-3xl sm:text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
               Your next opportunity starts with{" "}
               <span className="text-amber-500 dark:text-amber-400">
                 HireSynnefo
@@ -55,7 +55,7 @@ const Home = () => {
           </div>
 
           
-          <div className="max-w-5xl mx-auto mt-10">
+          <div className="max-w-5xl mx-auto mt-8 sm:mt-10">
             <div className="bg-white/90 dark:bg-white/5 backdrop-blur border border-slate-200 dark:border-white/10 shadow-lg rounded-2xl p-3">
               <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
                 

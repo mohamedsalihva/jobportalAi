@@ -167,7 +167,7 @@ const fetchUserProfile = async () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               
 
-              <div className="lg:col-span-5 space-y-3 h-[calc(100vh-120px)] overflow-y-auto">
+              <div className="lg:col-span-5 space-y-3 lg:h-[calc(100vh-120px)] lg:overflow-y-auto">
                 {jobsToShow.map(job => (
                   <JobCard
                     key={job._id}
@@ -189,7 +189,7 @@ const fetchUserProfile = async () => {
               </div>
 
             
-              <div className="hidden lg:block lg:col-span-7 h-[calc(100vh-120px)] overflow-y-auto">
+              <div className="hidden lg:block lg:col-span-7 lg:h-[calc(100vh-120px)] lg:overflow-y-auto">
                 {selectedJob && (
                   <JobDetails
                     job={selectedJob}

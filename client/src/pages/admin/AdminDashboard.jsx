@@ -92,10 +92,10 @@ export default function AdminDashboard() {
         </aside>
 
         
-        <main className="flex-1 p-6 lg:p-10 space-y-10">
+        <main className="flex-1 p-4 sm:p-6 lg:p-10 space-y-10">
           
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
               Admin Dashboard
             </h1>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">

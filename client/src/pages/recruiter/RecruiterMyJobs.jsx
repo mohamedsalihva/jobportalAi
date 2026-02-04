@@ -112,7 +112,7 @@ const RecruiterMyJobs = () => {
 
           <button
             onClick={() => navigate("/recruiter/post-job")}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-amber-500 text-black font-extrabold hover:bg-amber-400 transition shadow-md shadow-amber-500/20"
+            className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-amber-500 text-black font-extrabold hover:bg-amber-400 transition shadow-md shadow-amber-500/20"
           >
             <PlusCircle size={18} />
             Post New Job

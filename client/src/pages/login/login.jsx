@@ -24,7 +24,9 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
+    const baseUrl = import.meta.env.PROD
+      ? "/api"
+      : import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
     window.location.href = `${baseUrl}/auth/google`;
   };
 

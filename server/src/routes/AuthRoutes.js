@@ -12,6 +12,7 @@ import {
 import { signupValidation } from "../middlewares/validators/validateUser.js";
 import { validateRequest } from "../middlewares/validators/validateRequest.js";
 import { authLimiter } from "../middlewares/authLimiter.js";
+import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 
 /* ---------- SIGNUP ---------- */
 router.post(
@@ -28,6 +29,16 @@ router.post(
   authLimiter,
   loginController
 );
+
+/* ---------- AUTH CHECK (DEBUG) ---------- */
+router.get("/me", AuthMiddleware, (req, res) => {
+  res.json({
+    success: true,
+    userId: req.user?._id,
+    role: req.user?.role,
+    email: req.user?.email
+  });
+});
 
 /* ---------- GOOGLE AUTH ---------- */
 router.get(

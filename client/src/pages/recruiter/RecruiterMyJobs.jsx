@@ -178,7 +178,7 @@ const RecruiterMyJobs = () => {
                 key={job._id}
                 className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 shadow-sm hover:shadow-md transition"
               >
-                {/* ✅ Top Row */}
+              
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h2 className="text-lg font-extrabold text-slate-900 dark:text-white truncate">
@@ -189,7 +189,7 @@ const RecruiterMyJobs = () => {
                     </p>
                   </div>
 
-                  {/* ✅ Status Badge */}
+                  
                   <div
                     className={`text-xs font-extrabold px-3 py-1 rounded-full border ${
                       job.isActive
@@ -201,7 +201,7 @@ const RecruiterMyJobs = () => {
                   </div>
                 </div>
 
-                {/* ✅ Info */}
+                
                 <div className="mt-4 text-sm text-slate-600 dark:text-slate-300 space-y-1">
                   <p>
                     <span className="font-extrabold">Salary:</span>{" "}
@@ -217,7 +217,7 @@ const RecruiterMyJobs = () => {
                   </p>
                 </div>
 
-                {/* ✅ Skills */}
+                
                 {job.skills?.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {job.skills.slice(0, 6).map((sk, idx) => (
@@ -237,7 +237,7 @@ const RecruiterMyJobs = () => {
                   </div>
                 )}
 
-                {/* ✅ Actions */}
+                
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button
                     onClick={() =>
@@ -266,7 +266,7 @@ const RecruiterMyJobs = () => {
                   </button>
                 </div>
 
-                {/* ✅ Footer */}
+                
                 <p className="mt-4 text-xs text-slate-400 dark:text-slate-500">
                   Posted on:{" "}
                   {job.createdAt

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
+import Toast from "../../components/ui/Toast";
 
 import ProfileHeaderCard from "./components/profileHeaderCard";
 import ProfileSummaryCard from "./components/profileSummaryCard";
@@ -16,6 +17,14 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   const [editOpen, setEditOpen] = useState(false);
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
+
+  const showToast = (type, message) =>
+    setToast({ show: true, type, message });
 
   const fetchProfile = async () => {
     try {
@@ -23,7 +32,7 @@ const Profile = () => {
       const res = await api.get(API.PROFILE.ME);
       setProfile(res.data.profile);
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to load profile");
+      showToast("error", error.response?.data?.message || "Failed to load profile");
     } finally {
       setLoading(false);
     }
@@ -39,13 +48,19 @@ const Profile = () => {
       setProfile(res.data.profile);
       setEditOpen(false);
     } catch (error) {
-      alert(error.response?.data?.message || "Update failed");
+      showToast("error", error.response?.data?.message || "Update failed");
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
+      <Toast
+        show={toast.show}
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, show: false }))}
+      />
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         {loading ? (

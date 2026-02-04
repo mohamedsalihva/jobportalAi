@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
 import { API } from "../../constants/apiEndpoints";
+import Toast from "../../components/ui/Toast";
 
 const RecruiterCreateProfile = () => {
   const navigate = useNavigate();
@@ -15,6 +16,14 @@ const RecruiterCreateProfile = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
+
+  const showToast = (type, message) =>
+    setToast({ show: true, type, message });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,10 +33,13 @@ const RecruiterCreateProfile = () => {
 
       await api.post(API.RECRUITER.CREATE, form);
 
-      alert("Recruiter profile created ✅");
-      navigate("/recruiter/dashboard");
+      showToast("success", "Recruiter profile created");
+      setTimeout(() => navigate("/recruiter/dashboard"), 800);
     } catch (error) {
-      alert(error.response?.data?.message || "Profile creation failed");
+      showToast(
+        "error",
+        error.response?.data?.message || "Profile creation failed"
+      );
     } finally {
       setLoading(false);
     }
@@ -36,6 +48,12 @@ const RecruiterCreateProfile = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F]">
       <Navbar />
+      <Toast
+        show={toast.show}
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, show: false }))}
+      />
 
       <div className="max-w-3xl mx-auto px-4 py-10">
         <div className="bg-white dark:bg-[#111218] border border-slate-200 dark:border-white/10 rounded-3xl p-6 sm:p-7 shadow-sm">

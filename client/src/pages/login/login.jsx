@@ -2,11 +2,20 @@ import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../constants/apiEndpoints";
+import Toast from "../../components/ui/Toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
   const navigate = useNavigate();
+
+  const showToast = (type, message) =>
+    setToast({ show: true, type, message });
 
   const handleLogin = async () => {
     try {
@@ -19,7 +28,7 @@ const Login = () => {
       else navigate("/jobs", { replace: true });
     } catch (error) {
       console.log(error.response?.data || error.message);
-      alert(error.response?.data?.message || "Login failed");
+      showToast("error", error.response?.data?.message || "Login failed");
     }
   };
 
@@ -32,6 +41,12 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F] flex items-center justify-center px-4">
+      <Toast
+        show={toast.show}
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, show: false }))}
+      />
       <div className="w-full max-w-[420px] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl shadow-lg p-7">
         <h2 className="text-center text-2xl font-extrabold text-slate-900 dark:text-white mb-2">
           Sign in

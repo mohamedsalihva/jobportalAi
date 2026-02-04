@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Navbar from "../../components/navbar/Navbar";
+import Toast from "../../components/ui/Toast";
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [recruiters, setRecruiters] = useState([]);
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
+
+  const showToast = (type, message) =>
+    setToast({ show: true, type, message });
 
   const dark = localStorage.getItem("theme") === "dark";
 
@@ -53,9 +62,9 @@ export default function AdminDashboard() {
       await api.put(`/admin/recruiter/${id}/limit`, {
         jobPostedLimit: Number(jobLimit),
       });
-      alert("Job limit updated successfully");
+      showToast("success", "Job limit updated successfully");
     } catch {
-      alert("Failed to update job limit");
+      showToast("error", "Failed to update job limit");
     }
   };
 
@@ -70,6 +79,12 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <Navbar />
+      <Toast
+        show={toast.show}
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, show: false }))}
+      />
 
       <div className="flex min-h-[calc(100vh-64px)]">
         

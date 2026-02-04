@@ -2,10 +2,16 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import { API } from "../../constants/apiEndpoints";
+import Toast from "../../components/ui/Toast";
 
 export default function Signup() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
 
   const [form, setForm] = useState({
     name: "",
@@ -23,10 +29,18 @@ export default function Signup() {
       setLoading(true);
       const res = await api.post(API.AUTH.SIGNUP, form);
 
-      alert(res.data.message || "Signup success ✅");
-      navigate("/login", { replace: true });
+      setToast({
+        show: true,
+        type: "success",
+        message: res.data.message || "Signup success",
+      });
+      setTimeout(() => navigate("/login", { replace: true }), 800);
     } catch (err) {
-      alert(err.response?.data?.message || "Signup failed ❌");
+      setToast({
+        show: true,
+        type: "error",
+        message: err.response?.data?.message || "Signup failed",
+      });
     } finally {
       setLoading(false);
     }
@@ -41,6 +55,12 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0B0B0F] flex items-center justify-center px-4">
+      <Toast
+        show={toast.show}
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, show: false }))}
+      />
       <div className="w-full max-w-md bg-white dark:bg-white/5 rounded-2xl shadow-lg border border-slate-200 dark:border-white/10 p-7">
         <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white text-center">
           Create an account

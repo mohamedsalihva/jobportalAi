@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import api from "../../api/axios";
+import Toast from "../ui/Toast";
 
 const FloatingRewriteButton = ({ jobId }) => {
   const [isRewriting, setIsRewriting] = useState(false);
+  const [toast, setToast] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
+
+  const showToast = (type, message) =>
+    setToast({ show: true, type, message });
 
   const rewriteResume = async () => {
     try {
@@ -34,20 +43,28 @@ const FloatingRewriteButton = ({ jobId }) => {
         // keep fallback message
       }
       console.error("Rewrite failed", err);
-      alert(message);
+      showToast("error", message);
     } finally {
       setIsRewriting(false);
     }
   };
 
   return (
-    <button
-      onClick={rewriteResume}
-      disabled={isRewriting}
-      className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-3 rounded-full shadow-xl hover:scale-105 transition z-50"
-    >
-      {isRewriting ? "Rewriting..." : "🤖 Optimize Resume"}
-    </button>
+    <>
+      <Toast
+        show={toast.show}
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, show: false }))}
+      />
+      <button
+        onClick={rewriteResume}
+        disabled={isRewriting}
+        className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-3 rounded-full shadow-xl hover:scale-105 transition z-50"
+      >
+        {isRewriting ? "Rewriting..." : "Optimize Resume"}
+      </button>
+    </>
   );
 };
 

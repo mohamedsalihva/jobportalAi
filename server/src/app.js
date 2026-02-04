@@ -21,10 +21,10 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
 
-/*  TRUST PROXY (needed for rate-limit + cookies) */
+
 app.set("trust proxy", 1);
 
-/* ---------- CORE MIDDLEWARE ---------- */
+
 app.use(helmet());
 const normalizeOrigin = (value = "") =>
   value
@@ -58,7 +58,7 @@ app.use(passport.initialize());
 
 
 
-/* ---------- RATE LIMITERS ---------- */
+
 
 //  AI &  Payments: protect cost + quota
 
@@ -68,7 +68,7 @@ const strictLimiter = rateLimit({
   message: "Too many requests. Please wait."
 });
 
-/* ---------- STATIC FILES (RESUMES) ---------- */
+
 const cookieOptions = {
   httpOnly: true,
   secure: false,          
@@ -89,12 +89,12 @@ app.use((req, res, next) => {
 });
 
 
-//  LIMITERS APPLIED ONLY WHERE NEEDED
+
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", strictLimiter, aiRoutes);
 app.use("/api/payments", strictLimiter, paymentRoutes);
 
-//  NO LIMITERS (normal user flow)
+
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/jobs", jobRoutes);
@@ -102,5 +102,11 @@ app.use("/api/recruiter", recruiterRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/saved", savedJobRoutes);
 app.use("/api/profile", profileRoutes);
+
+// Health check (for uptime monitors)
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 export default app;

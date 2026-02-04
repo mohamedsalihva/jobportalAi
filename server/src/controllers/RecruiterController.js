@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { getCookieOptions } from "../utils/cookies.js";
 
 import {
   createRecruiterService,
@@ -55,7 +54,11 @@ export const createRecruiterController = async (req, res) => {
       }
     );
 
-    res.cookie("token", token, getCookieOptions(req));
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax"
+    });
 
     return res.status(201).json({
       success: true,

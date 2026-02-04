@@ -12,7 +12,6 @@ import {
 import { signupValidation } from "../middlewares/validators/validateUser.js";
 import { validateRequest } from "../middlewares/validators/validateRequest.js";
 import { authLimiter } from "../middlewares/authLimiter.js";
-import { getCookieOptions } from "../utils/cookies.js";
 
 /* ---------- SIGNUP ---------- */
 router.post(
@@ -54,9 +53,13 @@ router.get(
       { expiresIn: "5d" }
     );
 
+    const isProd = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
-      ...getCookieOptions(req),
-      maxAge: 5 * 24 * 60 * 60 * 1000
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 5 * 24 * 60 * 60 * 1000,
+      path: "/"
     });
 
     const redirectPath =

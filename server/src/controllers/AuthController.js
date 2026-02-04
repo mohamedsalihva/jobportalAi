@@ -1,5 +1,13 @@
 import { signup, login } from "../services/Authservice.js";
-import { getCookieOptions } from "../utils/cookies.js";
+
+const isProduction = process.env.NODE_ENV === "production";
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  path: "/",            // required
+};
 
 export const signupController = async (req, res) => {
   try {
@@ -31,13 +39,10 @@ export const loginController = async (req, res) => {
   try {
     const { user, token } = await login(req.body);
 
-    res.cookie(
-      "token",
-      token,
-      getCookieOptions(req, {
-        maxAge: 24 * 60 * 60 * 1000,
-      })
-    );
+    res.cookie("token", token, {
+      ...cookieOptions,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({
       success: true,
@@ -54,7 +59,7 @@ export const loginController = async (req, res) => {
 
 export const logoutController = async (req, res) => {
   try {
-    res.clearCookie("token", getCookieOptions(req));
+    res.clearCookie("token", cookieOptions);
 
     return res.status(200).json({
       success: true,

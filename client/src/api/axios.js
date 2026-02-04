@@ -1,15 +1,11 @@
 
 import axios from "axios";
 
-const resolvedBaseUrl = import.meta.env.PROD
-  ? "/api"
-  : import.meta.env.VITE_BACKEND_URL || "";
-
 const api = axios.create({
-  baseURL: resolvedBaseUrl,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
 });
-console.log("BACKEND URL:", resolvedBaseUrl);
+console.log("BACKEND URL:", import.meta.env.VITE_BACKEND_URL);
 
 
 export default api;

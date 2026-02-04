@@ -34,76 +34,139 @@ img, video, svg, canvas {
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Dribbble ui */
+/* Dribbble-ui*/
 :root {
-  --drb-bg: #fbf7f2;
-  --drb-bg-2: #fffdf9;
+  --drb-bg: #f8f4f1;
+  --drb-bg-2: #fff9f4;
   --drb-surface: #ffffff;
-  --drb-surface-2: #fff7ee;
   --drb-border: rgba(148, 163, 184, 0.25);
   --drb-text: #2b2a2a;
   --drb-muted: #6b7280;
-  --drb-accent: #f59e0b;
-  --drb-accent-2: #fb923c;
+  --drb-accent: #fb923c;
+  --drb-accent-2: #f472b6;
+
+  --drb-dark-bg: #0b1220;
+  --drb-dark-bg-2: #111827;
+  --drb-dark-surface: #0f172a;
+  --drb-dark-border: rgba(148, 163, 184, 0.18);
+  --drb-dark-text: #e5e7eb;
+  --drb-dark-muted: #94a3b8;
+  --drb-dark-accent: #fb7185;
+  --drb-dark-accent-2: #a78bfa;
 }
 
-:root:not(.dark) .dribbble-ui {
-  background: radial-gradient(900px 600px at 10% -10%, rgba(245, 158, 11, 0.12), transparent 60%),
-    radial-gradient(800px 500px at 100% 0%, rgba(251, 146, 60, 0.14), transparent 55%),
+.dribbble-ui {
+  background: radial-gradient(900px 600px at 10% -10%, rgba(251, 146, 60, 0.14), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(244, 114, 182, 0.12), transparent 55%),
     linear-gradient(180deg, var(--drb-bg), var(--drb-bg-2));
   color: var(--drb-text);
 }
 
-:root:not(.dark) .dribbble-ui .bg-slate-50,
-:root:not(.dark) .dribbble-ui .bg-slate-100,
-:root:not(.dark) .dribbble-ui .bg-slate-950 {
+.dribbble-ui .bg-slate-50,
+.dribbble-ui .bg-slate-100,
+.dribbble-ui .bg-slate-950 {
   background: transparent !important;
 }
 
-:root:not(.dark) .dribbble-ui .bg-white {
+.dribbble-ui .bg-white {
   background: var(--drb-surface) !important;
   border-color: var(--drb-border) !important;
   box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
 }
 
-:root:not(.dark) .dribbble-ui .border,
-:root:not(.dark) .dribbble-ui .border-slate-200,
-:root:not(.dark) .dribbble-ui .border-slate-300,
-:root:not(.dark) .dribbble-ui .border-slate-100,
-:root:not(.dark) .dribbble-ui .dark\:border-white\/10 {
+.dribbble-ui .border,
+.dribbble-ui .border-slate-200,
+.dribbble-ui .border-slate-300,
+.dribbble-ui .border-slate-100,
+.dribbble-ui .dark\:border-white\/10 {
   border-color: var(--drb-border) !important;
 }
 
-:root:not(.dark) .dribbble-ui .text-slate-900,
-:root:not(.dark) .dribbble-ui .text-slate-800,
-:root:not(.dark) .dribbble-ui .text-slate-700,
-:root:not(.dark) .dribbble-ui .dark\:text-white {
+.dribbble-ui .text-slate-900,
+.dribbble-ui .text-slate-800,
+.dribbble-ui .text-slate-700,
+.dribbble-ui .dark\:text-white {
   color: var(--drb-text) !important;
 }
 
-:root:not(.dark) .dribbble-ui .text-slate-600,
-:root:not(.dark) .dribbble-ui .text-slate-500,
-:root:not(.dark) .dribbble-ui .text-slate-400,
-:root:not(.dark) .dribbble-ui .dark\:text-slate-300,
-:root:not(.dark) .dribbble-ui .dark\:text-slate-400 {
+.dribbble-ui .text-slate-600,
+.dribbble-ui .text-slate-500,
+.dribbble-ui .text-slate-400,
+.dribbble-ui .dark\:text-slate-300,
+.dribbble-ui .dark\:text-slate-400 {
   color: var(--drb-muted) !important;
 }
 
-:root:not(.dark) .dribbble-ui .bg-amber-500,
-:root:not(.dark) .dribbble-ui .hover\:bg-amber-400:hover {
+.dribbble-ui .bg-amber-500,
+.dribbble-ui .hover\:bg-amber-400:hover {
   background: linear-gradient(135deg, var(--drb-accent), var(--drb-accent-2)) !important;
   color: #1f2937 !important;
-  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.3),
-    0 10px 25px rgba(245, 158, 11, 0.18);
+  box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.35),
+    0 10px 25px rgba(251, 146, 60, 0.18);
 }
 
-:root:not(.dark) .dribbble-ui .text-amber-600,
-:root:not(.dark) .dribbble-ui .text-amber-500,
-:root:not(.dark) .dribbble-ui .text-amber-400 {
+.dribbble-ui .text-amber-600,
+.dribbble-ui .text-amber-500,
+.dribbble-ui .text-amber-400 {
   color: var(--drb-accent) !important;
 }
 
-:root:not(.dark) .dribbble-ui .border-amber-500,
-:root:not(.dark) .dribbble-ui .border-amber-500\/20 {
-  border-color: rgba(245, 158, 11, 0.4) !important;
+.dribbble-ui .border-amber-500,
+.dribbble-ui .border-amber-500\/20 {
+  border-color: rgba(251, 146, 60, 0.45) !important;
+}
+
+.dark .dribbble-ui {
+  background: radial-gradient(900px 600px at 10% -10%, rgba(251, 113, 133, 0.2), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(167, 139, 250, 0.18), transparent 55%),
+    linear-gradient(180deg, var(--drb-dark-bg), var(--drb-dark-bg-2));
+  color: var(--drb-dark-text);
+}
+
+.dark .dribbble-ui .bg-white {
+  background: var(--drb-dark-surface) !important;
+  border-color: var(--drb-dark-border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dark .dribbble-ui .border,
+.dark .dribbble-ui .border-slate-200,
+.dark .dribbble-ui .border-slate-300,
+.dark .dribbble-ui .border-slate-100,
+.dark .dribbble-ui .dark\:border-white\/10 {
+  border-color: var(--drb-dark-border) !important;
+}
+
+.dark .dribbble-ui .text-slate-900,
+.dark .dribbble-ui .text-slate-800,
+.dark .dribbble-ui .text-slate-700,
+.dark .dribbble-ui .dark\:text-white {
+  color: var(--drb-dark-text) !important;
+}
+
+.dark .dribbble-ui .text-slate-600,
+.dark .dribbble-ui .text-slate-500,
+.dark .dribbble-ui .text-slate-400,
+.dark .dribbble-ui .dark\:text-slate-300,
+.dark .dribbble-ui .dark\:text-slate-400 {
+  color: var(--drb-dark-muted) !important;
+}
+
+.dark .dribbble-ui .bg-amber-500,
+.dark .dribbble-ui .hover\:bg-amber-400:hover {
+  background: linear-gradient(135deg, var(--drb-dark-accent), var(--drb-dark-accent-2)) !important;
+  color: #0b1220 !important;
+  box-shadow: 0 0 0 1px rgba(251, 113, 133, 0.35),
+    0 10px 25px rgba(167, 139, 250, 0.2);
+}
+
+.dark .dribbble-ui .text-amber-600,
+.dark .dribbble-ui .text-amber-500,
+.dark .dribbble-ui .text-amber-400 {
+  color: var(--drb-dark-accent) !important;
+}
+
+.dark .dribbble-ui .border-amber-500,
+.dark .dribbble-ui .border-amber-500\/20 {
+  border-color: rgba(251, 113, 133, 0.45) !important;
 }

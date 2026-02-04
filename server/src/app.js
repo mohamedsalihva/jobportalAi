@@ -26,9 +26,15 @@ app.set("trust proxy", 1);
 
 /* ---------- CORE MIDDLEWARE ---------- */
 app.use(helmet());
+const normalizeOrigin = (value = "") =>
+  value
+    .trim()
+    .replace(/^['"]|['"]$/g, "")
+    .replace(/\/$/, "");
+
 const allowedOrigins = (process.env.CLIENT_URL || "")
   .split(",")
-  .map((origin) => origin.trim())
+  .map(normalizeOrigin)
   .filter(Boolean);
 
 app.use(
@@ -37,7 +43,8 @@ app.use(
       if (!origin || allowedOrigins.length === 0) {
         return callback(null, true);
       }
-      if (allowedOrigins.includes(origin)) {
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
       return callback(new Error("CORS not allowed"), false);

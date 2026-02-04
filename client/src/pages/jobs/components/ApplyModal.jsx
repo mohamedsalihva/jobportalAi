@@ -142,9 +142,9 @@ const ApplyModal = ({ open, onClose, job, user }) => {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-5xl max-h-[90vh] bg-white dark:bg-[#111218] rounded-3xl shadow-2xl flex flex-col"
+          className="w-full max-w-5xl h-[90vh] bg-white dark:bg-[#111218] rounded-3xl shadow-2xl flex flex-col"
         >
-          {/* HEADER */}
+          
           <div className="flex justify-between items-start p-6 border-b dark:border-white/10">
             <div>
               <h2 className="text-xl font-bold">Confirm Application</h2>
@@ -157,8 +157,8 @@ const ApplyModal = ({ open, onClose, job, user }) => {
             </button>
           </div>
 
-          {/* BODY */}
-          <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    
+          <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 overflow-y-auto">
           
             <div className="space-y-4">
               <h3 className="font-bold text-lg">{job?.title}</h3>
@@ -264,8 +264,8 @@ const ApplyModal = ({ open, onClose, job, user }) => {
             </div>
           </div>
 
-          {/* FOOTER */}
-          <div className="p-6 border-t dark:border-white/10 flex justify-end gap-3">
+        
+          <div className="p-6 border-t dark:border-white/10 flex justify-end gap-3 bg-white dark:bg-[#111218]">
             <button
               onClick={handleCheckScore}
               disabled={checking || submitting}

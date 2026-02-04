@@ -264,7 +264,6 @@ const ApplyModal = ({ open, onClose, job, user }) => {
             </div>
           </div>
 
-        
           <div className="p-6 border-t dark:border-white/10 flex justify-end gap-3 bg-white dark:bg-[#111218]">
             <button
               onClick={handleCheckScore}

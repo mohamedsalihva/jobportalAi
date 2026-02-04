@@ -60,12 +60,6 @@ app.use(passport.initialize());
 
 /* ---------- RATE LIMITERS ---------- */
 
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: process.env.NODE_ENV === "development" ? 1000 : 10,
-  message: "Too many login attempts. Try again later."
-});
-
 //  AI &  Payments: protect cost + quota
 
 const strictLimiter = rateLimit({
@@ -96,7 +90,7 @@ app.use((req, res, next) => {
 
 
 //  LIMITERS APPLIED ONLY WHERE NEEDED
-app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/ai", strictLimiter, aiRoutes);
 app.use("/api/payments", strictLimiter, paymentRoutes);
 

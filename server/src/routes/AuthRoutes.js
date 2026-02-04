@@ -16,6 +16,7 @@ import { authLimiter } from "../middlewares/authLimiter.js";
 /* ---------- SIGNUP ---------- */
 router.post(
   "/signup",
+  authLimiter,
   signupValidation,
   validateRequest,
   signupController
@@ -24,6 +25,7 @@ router.post(
 /* ---------- LOGIN ---------- */
 router.post(
   "/login",
+  authLimiter,
   loginController
 );
 

@@ -25,7 +25,7 @@ function App() {
 
     //  Global theme wrapper for ALL pages
     
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen w-full overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <Routes>
         <Route element={<PublicRoute />}>
           <Route path="/" element={<Home />} />

@@ -3,13 +3,28 @@
 /* Global Theme Colors */
 
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    width: 100%;
+    min-height: 100%;
+  }
+
   body {
     @apply bg-slate-50 text-slate-900;
+    overflow-x: hidden;
   }
 
   .dark body {
     @apply bg-[#0B0B0F] text-white;
   }
+}
+
+img, video, svg, canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 :root {

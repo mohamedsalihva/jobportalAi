@@ -198,7 +198,7 @@ const Navbar = () => {
                       handlePostJobClick();
                       setIsOpen(false);
                     }}
-                    className="w-half mt-2 px-4 py-2 ml-3 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition"
+                    className="w-full mt-2 px-4 py-2 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition"
                   >
                     Post a Job
                   </button>

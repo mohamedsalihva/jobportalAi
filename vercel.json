@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://jobportalai-2qvw.onrender.com/api/$1"
+    }
+  ]
+}

@@ -34,14 +34,39 @@ const Jobs = () => {
 
   const [mobileJobOpen, setMobileJobOpen] = useState(false);
 
-  
+  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    fetchJobs();
-    fetchSavedJobs();
-    fetchMyApplications();
-    fetchUserProfile();
+    const init = async () => {
+      await fetchJobs();
+      const loggedIn = await checkAuth();
+
+      if (loggedIn) {
+        await Promise.allSettled([
+          fetchSavedJobs(),
+          fetchMyApplications(),
+          fetchUserProfile(),
+          fetchRecruiterProfile(),
+        ]);
+      }
+
+      setLoading(false);
+    };
+
+    init();
   }, []);
+
+  const checkAuth = async () => {
+    try {
+      const res = await api.get(API.USERS.PROFILE);
+      const loggedIn = !!res.data?.user || !!res.data?.userFromToken;
+      setIsAuth(loggedIn);
+      return loggedIn;
+    } catch {
+      setIsAuth(false);
+      return false;
+    }
+  };
 
  const fetchJobs = async () => {
   try {
@@ -54,8 +79,6 @@ const Jobs = () => {
     if (data.length) setSelectedJob(data[0]);
   } catch (err) {
     console.error("Failed to fetch jobs:", err);
-  } finally {
-    setLoading(false);
   }
 };
 
@@ -127,6 +150,11 @@ const fetchUserProfile = async () => {
   
 
   const toggleSaveJob = async (jobId) => {
+    if (!isAuth) {
+      navigate("/login", { state: { from: "/jobs" } });
+      return;
+    }
+
     const isSaved = savedJobsIds.includes(jobId);
     await api[isSaved ? "delete" : "post"](API.SAVED.TOGGLE(jobId));
     setSavedJobsIds(prev =>
@@ -135,6 +163,11 @@ const fetchUserProfile = async () => {
   };
 
   const openApplyModal = (job) => {
+    if (!isAuth) {
+      navigate("/login", { state: { from: "/jobs" } });
+      return;
+    }
+
     setJobToApply(job);
     setApplyModalOpen(true);
   };

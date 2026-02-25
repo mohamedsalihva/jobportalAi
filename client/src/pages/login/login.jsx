@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import api from "../../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API } from "../../constants/apiEndpoints";
 import Toast from "../../components/ui/Toast";
 
@@ -13,6 +13,7 @@ const Login = () => {
     message: "",
   });
   const navigate = useNavigate();
+  const location = useLocation();
 
   const showToast = (type, message) =>
     setToast({ show: true, type, message });
@@ -21,6 +22,12 @@ const Login = () => {
     try {
       const res = await api.post(API.AUTH.LOGIN, { email, password });
       const role = res.data?.user?.role;
+      const from = location.state?.from;
+
+      if (from) {
+        navigate(from, { replace: true });
+        return;
+      }
 
       if (role === "admin") navigate("/admin/dashboard", { replace: true });
       else if (role === "recruiter")

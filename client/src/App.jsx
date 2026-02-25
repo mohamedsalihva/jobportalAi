@@ -22,50 +22,42 @@ import PrivateRoute from "./routes/privateRoute";
 
 function App() {
   return (
-
     //  Global theme wrapper for ALL pages
-    
+
     <div className="dribbble-ui min-h-screen w-full overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/jobs" element={<Jobs />} />
+
         <Route element={<PublicRoute />}>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
 
         <Route element={<PrivateRoute />}>
-          <Route path="/jobs" element={<Jobs />} />
           <Route path="/profile" element={<Profile />} />
-
           <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
           <Route path="/recruiter/my-jobs" element={<RecruiterMyJobs />} />
-
           <Route
             path="/recruiter/edit-job/:jobId"
             element={<RecruiterPostJob editMode={true} />}
           />
-
           <Route
             path="/recruiter/job/:jobId/applicants"
             element={<RecruiterApplicants />}
           />
-
           <Route
             path="/recruiter/create-profile"
             element={<RecruiterCreateProfile />}
           />
-
           <Route path="/recruiter/post-job" element={<RecruiterPostJob />} />
           <Route path="/recruiter/profile" element={<RecruiterProfile />} />
-          <Route path="/recruiter/upgrade" element={<RecruiterUpgrade />}/>
-          <Route path="/recruiter/upgrade/confirm" element={<RecruiterUpgradeConfirm />}/>
-
-
-
-        <Route path="/admin/dashboard" element={<AdminDashboard/> }/>
-        
-
-
+          <Route path="/recruiter/upgrade" element={<RecruiterUpgrade />} />
+          <Route
+            path="/recruiter/upgrade/confirm"
+            element={<RecruiterUpgradeConfirm />}
+          />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Route>
       </Routes>
     </div>

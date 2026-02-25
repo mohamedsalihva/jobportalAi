@@ -1,25 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
-import { API } from "../../constants/apiEndpoints";
-import api from "../../api/axios";
 
 const Home = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const res = await api.get(API.USERS.PROFILE, { withCredentials: true });
-        if (res.data?.userFromToken) {
-          navigate("/jobs", { replace: true });
-        }
-      } catch (error) {
-        console.log("user not login");
-      }
-    };
-    checkLoggedIn();
-  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#0B0B0F] dark:text-white">

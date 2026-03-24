@@ -43,7 +43,15 @@ export const resumeScorePreviewController = async (req, res) => {
     return res.status(200).json(aiResult);
   } catch (err) {
     console.error("Resume Score Error:", err);
-    return res.status(500).json({ message: "Server error" });
+    const errorMessage =
+      process.env.NODE_ENV !== "production"
+        ? err?.message || "Unknown error"
+        : "Internal server error";
+
+    return res.status(500).json({
+      message: "Resume score failed",
+      error: errorMessage,
+    });
   }
 };
 

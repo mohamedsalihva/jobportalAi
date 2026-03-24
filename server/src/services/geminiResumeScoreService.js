@@ -1,10 +1,15 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 export const getGeminiResumeScore = async ({ resumeText, job }) => {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY is missing");
+  }
+
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+
   const model = genAI.getGenerativeModel({
-    model: "models/gemini-flash-latest",
+    model: modelName,
   });
 
   const jobText = `
@@ -58,19 +63,20 @@ ${jobText}
 
   const result = await model.generateContent(prompt);
 
-  let text = result.response.text();
-  text = text.replace(/```json|```/g, "").trim();
-
+  const text = result.response.text().replace(/```json|```/g, "").trim();
   let parsed = {};
+
   try {
-    parsed = JSON.parse(text);
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+
+    if (start === -1 || end === -1 || end < start) {
+      throw new Error("No JSON object found in Gemini response");
+    }
+
+    parsed = JSON.parse(text.slice(start, end + 1));
   } catch (e) {
-
-    // fallback if AI returned extra text
-
-    const jsonStart = text.indexOf("{");
-    const jsonEnd = text.lastIndexOf("}");
-    parsed = JSON.parse(text.slice(jsonStart, jsonEnd + 1));
+    throw new Error(`Gemini JSON parse failed: ${e.message}`);
   }
 
   

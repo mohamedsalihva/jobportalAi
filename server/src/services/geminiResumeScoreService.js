@@ -1,15 +1,57 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+const normalizeModelName = (name = "") => name.replace(/^models\//, "");
+
+const resolveModel = async (genAI, apiKey) => {
+  const preferredModels = [
+    process.env.GEMINI_MODEL,
+    "gemini-2.0-flash",
+    "gemini-1.5-pro",
+    "gemini-pro",
+  ]
+    .filter(Boolean)
+    .map(normalizeModelName);
+
+  for (const modelName of preferredModels) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName });
+      await model.generateContent("ping");
+      return model;
+    } catch {
+      // Try next candidate model
+    }
+  }
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to list Gemini models: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const available = (data.models || []).find((m) =>
+    (m.supportedGenerationMethods || []).includes("generateContent")
+  );
+
+  if (!available?.name) {
+    throw new Error("No generateContent-supported Gemini model found");
+  }
+
+  return genAI.getGenerativeModel({
+    model: normalizeModelName(available.name),
+  });
+};
+
 export const getGeminiResumeScore = async ({ resumeText, job }) => {
-  if (!process.env.GEMINI_API_KEY) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
     throw new Error("GEMINI_API_KEY is missing");
   }
 
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const modelName = (process.env.GEMINI_MODEL || "gemini-1.5-flash-latest")
-  .replace(/^models\//, "");
-
-const model = genAI.getGenerativeModel({ model: modelName });
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = await resolveModel(genAI, apiKey);
 
   const jobText = `
 Job Title: ${job.title}

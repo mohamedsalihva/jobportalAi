@@ -6,11 +6,10 @@ export const getGeminiResumeScore = async ({ resumeText, job }) => {
   }
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+  const modelName = (process.env.GEMINI_MODEL || "gemini-1.5-flash-latest")
+  .replace(/^models\//, "");
 
-  const model = genAI.getGenerativeModel({
-    model: modelName,
-  });
+const model = genAI.getGenerativeModel({ model: modelName });
 
   const jobText = `
 Job Title: ${job.title}
